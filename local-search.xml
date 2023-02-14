@@ -36,6 +36,18 @@
     <content type="html"><![CDATA[<h4 id="安装依赖包"><a href="#安装依赖包" class="headerlink" title="安装依赖包"></a>安装依赖包</h4><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs c++">[compiler] sudo apt-get install build-essential<br>[required] sudo apt-get install cmake git libgtk2<span class="hljs-number">.0</span>-dev pkg-config libavcodec-dev libavformat-dev libswscale-dev<br></code></pre></td></tr></table></figure><h4 id="编译安装另一个版本的opencv"><a href="#编译安装另一个版本的opencv" class="headerlink" title="编译安装另一个版本的opencv"></a>编译安装另一个版本的opencv</h4><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs c++">$ cd opencv<span class="hljs-number">-3.4</span><span class="hljs-number">.1</span><br>$ mkdir build<br>$ cd build<br>$ mkdir installed<br>$ cmake -DCMAKE_BUILD_TYPE=RELEASE -DCMAKE_INSTALL_PREFIX=/home/xlg/opencv<span class="hljs-number">-3.4</span><span class="hljs-number">.10</span>/build/installed -DWITH_CUDA=OFF -DBUILD_DOCS=OFF -DBUILD_EXAMPLES=OFF -DBUILD_TESTS=OFF -DBUILD_PERF_TESTS=OFF ..<br>$ make -j4<br>$ sudo make install<br></code></pre></td></tr></table></figure><ol><li><p>其中<code>~/opencv-3.4.1/build/installed</code>为安装OpenCV3.4.1的路径，这个十分关键。</p></li><li><p>设置OFF的理由如下，可大大加快编译速度，当然还要根据需求进行设置。 </p></li></ol><h4 id="使用多版本opencv"><a href="#使用多版本opencv" class="headerlink" title="使用多版本opencv"></a>使用多版本opencv</h4><p> 在写CmakeList.txt，如果只有一个版本的opencv,我们一般直接使用 </p><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-built_in">FIND_PACKAGE</span>(OpenCV REQUIRED)<br></code></pre></td></tr></table></figure><p> 现在如果是使用默认安装的opencv4.2,则使用使用上面的指令就足够了。如果使用安装我们自己指定路径的opencv3.4，则使用如下指令 </p><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-built_in">set</span>(CMAKE_PREFIX_PATH <span class="hljs-string">&quot;/home/knight/opencv-3.4.10/build/installed/&quot;</span>)<br><span class="hljs-built_in">find_package</span>(OpenCV <span class="hljs-number">3</span> REQUIRED)<br></code></pre></td></tr></table></figure>]]></content>
     
     
+    <categories>
+      
+      <category>工具</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>OpenCV</tag>
+      
+    </tags>
     
   </entry>
   
