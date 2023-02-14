@@ -4,6 +4,31 @@
   
   
   <entry>
+    <title>VS2019配置与调试技巧</title>
+    <link href="/2023/02/14/VS2019%E9%85%8D%E7%BD%AE%E4%B8%8E%E8%B0%83%E8%AF%95%E6%8A%80%E5%B7%A7/"/>
+    <url>/2023/02/14/VS2019%E9%85%8D%E7%BD%AE%E4%B8%8E%E8%B0%83%E8%AF%95%E6%8A%80%E5%B7%A7/</url>
+    
+    <content type="html"><![CDATA[<h1 id="常用配置项"><a href="#常用配置项" class="headerlink" title="常用配置项"></a>常用配置项</h1><ul><li><p>主题</p><p>用惯了VSCode的One Dark Pro主题，VS2019也可以直接在扩展里下载安装One Dark Pro主题插件，一键配置，懒人必备。效果如下图，关键字、字符串、类名啥的都是不同颜色。</p></li></ul><p><img src="/2023/02/14/VS2019%E9%85%8D%E7%BD%AE%E4%B8%8E%E8%B0%83%E8%AF%95%E6%8A%80%E5%B7%A7/1.png"></p>]]></content>
+    
+    
+    <categories>
+      
+      <category>工具</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>VS</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
     <title>OpenCV多版本切换</title>
     <link href="/2023/02/08/OpenCV%E5%A4%9A%E7%89%88%E6%9C%AC%E5%88%87%E6%8D%A2/"/>
     <url>/2023/02/08/OpenCV%E5%A4%9A%E7%89%88%E6%9C%AC%E5%88%87%E6%8D%A2/</url>
