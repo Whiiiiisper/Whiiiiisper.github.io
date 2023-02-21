@@ -24,7 +24,7 @@
 <meta property="og:description" content="C语言中可变参数函数用法记录">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2023-02-21T08:44:57.000Z">
-<meta property="article:modified_time" content="2023-02-21T10:47:58.067Z">
+<meta property="article:modified_time" content="2023-02-21T10:50:40.000Z">
 <meta property="article:author" content="TRknight">
 <meta property="article:tag" content="C语言基础">
 <meta name="twitter:card" content="summary_large_image">
@@ -305,7 +305,7 @@
               <p class="note note-info">
                 
                   
-                    本文最后更新于：1 分钟前
+                    本文最后更新于：几秒前
                   
                 
               </p>
@@ -337,6 +337,10 @@
 <h1 id="实现原理"><a href="#实现原理" class="headerlink" title="实现原理"></a>实现原理</h1><p>可变参数的实现原理利用了<strong>内存的压栈技术</strong>，调用函数后函数参数会被压入（push）栈内，使用时，再逐个从栈里pop出来。按照默认的调用惯例，函数参数压栈的顺序是从<strong>最右边参数</strong>开始的，再向左逐个压入，根据栈的原理，在取完强制参数后，就从第一个可选参数开始取了。 </p>
 <p>在VS2017-X86平台下的源码如下：</p>
 <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs C"><span class="hljs-keyword">typedef</span> <span class="hljs-type">char</span>* va_list;<br><span class="hljs-meta">#<span class="hljs-keyword">define</span> _ADDRESSOF(v) (&amp;(v))</span><br><span class="hljs-meta">#<span class="hljs-keyword">define</span> _INTSIZEOF(n)          ((sizeof(n) + sizeof(int) - 1) &amp; ~(sizeof(int) - 1))</span><br> <br><span class="hljs-meta">#<span class="hljs-keyword">define</span> __crt_va_start_a(ap, v) ((void)(ap = (va_list)_ADDRESSOF(v) + _INTSIZEOF(v)))</span><br><span class="hljs-meta">#<span class="hljs-keyword">define</span> __crt_va_arg(ap, t)     (*(t*)((ap += _INTSIZEOF(t)) - _INTSIZEOF(t)))</span><br><span class="hljs-meta">#<span class="hljs-keyword">define</span> __crt_va_end(ap)        ((void)(ap = (va_list)0))</span><br> <br><span class="hljs-meta">#<span class="hljs-keyword">define</span> va_start __crt_va_start</span><br><span class="hljs-meta">#<span class="hljs-keyword">define</span> va_arg   __crt_va_arg</span><br><span class="hljs-meta">#<span class="hljs-keyword">define</span> va_end   __crt_va_end</span><br><span class="hljs-meta">#<span class="hljs-keyword">define</span> va_copy(destination, source) ((destination) = (source))</span><br></code></pre></td></tr></table></figure>
+
+
+
+
 
 
 
