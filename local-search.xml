@@ -4,6 +4,31 @@
   
   
   <entry>
+    <title>C语言-可变参数函数</title>
+    <link href="/2023/02/21/C%E8%AF%AD%E8%A8%80-%E5%8F%AF%E5%8F%98%E5%8F%82%E6%95%B0%E5%87%BD%E6%95%B0/"/>
+    <url>/2023/02/21/C%E8%AF%AD%E8%A8%80-%E5%8F%AF%E5%8F%98%E5%8F%82%E6%95%B0%E5%87%BD%E6%95%B0/</url>
+    
+    <content type="html"><![CDATA[<h1 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h1><p>C语言允许定义参数数量可变的函数，称为<strong>可变参数函数</strong>，这种函数需要固定数量的<strong>强制参数</strong>和数量可变的<strong>可选参数</strong>，可选参数用…占位符表示。最经典的就是printf函数，其原型为：</p><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs C"><span class="hljs-type">int</span> <span class="hljs-title function_">printf</span><span class="hljs-params">(<span class="hljs-type">const</span> <span class="hljs-type">char</span> *format,...)</span>;<br></code></pre></td></tr></table></figure><h1 id="使用方法"><a href="#使用方法" class="headerlink" title="使用方法"></a>使用方法</h1><ol><li>需包含头文件 <strong>stdarg.h</strong></li><li> 定义一个函数，最后一个参数为省略号，省略号前面可以设置自定义参数。</li><li> 在函数定义中创建一个 <strong>va_list</strong> 类型变量，用于获取可选参数，也被称为参数指针。</li><li> 使用 <strong>va_start</strong> 宏 和 可变参数前的最后一个固定参数 来初始化 <strong>va_list</strong> 变量为一个参数列表。</li><li> 使用 <strong>va_arg</strong> 宏和 <strong>va_list</strong> 变量来访问参数列表中的每个项。</li><li> 使用宏 <strong>va_end</strong> 来清除赋予 <strong>va_list</strong> 变量的内存。</li></ol><h1 id="注意事项"><a href="#注意事项" class="headerlink" title="注意事项"></a>注意事项</h1><ol><li>定义的函数<strong>必须至少有一个固定参数</strong>；这么做的目的很明显，就是要定位变参的首地址，也就是固定参数地址+sizeof（固定参数类型）；</li><li>固定参数和可变参数之间可以没有任何关系；虽然经典的printf函数中，第一个固定参数里（格式化字符串）包含了后续变参的类型，但是这仅仅是函数功能的需要，语法上没有任何要求，下面的例子可以证明这一点；</li></ol><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-comment">// 函数add() 计算可选参数之和</span><br><span class="hljs-comment">// 参数：第一个强制参数指定了可选参数的数量，可选参数为double类型</span><br><span class="hljs-comment">// 返回值：和值，double类型</span><br><span class="hljs-type">double</span> <span class="hljs-title function_">add</span><span class="hljs-params">(<span class="hljs-type">int</span> n, ...)</span><br>&#123;<br>        <span class="hljs-type">int</span> i = <span class="hljs-number">0</span>;<br>        <span class="hljs-type">double</span> sum = <span class="hljs-number">0.0</span>;<br>        va_list argptr;<br>        va_start(argptr, n);             <span class="hljs-comment">// 初始化argptr</span><br>        <span class="hljs-keyword">for</span> (i = <span class="hljs-number">0</span>; i &lt; n; ++i)       <span class="hljs-comment">// 对每个可选参数，读取类型为double的参数，</span><br>                sum += va_arg(argptr, <span class="hljs-type">double</span>); <span class="hljs-comment">// 然后累加到sum中</span><br>        va_end(argptr);<br>        <span class="hljs-keyword">return</span> sum;<br>&#125;<br> <br><span class="hljs-comment">//double s = add(5, 1.0, 2.0, 3.0, 4.0, 5.0);</span><br></code></pre></td></tr></table></figure><h1 id="实现原理"><a href="#实现原理" class="headerlink" title="实现原理"></a>实现原理</h1><p>可变参数的实现原理利用了<strong>内存的压栈技术</strong>，调用函数后函数参数会被压入（push）栈内，使用时，再逐个从栈里pop出来。按照默认的调用惯例，函数参数压栈的顺序是从<strong>最右边参数</strong>开始的，再向左逐个压入，根据栈的原理，在取完强制参数后，就从第一个可选参数开始取了。 </p><p>在VS2017-X86平台下的源码如下：</p><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs C"><span class="hljs-keyword">typedef</span> <span class="hljs-type">char</span>* va_list;<br><span class="hljs-meta">#<span class="hljs-keyword">define</span> _ADDRESSOF(v) (&amp;(v))</span><br><span class="hljs-meta">#<span class="hljs-keyword">define</span> _INTSIZEOF(n)          ((sizeof(n) + sizeof(int) - 1) &amp; ~(sizeof(int) - 1))</span><br> <br><span class="hljs-meta">#<span class="hljs-keyword">define</span> __crt_va_start_a(ap, v) ((void)(ap = (va_list)_ADDRESSOF(v) + _INTSIZEOF(v)))</span><br><span class="hljs-meta">#<span class="hljs-keyword">define</span> __crt_va_arg(ap, t)     (*(t*)((ap += _INTSIZEOF(t)) - _INTSIZEOF(t)))</span><br><span class="hljs-meta">#<span class="hljs-keyword">define</span> __crt_va_end(ap)        ((void)(ap = (va_list)0))</span><br> <br><span class="hljs-meta">#<span class="hljs-keyword">define</span> va_start __crt_va_start</span><br><span class="hljs-meta">#<span class="hljs-keyword">define</span> va_arg   __crt_va_arg</span><br><span class="hljs-meta">#<span class="hljs-keyword">define</span> va_end   __crt_va_end</span><br><span class="hljs-meta">#<span class="hljs-keyword">define</span> va_copy(destination, source) ((destination) = (source))</span><br></code></pre></td></tr></table></figure><blockquote><p>参考链接：</p><p><a href="https://blog.csdn.net/ericbar/article/details/79558827">https://blog.csdn.net/ericbar/article/details/79558827</a></p><p><a href="https://blog.csdn.net/qq_41854911/article/details/121190006">https://blog.csdn.net/qq_41854911/article/details/121190006</a></p></blockquote>]]></content>
+    
+    
+    <categories>
+      
+      <category>C</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>C语言基础</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
     <title>VS2019配置与调试技巧</title>
     <link href="/2023/02/14/VS2019%E9%85%8D%E7%BD%AE%E4%B8%8E%E8%B0%83%E8%AF%95%E6%8A%80%E5%B7%A7/"/>
     <url>/2023/02/14/VS2019%E9%85%8D%E7%BD%AE%E4%B8%8E%E8%B0%83%E8%AF%95%E6%8A%80%E5%B7%A7/</url>
