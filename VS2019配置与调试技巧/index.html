@@ -16,24 +16,34 @@
   <meta name="author" content="TRknight">
   <meta name="keywords" content="">
   
-    <meta name="description" content="C++编译多个版本的OpenCV并切换使用">
+    <meta name="description" content="简单记录一下平时用到的VS相关知识">
 <meta property="og:type" content="article">
-<meta property="og:title" content="OpenCV多版本切换">
-<meta property="og:url" content="http://example.com/2023/02/08/OpenCV%E5%A4%9A%E7%89%88%E6%9C%AC%E5%88%87%E6%8D%A2/index.html">
+<meta property="og:title" content="VS2019配置与调试技巧">
+<meta property="og:url" content="https://whiiiiisper.github.io/VS2019%E9%85%8D%E7%BD%AE%E4%B8%8E%E8%B0%83%E8%AF%95%E6%8A%80%E5%B7%A7/index.html">
 <meta property="og:site_name" content="TRknight的博客">
-<meta property="og:description" content="C++编译多个版本的OpenCV并切换使用">
+<meta property="og:description" content="简单记录一下平时用到的VS相关知识">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2023-02-08T10:37:56.201Z">
-<meta property="article:modified_time" content="2023-02-22T07:40:22.515Z">
+<meta property="og:image" content="https://whiiiiisper.github.io/2023/02/14/VS2019%E9%85%8D%E7%BD%AE%E4%B8%8E%E8%B0%83%E8%AF%95%E6%8A%80%E5%B7%A7/1.png">
+<meta property="og:image" content="https://whiiiiisper.github.io/2023/02/14/VS2019%E9%85%8D%E7%BD%AE%E4%B8%8E%E8%B0%83%E8%AF%95%E6%8A%80%E5%B7%A7/1.gif">
+<meta property="og:image" content="https://whiiiiisper.github.io/2023/02/14/VS2019%E9%85%8D%E7%BD%AE%E4%B8%8E%E8%B0%83%E8%AF%95%E6%8A%80%E5%B7%A7/2.gif">
+<meta property="og:image" content="https://whiiiiisper.github.io/2023/02/14/VS2019%E9%85%8D%E7%BD%AE%E4%B8%8E%E8%B0%83%E8%AF%95%E6%8A%80%E5%B7%A7/image-20230215101203798.png">
+<meta property="og:image" content="https://whiiiiisper.github.io/2023/02/14/VS2019%E9%85%8D%E7%BD%AE%E4%B8%8E%E8%B0%83%E8%AF%95%E6%8A%80%E5%B7%A7/image-20230215101317327.png">
+<meta property="og:image" content="https://whiiiiisper.github.io/2023/02/14/VS2019%E9%85%8D%E7%BD%AE%E4%B8%8E%E8%B0%83%E8%AF%95%E6%8A%80%E5%B7%A7/3.gif">
+<meta property="og:image" content="https://whiiiiisper.github.io/2023/02/14/VS2019%E9%85%8D%E7%BD%AE%E4%B8%8E%E8%B0%83%E8%AF%95%E6%8A%80%E5%B7%A7/image-20230214104151921.png">
+<meta property="og:image" content="https://whiiiiisper.github.io/2023/02/14/VS2019%E9%85%8D%E7%BD%AE%E4%B8%8E%E8%B0%83%E8%AF%95%E6%8A%80%E5%B7%A7/16764613714585.png">
+<meta property="og:image" content="https://whiiiiisper.github.io/VS2019%E9%85%8D%E7%BD%AE%E4%B8%8E%E8%B0%83%E8%AF%95%E6%8A%80%E5%B7%A7/image-20230214104817682.png">
+<meta property="article:published_time" content="2023-02-14T01:35:11.000Z">
+<meta property="article:modified_time" content="2023-02-22T07:40:41.182Z">
 <meta property="article:author" content="TRknight">
-<meta property="article:tag" content="OpenCV">
+<meta property="article:tag" content="VS">
 <meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://whiiiiisper.github.io/2023/02/14/VS2019%E9%85%8D%E7%BD%AE%E4%B8%8E%E8%B0%83%E8%AF%95%E6%8A%80%E5%B7%A7/1.png">
   
   
     <meta name="referrer" content="no-referrer-when-downgrade">
   
   
-  <title>OpenCV多版本切换 - TRknight的博客</title>
+  <title>VS2019配置与调试技巧 - TRknight的博客</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -71,7 +81,7 @@
   <script id="fluid-configs">
     var Fluid = window.Fluid || {};
     Fluid.ctx = Object.assign({}, Fluid.ctx)
-    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.4","typing":{"enable":true,"typeSpeed":60,"cursorChar":"_","loop":false,"scope":["home"]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":3},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":"UfX75DyTm2esCZzftemEk54r-MdYXbMMI","app_key":"9xm7jFhgkxRBHpk646aJtU2I","server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+    var CONFIG = {"hostname":"whiiiiisper.github.io","root":"/","version":"1.9.4","typing":{"enable":true,"typeSpeed":60,"cursorChar":"_","loop":false,"scope":["home"]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":3},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":"UfX75DyTm2esCZzftemEk54r-MdYXbMMI","app_key":"9xm7jFhgkxRBHpk646aJtU2I","server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
 
     if (CONFIG.web_analytics.follow_dnt) {
       var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
@@ -228,7 +238,7 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle">OpenCV多版本切换</span>
+            <span id="subtitle">VS2019配置与调试技巧</span>
           
         </div>
 
@@ -239,8 +249,8 @@
     
       <span class="post-meta">
         <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-        <time datetime="2023-02-08 18:37" pubdate>
-          2023年2月8日 晚上
+        <time datetime="2023-02-14 09:35" pubdate>
+          2023年2月14日 上午
         </time>
       </span>
     
@@ -251,7 +261,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          782 字
+          1.5k 字
         
       </span>
     
@@ -262,7 +272,7 @@
         
         
         
-          7 分钟
+          13 分钟
         
       </span>
     
@@ -300,12 +310,12 @@
         <div id="board">
           <article class="post-content mx-auto">
             <!-- SEO header -->
-            <h1 style="display: none">OpenCV多版本切换</h1>
+            <h1 style="display: none">VS2019配置与调试技巧</h1>
             
               <p class="note note-info">
                 
                   
-                    本文最后更新于：1 小时前
+                    本文最后更新于：2 天前
                   
                 
               </p>
@@ -313,22 +323,110 @@
             
               <div class="markdown-body">
                 
-                <h4 id="安装依赖包"><a href="#安装依赖包" class="headerlink" title="安装依赖包"></a>安装依赖包</h4><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs c++">[compiler] sudo apt-get install build-essential<br>[required] sudo apt-get install cmake git libgtk2<span class="hljs-number">.0</span>-dev pkg-config libavcodec-dev libavformat-dev libswscale-dev<br></code></pre></td></tr></table></figure>
-
-<h4 id="编译安装另一个版本的opencv"><a href="#编译安装另一个版本的opencv" class="headerlink" title="编译安装另一个版本的opencv"></a>编译安装另一个版本的opencv</h4><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs c++">$ cd opencv<span class="hljs-number">-3.4</span><span class="hljs-number">.1</span><br>$ mkdir build<br>$ cd build<br>$ mkdir installed<br>$ cmake -DCMAKE_BUILD_TYPE=RELEASE -DCMAKE_INSTALL_PREFIX=/home/xlg/opencv<span class="hljs-number">-3.4</span><span class="hljs-number">.10</span>/build/installed -DWITH_CUDA=OFF -DBUILD_DOCS=OFF -DBUILD_EXAMPLES=OFF -DBUILD_TESTS=OFF -DBUILD_PERF_TESTS=OFF ..<br>$ make -j4<br>$ sudo make install<br></code></pre></td></tr></table></figure>
-
-<ol>
-<li><p>其中<code>~/opencv-3.4.1/build/installed</code>为安装OpenCV3.4.1的路径，这个十分关键。</p>
-</li>
-<li><p>设置OFF的理由如下，可大大加快编译速度，当然还要根据需求进行设置。 </p>
-</li>
+                <h1 id="常用配置项"><a href="#常用配置项" class="headerlink" title="常用配置项"></a>常用配置项</h1><h3 id="主题"><a href="#主题" class="headerlink" title="主题"></a>主题</h3><p>​    用惯了VSCode的One Dark Pro主题，VS2019也可以直接在扩展里下载安装One Dark Pro主题插件，一键配置，懒人必备。效果如下图，关键字、字符串、类名都是不同颜色。</p>
+<p><img src="/2023/02/14/VS2019%E9%85%8D%E7%BD%AE%E4%B8%8E%E8%B0%83%E8%AF%95%E6%8A%80%E5%B7%A7/1.png" srcset="/img/loading.gif" lazyload></p>
+<h3 id="插件"><a href="#插件" class="headerlink" title="插件"></a>插件</h3><h4 id="Doxygen-Comments"><a href="#Doxygen-Comments" class="headerlink" title="Doxygen Comments"></a>Doxygen Comments</h4><p>快速生成注释，常用的手法就是敲个/* 自动能补全后半个*/ ，以及在函数名上一行输入/** 再回车，可以自动生成函数注释</p>
+<p><img src="/2023/02/14/VS2019%E9%85%8D%E7%BD%AE%E4%B8%8E%E8%B0%83%E8%AF%95%E6%8A%80%E5%B7%A7/1.gif" srcset="/img/loading.gif" lazyload></p>
+<h4 id="Highlight-all-occurrences-of-selected-word"><a href="#Highlight-all-occurrences-of-selected-word" class="headerlink" title="Highlight all occurrences of selected word++"></a>Highlight all occurrences of selected word++</h4><p>老瞎眼必备，高亮选中关键词的所有引用</p>
+<p><img src="/2023/02/14/VS2019%E9%85%8D%E7%BD%AE%E4%B8%8E%E8%B0%83%E8%AF%95%E6%8A%80%E5%B7%A7/2.gif" srcset="/img/loading.gif" lazyload></p>
+<h4 id="Visual-Assist"><a href="#Visual-Assist" class="headerlink" title="Visual Assist"></a><del>Visual Assist</del></h4><p>番茄助手，远古时代的编码神器，用VS2010时非常有用，可以智能提示、关键词高亮、自动标错，功能很强大。不过到VS2019已经很智能了，基本就不再需要额外插件。更关键的是这个东西它有版权限制，我们公司之前还被发律师函了呃…</p>
+<h3 id="引入外部库"><a href="#引入外部库" class="headerlink" title="引入外部库"></a>引入外部库</h3><h4 id="步骤"><a href="#步骤" class="headerlink" title="步骤"></a>步骤</h4><ol>
+<li>指定头文件路径</li>
 </ol>
-<h4 id="使用多版本opencv"><a href="#使用多版本opencv" class="headerlink" title="使用多版本opencv"></a>使用多版本opencv</h4><p> 在写CmakeList.txt，如果只有一个版本的opencv,我们一般直接使用 </p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-built_in">FIND_PACKAGE</span>(OpenCV REQUIRED)<br></code></pre></td></tr></table></figure>
-
-<p> 现在如果是使用默认安装的opencv4.2,则使用使用上面的指令就足够了。如果使用安装我们自己指定路径的opencv3.4，则使用如下指令 </p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-built_in">set</span>(CMAKE_PREFIX_PATH <span class="hljs-string">&quot;/home/knight/opencv-3.4.10/build/installed/&quot;</span>)<br><span class="hljs-built_in">find_package</span>(OpenCV <span class="hljs-number">3</span> REQUIRED)<br></code></pre></td></tr></table></figure>
-
+<p>​        项目右键 -&gt; 属性 -&gt; C/C++ -&gt; 常规 -&gt; 附加包含目录</p>
+<ol start="2">
+<li>指定库文件位置</li>
+</ol>
+<p>​        项目右键 -&gt; 属性 -&gt; 链接器 -&gt; 常规 -&gt; 附加库目录</p>
+<ol start="3">
+<li>指定使用哪个库（具体名称，如avutil.lib）</li>
+</ol>
+<p>​        项目右键 -&gt; 属性 -&gt; 链接器 -&gt; 输入 -&gt; 附加依赖项</p>
+<h4 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h4><ul>
+<li><p>特别注意 设置项目属性时和构建项目时的配置与平台 是否一致</p>
+<p><img src="/2023/02/14/VS2019%E9%85%8D%E7%BD%AE%E4%B8%8E%E8%B0%83%E8%AF%95%E6%8A%80%E5%B7%A7/image-20230215101203798.png" srcset="/img/loading.gif" lazyload></p>
+</li>
+<li><p>项目属性里的设置无误，已经指定了头文件路径，但是VS一直报错无法打开源文件 libavutil/log.h</p>
+<p>尝试删掉这一句，重新输一遍即可，在输入 / 之后会有智能路径提示，说明VS已经认识了这个路径</p>
+<p><img src="/2023/02/14/VS2019%E9%85%8D%E7%BD%AE%E4%B8%8E%E8%B0%83%E8%AF%95%E6%8A%80%E5%B7%A7/image-20230215101317327.png" srcset="/img/loading.gif" lazyload></p>
+</li>
+</ul>
+<h1 id="调试技巧"><a href="#调试技巧" class="headerlink" title="调试技巧"></a>调试技巧</h1><p>就说一下本菜鸡平常经常用到的。</p>
+<h3 id="快捷键"><a href="#快捷键" class="headerlink" title="快捷键"></a>快捷键</h3><ul>
+<li>F9 -&gt; 插入断点</li>
+<li>F5 -&gt; 运行程序</li>
+<li>F10 -&gt; 逐过程调试（不会进入函数内部）</li>
+<li>F11 -&gt; 逐语句调试</li>
+<li>Shift + F11 -&gt; 跳出函数</li>
+<li>向前/后导航 -&gt; <strong>鼠标侧边键</strong>（效率立升百分百）</li>
+<li>ctrl + k , ctrl + f -&gt; 格式化代码</li>
+</ul>
+<h3 id="窗口"><a href="#窗口" class="headerlink" title="窗口"></a>窗口</h3><ul>
+<li>调用堆栈可以看到当前函数的调用关系</li>
+<li>断点窗口可以看到当前设置的所有断点</li>
+<li>自动窗口会显示当前代码行和上一代码行中所使用到的变量</li>
+<li>局部变量窗口会显示当前函数中的所有局部变量</li>
+</ul>
+<h3 id="正则搜索"><a href="#正则搜索" class="headerlink" title="正则搜索"></a>正则搜索</h3><p>​    忽略索引，搜索数组名。例如想要搜索Sec_ARRAY[wTsrCycle].wSecID，但需去掉索引wTsrCycle这几个字符，则格式如： Sec_ARRAY[(.*)].wSecID</p>
+<h3 id="本地调试器"><a href="#本地调试器" class="headerlink" title="本地调试器"></a>本地调试器</h3><p>​    如果想单独调试一个函数或直接跳到某一步，在程序运行后，先打上断点，然后右键代码行-&gt; 设置下一条语句，或者直接拖动左侧的黄色小箭头</p>
+<p><img src="/2023/02/14/VS2019%E9%85%8D%E7%BD%AE%E4%B8%8E%E8%B0%83%E8%AF%95%E6%8A%80%E5%B7%A7/3.gif" srcset="/img/loading.gif" lazyload></p>
+<h3 id="设置main函数的输入参数"><a href="#设置main函数的输入参数" class="headerlink" title="设置main函数的输入参数"></a>设置main函数的输入参数</h3><p>​    有时候主函数形式为 int main(int argc, char *argv[])，需要获取输入参数，但是在VS中直接运行程序是无法输入参数的，需要在项目属性页配置命令参数</p>
+<p><img src="/2023/02/14/VS2019%E9%85%8D%E7%BD%AE%E4%B8%8E%E8%B0%83%E8%AF%95%E6%8A%80%E5%B7%A7/image-20230214104151921.png" srcset="/img/loading.gif" lazyload></p>
+<h3 id="Debug和Release模式宏定义"><a href="#Debug和Release模式宏定义" class="headerlink" title="Debug和Release模式宏定义"></a>Debug和Release模式宏定义</h3><p>​    Debug模式下默认会定义宏  _DEBUG ，Release模式下默认会定义宏 NDEBUG，可以利用宏来控制某些调试代码只在Debug模式下构建的调试版程序中生效。 </p>
+<p><img src="/2023/02/14/VS2019%E9%85%8D%E7%BD%AE%E4%B8%8E%E8%B0%83%E8%AF%95%E6%8A%80%E5%B7%A7/16764613714585.png" srcset="/img/loading.gif" lazyload></p>
+<h3 id="路径宏"><a href="#路径宏" class="headerlink" title="路径宏"></a>路径宏</h3><p>​    记录一些项目配置时路径宏的定义</p>
+<table>
+<thead>
+<tr>
+<th>ConfigurationName</th>
+<th>配置名字，通常是Debug或者Release</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>IntDir</td>
+<td>编译器使用的中间目录，产出obj文件</td>
+</tr>
+<tr>
+<td>OutDir</td>
+<td>链接器使用的输出目录</td>
+</tr>
+<tr>
+<td>ProjectDir</td>
+<td>项目目录</td>
+</tr>
+<tr>
+<td>ProjectName</td>
+<td>项目名字</td>
+</tr>
+<tr>
+<td>SolutionDir</td>
+<td>解决方案目录</td>
+</tr>
+<tr>
+<td>TargetDir</td>
+<td>目标输出文件所在的目录</td>
+</tr>
+<tr>
+<td>TargetExt</td>
+<td>目标输出的扩展名</td>
+</tr>
+<tr>
+<td>TargetFileName</td>
+<td>目标输出文件名，包括扩展名</td>
+</tr>
+<tr>
+<td>TargetName</td>
+<td>目标输出名，不包括扩展名</td>
+</tr>
+<tr>
+<td>TargetPath</td>
+<td>目标输出文件的全路径名</td>
+</tr>
+</tbody></table>
+<p>下图是更全的示例：</p>
+<div align=center>     
+<img src="image-20230214104817682.png" srcset="/img/loading.gif" lazyload style="zoom:80%;"></img> 
+</div>
 
                 
               </div>
@@ -362,7 +460,7 @@
     <div class="post-meta">
       <i class="iconfont icon-tags"></i>
       
-        <a href="/tags/OpenCV/">#OpenCV</a>
+        <a href="/tags/VS/">#VS</a>
       
     </div>
   
@@ -376,15 +474,21 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2023/02/14/VS2019%E9%85%8D%E7%BD%AE%E4%B8%8E%E8%B0%83%E8%AF%95%E6%8A%80%E5%B7%A7/" title="VS2019配置与调试技巧">
+                      <a href="/C%E8%AF%AD%E8%A8%80-%E5%8F%AF%E5%8F%98%E5%8F%82%E6%95%B0%E5%87%BD%E6%95%B0/" title="C语言-可变参数函数">
                         <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">VS2019配置与调试技巧</span>
+                        <span class="hidden-mobile">C语言-可变参数函数</span>
                         <span class="visible-mobile">上一篇</span>
                       </a>
                     
                   </article>
                   <article class="post-next col-6">
                     
+                    
+                      <a href="/OpenCV%E5%A4%9A%E7%89%88%E6%9C%AC%E5%88%87%E6%8D%A2/" title="OpenCV多版本切换">
+                        <span class="hidden-mobile">OpenCV多版本切换</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
                     
                   </article>
                 </div>
@@ -404,7 +508,7 @@
         var options = Object.assign(
           {"clientID":"e9b52ee57707526358fd","clientSecret":"28d34ccc5d139a900131a3f8c5eedd770c50c71b","repo":"whiiiiisper.github.io","owner":"whiiiiisper","admin":["whiiiiisper"],"language":"zh-CN","labels":["Gitalk"],"perPage":10,"pagerDirection":"last","distractionFreeMode":false,"createIssueManually":true,"proxy":"https://cors-anywhere.azm.workers.dev/https://github.com/login/oauth/access_token"},
           {
-            id: '5d448cb96fff9c353c117b83297c6f29'
+            id: '729975903d32803bd55234b6334d15c8'
           }
         )
         var gitalk = new Gitalk(options);
