@@ -4,6 +4,206 @@
   
   
   <entry>
+    <title>C语言-内存模型</title>
+    <link href="/C%E8%AF%AD%E8%A8%80-%E5%86%85%E5%AD%98%E6%A8%A1%E5%9E%8B/"/>
+    <url>/C%E8%AF%AD%E8%A8%80-%E5%86%85%E5%AD%98%E6%A8%A1%E5%9E%8B/</url>
+    
+    <content type="html"><![CDATA[<p>程序内存在地址空间中的分布情况称为<strong>内存模型（Memory Model）</strong>，由操作系统构建，受编译模式影响</p><p>对于32位环境，理论上有4G虚拟地址空间，但要拿出一部分给操作系统内核使用，应用程序无法直接访问这一段内存，这一部分内存地址被称为<strong>内核空间（Kernel Space）</strong></p><p>Windows 在默认情况下会将高地址的 2GB 空间分配给内核（也可以配置为1GB），而 Linux 默认情况下会将高地址的 1GB 空间分配给内核。也就是说，应用程序只能使用剩下的 2GB 或 3GB 的地址空间，称为<strong>用户空间（User Space）</strong>。</p><h1 id="Linux-32位环境下用户空间"><a href="#Linux-32位环境下用户空间" class="headerlink" title="Linux 32位环境下用户空间"></a>Linux 32位环境下用户空间</h1><p><img src="/C%E8%AF%AD%E8%A8%80-%E5%86%85%E5%AD%98%E6%A8%A1%E5%9E%8B/image-20230411123203442.png"></p><p><img src="/./C%E8%AF%AD%E8%A8%80-%E5%86%85%E5%AD%98%E6%A8%A1%E5%9E%8B/clip_image001.jpg" alt="img"></p><table><thead><tr><th><strong>内存分区</strong></th><th><strong>说明</strong></th></tr></thead><tbody><tr><td>程序代码区  (code)</td><td>存放函数体的二进制代码。一个C语言程序由多个函数构成，C语言程序的执行就是函数之间的相互调用。</td></tr><tr><td>常量区  (constant)</td><td>存放一般的常量、字符串常量等。这块内存只有读取权限，没有写入权限，因此它们的值在程序运行期间不能改变。</td></tr><tr><td>全局数据区  (global  data)</td><td>存放全局变量、静态变量等。这块内存有读写权限，因此它们的值在程序运行期间可以任意改变。</td></tr><tr><td>堆区  (heap)</td><td>一般由程序员分配和释放，若程序员不释放，程序运行结束时由操作系统回收。malloc()、calloc()、free() 等函数操作的就是这块内存，这也是本章要讲解的重点。     注意：这里所说的堆区与数据结构中的堆不是一个概念，堆区的分配方式倒是类似于链表。</td></tr><tr><td>动态链接库</td><td>用于在程序运行期间加载和卸载动态链接库。</td></tr><tr><td>栈区  (stack)</td><td>存放函数的参数值、局部变量的值等，其操作方式类似于数据结构中的栈。</td></tr></tbody></table><p>常量区和全局数据区有时也被合称为静态数据区</p><h1 id="Linux-64位环境下用户空间"><a href="#Linux-64位环境下用户空间" class="headerlink" title="Linux 64位环境下用户空间"></a>Linux 64位环境下用户空间</h1><p>在64位环境下，虚拟地址空间大小为 256TB，Linux 将高 128TB 的空间分配给内核使用，而将低 128TB 的空间分配给用户程序使用。64位环境下虚拟地址只有低48位有效</p><p><img src="/C%E8%AF%AD%E8%A8%80-%E5%86%85%E5%AD%98%E6%A8%A1%E5%9E%8B/image-20230411123308932.png"></p><h1 id="Windows-32位环境下用户空间"><a href="#Windows-32位环境下用户空间" class="headerlink" title="Windows 32位环境下用户空间"></a>Windows 32位环境下用户空间</h1><ul><li>对于32位程序，内核占用较高的     2GB，剩下的 2GB 分配给用户程序；</li><li>对于64位程序，内核占用最高的     248TB，用户程序占用最低的 8TB。</li></ul><p><img src="/C%E8%AF%AD%E8%A8%80-%E5%86%85%E5%AD%98%E6%A8%A1%E5%9E%8B/image-20230411123359742.png"></p>]]></content>
+    
+    
+    <categories>
+      
+      <category>C</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>C语言基础</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>C语言-栈</title>
+    <link href="/C%E8%AF%AD%E8%A8%80-%E6%A0%88/"/>
+    <url>/C%E8%AF%AD%E8%A8%80-%E6%A0%88/</url>
+    
+    <content type="html"><![CDATA[<h1 id="基础"><a href="#基础" class="headerlink" title="基础"></a>基础</h1><ul><li>栈是一段连续的内存，需要同时记录栈底和栈顶，才能对当前的栈进行定位。在现代计算机中，通常使用ebp寄存器指向栈底，而使用esp寄存器指向栈顶<blockquote><p>ebp: Extend Base Pointer<br>esp: Extend Stack Pointer</p></blockquote></li></ul><p><img src="/C%E8%AF%AD%E8%A8%80-%E6%A0%88/image-20230411122905469.png"></p><ul><li><p>一个程序可以包含多个线程，每个线程都有自己的栈，栈能使用的内存在编译时决定。所以栈内存大小与编译器有关。</p><blockquote><p>在 VC/VS 下，默认是 1M，</p><p>在 C-Free 下，默认是 2M，</p><p>在 Linux GCC 下，默认是 8M</p></blockquote></li><li><p>如果程序使用的栈内存超出最大值，就会发生栈溢出（Stack Overflow）错误。</p></li></ul><p><img src="/C%E8%AF%AD%E8%A8%80-%E6%A0%88/image-20230411123004282.png"></p><h1 id="栈变量大对象传递时的-双向拷贝-现象"><a href="#栈变量大对象传递时的-双向拷贝-现象" class="headerlink" title="栈变量大对象传递时的 双向拷贝 现象"></a>栈变量大对象传递时的 双向拷贝 现象</h1><p>调用函数时会先开辟空间，存放临时对象，然后把此临时空间的地址放入eax供被调用者(函数)返回。返回之后，调用者又会将临时空间的内容拷贝到变量中。故大对象传递时应使用指针。</p><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-keyword">typedef</span> <span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">big_thing</span> &#123;</span><br><span class="hljs-type">char</span> buf[<span class="hljs-number">128</span>];<br>&#125;big_thing;<br><br>big_thing <span class="hljs-title function_">return_test</span><span class="hljs-params">()</span> &#123;<br>big_thing b;<br>b.buf[<span class="hljs-number">0</span>] = <span class="hljs-number">0</span>;<br><span class="hljs-keyword">return</span> b;<br>&#125;<br><br><span class="hljs-type">int</span> <span class="hljs-title function_">main</span><span class="hljs-params">()</span> &#123;<br>big_thing n = return_test();<br><span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br></code></pre></td></tr></table></figure>]]></content>
+    
+    
+    <categories>
+      
+      <category>C</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>C语言基础</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>C语言-内存</title>
+    <link href="/C%E8%AF%AD%E8%A8%80-%E5%86%85%E5%AD%98/"/>
+    <url>/C%E8%AF%AD%E8%A8%80-%E5%86%85%E5%AD%98/</url>
+    
+    <content type="html"><![CDATA[<h1 id="综合"><a href="#综合" class="headerlink" title="综合"></a>综合</h1><ul><li><p>全局变量默认初始值为0</p></li><li><p>局部变量未规定默认初始值</p></li><li><p>栈是针对线程来说的，每个线程都拥有一个栈，如果一个程序包含了多个线程，那么它就拥有多个栈</p><blockquote><p>发生函数调用时会将相关数据（包括局部变量、局部数组、形参、寄存器、冗余数据等）压入栈中，函数调用结束会释放这一部分内存</p><p>递归函数内部嵌套了对自身的调用，除非等到最内层的函数调用结束，否则外层的所有函数都不会调用结束，所以很容易出现栈溢出。</p></blockquote></li><li><p>栈 使用的内存大小在编译时决定</p><blockquote><p>在 VC/VS 下，默认是 1M，</p><p>在 C-Free 下，默认是 2M，</p><p>在 Linux GCC 下，默认是 8M</p></blockquote></li></ul><h1 id="虚拟地址范围"><a href="#虚拟地址范围" class="headerlink" title="虚拟地址范围"></a>虚拟地址范围</h1><h2 id="32位编译模式"><a href="#32位编译模式" class="headerlink" title="32位编译模式"></a>32位编译模式</h2><p>一个指针或地址占用4个字节的内存，理论上能够访问的虚拟内存空间大小为 2^32 = 0X100000000 Bytes，即4GB，有效虚拟地址范围是 0 ~ 0XFFFFFFFF。</p><h2 id="64位编译模式"><a href="#64位编译模式" class="headerlink" title="64位编译模式"></a>64位编译模式</h2><p>一个指针或地址占用8个字节的内存，共有64位，理论上能够访问的虚拟内存空间大小为 2^64。</p><p>Windows 和 Linux 都对虚拟地址进行了限制，仅使用虚拟地址的低48位（6个字节），总的虚拟地址空间大小为 2^48 = 256TB。</p><blockquote><p>2^64 是一个很大的值，几乎是无限的，就目前的技术来讲，不但物理内存不可能达到这么大，CPU的寻址能力也没有这么大，实现64位长的虚拟地址只会增加系统的复杂度和地址转换的成本</p></blockquote><h1 id="内存对齐"><a href="#内存对齐" class="headerlink" title="内存对齐"></a>内存对齐</h1><p>将一个数据尽量放在一个步长之内，避免跨步长存储。 </p><p>在32位编译模式下，默认以4字节对齐；在64位编译模式下，默认以8字节对齐。</p><blockquote><p>对于全局变量，GCC在 Debug 和 Release 模式下都会进行内存对齐，而VS只有在 Release 模式下才会进行对齐。</p><p>而对于局部变量，GCC和VS都不会进行对齐，不管是Debug模式还是Release模式。</p></blockquote><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">pragma</span> pack(1)</span><br><span class="hljs-comment">//范围内代码按1字节方式对齐</span><br><span class="hljs-meta">#<span class="hljs-keyword">pragma</span>  pack()</span><br><span class="hljs-comment">//注意作用域，及时解除</span><br></code></pre></td></tr></table></figure><p><img src="/C%E8%AF%AD%E8%A8%80-%E5%86%85%E5%AD%98/image-20230411122345785.png"></p>]]></content>
+    
+    
+    <categories>
+      
+      <category>C</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>C语言基础</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>C语言-数组</title>
+    <link href="/C%E8%AF%AD%E8%A8%80-%E6%95%B0%E7%BB%84/"/>
+    <url>/C%E8%AF%AD%E8%A8%80-%E6%95%B0%E7%BB%84/</url>
+    
+    <content type="html"><![CDATA[<h1 id="数组名"><a href="#数组名" class="headerlink" title="数组名"></a>数组名</h1><ul><li><p>求数组长度，只能使用数组名，不能使用数组指针</p><blockquote><p>C语言标准规定，当数组名作为数组定义的标识符（也就是定义或声明数组时）、sizeof 或 &amp; 的操作数时，它才表示整个数组本身，在其他的表达式中，数组名会被转换为指向第 0 个元素的指针（地址）。</p></blockquote><blockquote><p>对数组名进行&amp;操作，并不是取其地址，而是得到了指向整个数组的指针。也就是说，arr与&amp;arr指向的是同一个地址，但是他们的类型不一样。arr相当于&amp;arr[0]，类型是int *，而&amp;arr是指向整个数组的指针，类型是<code>int (*)[5]</code></p></blockquote></li><li><p><strong>数组名不可以自增（可以加减）</strong></p><figure class="highlight angelscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs angelscript"><span class="hljs-built_in">int</span> a[<span class="hljs-number">10</span>]=&#123;<span class="hljs-number">0</span>&#125;;<br>a++;  <span class="hljs-comment">//错误,数组名是指针型常量</span><br></code></pre></td></tr></table></figure></li></ul><h1 id="初始化"><a href="#初始化" class="headerlink" title="初始化"></a>初始化</h1><ul><li><p>数组只给部分元素赋值时，剩余元素会自动初始化为0</p><blockquote><p><code>int nums[10] = &#123;0&#125;;</code> 相当于只给第一个元素赋0，剩余元素自动初始化为0了</p><p>对于short、int、long，就是整数     0；</p><p>对于char，就是字符     ‘\0’；</p><p>对于float、double，就是小数     0.0</p></blockquote></li><li><p>如给全部元素赋值，那么在定义数组时可以不给出数组长度<code>int nums[] = &#123;1，2，3&#125;；</code></p></li><li><p>C99标准后可以指定下标进行初始化</p><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">int</span> a[<span class="hljs-number">10</span>]=&#123; [<span class="hljs-number">2</span>]=<span class="hljs-number">12</span> &#125;;<br><span class="hljs-type">int</span> a[]=&#123; [<span class="hljs-number">9</span>]=<span class="hljs-number">11</span> &#125;;  <span class="hljs-comment">//C99中长度可以自动推算</span><br></code></pre></td></tr></table></figure></li></ul><h1 id="二维数组"><a href="#二维数组" class="headerlink" title="二维数组"></a>二维数组</h1><ul><li>二维数组的初始化可以按行分段赋值，也可按行连续赋值。</li></ul><p><code>int a[5][3]=&#123;80, 75, 92, 61, 65, 71, 59, 63, 70, 85, 87, 90, 76, 77, 85&#125;;</code></p><ul><li>如果对全部元素赋值，那么第一维的长度可以不给出</li></ul><p><code>int a[][3] = &#123;1, 2, 3, 4, 5, 6, 7, 8, 9&#125;;</code></p><ul><li>一个二维数组也可以分解为多个一维数组</li></ul><p>二维数组<code>a[3][4]</code>可分解为三个一维数组，它们的数组名分别为 a[0]、a[1]、a[2]</p><h1 id="变长数组"><a href="#变长数组" class="headerlink" title="变长数组"></a>变长数组</h1><ul><li>普通数组（固定长度的数组）是在编译期间分配内存的，而变长数组是在运行期间分配内存的。（C99后才能使用变长数组）</li><li>变长数组仍是静态数组（一旦定义长度不能变化）</li></ul><h1 id="数组下标"><a href="#数组下标" class="headerlink" title="数组下标"></a>数组下标</h1><ul><li>对数组的引用 <code>a[i]</code> 在编译时总是被编译器改写成<code>*(a+i)</code>的形式，因此两者是一样的</li><li>取下标操作符[ ]是建立在指针的基础上，它的作用是使一个指针和一个整数相加，产生出一个新的指针，然后从这个新指针（新地址）上取得数据</li></ul><p>​            <code>a[3] 等价于 *(a + 3)，3[a] 等价于 *(3 + a)</code></p><ul><li>使用下标时，编译器会自动把下标的步长调整到数组元素的大小</li></ul>]]></content>
+    
+    
+    <categories>
+      
+      <category>C</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>C语言基础</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>C语言-指针</title>
+    <link href="/C%E8%AF%AD%E8%A8%80-%E6%8C%87%E9%92%88/"/>
+    <url>/C%E8%AF%AD%E8%A8%80-%E6%8C%87%E9%92%88/</url>
+    
+    <content type="html"><![CDATA[<h1 id="注意点"><a href="#注意点" class="headerlink" title="注意点"></a>注意点</h1><ul><li><p>指针的加减操作会移动一个数据类型的长度</p><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs c">y = ++*px; <span class="hljs-comment">//px的内容加上1之后赋给y，++*px相当于++(*px)</span><br>y = *px++; <span class="hljs-comment">//相当于y=*(px++)</span><br></code></pre></td></tr></table></figure></li><li><p>sizeof(数组名)才能获取数组长度，sizeof(数组指针)得到指针本身长度。sizeof返回无符号数，类型size_t</p><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">int</span> a[<span class="hljs-number">5</span>]=&#123;<span class="hljs-number">0</span>&#125;;<br><span class="hljs-type">int</span> *p = a;<br><br><span class="hljs-keyword">sizeof</span>(p)/<span class="hljs-keyword">sizeof</span>(<span class="hljs-type">int</span>)   --&gt;  <span class="hljs-number">1</span> <br><span class="hljs-keyword">sizeof</span>(a)/<span class="hljs-keyword">sizeof</span>(<span class="hljs-type">int</span>)    --&gt;  <span class="hljs-number">5</span><br></code></pre></td></tr></table></figure></li></ul><h1 id="数组名作为函数参数时都是指针"><a href="#数组名作为函数参数时都是指针" class="headerlink" title="数组名作为函数参数时都是指针"></a>数组名作为函数参数时都是指针</h1><p>以下三种形式都传递了数组指针，在函数内部无法通过这个指针获得数组长度，都要作为指针变量对待。（数组名退化为一级指针）</p><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">int</span> <span class="hljs-title function_">max</span><span class="hljs-params">(<span class="hljs-type">int</span> intArr[<span class="hljs-number">6</span>], <span class="hljs-type">int</span> len)</span>&#123;<br>    …<br>&#125;<br><span class="hljs-type">int</span> <span class="hljs-title function_">max</span><span class="hljs-params">(<span class="hljs-type">int</span> intArr[], <span class="hljs-type">int</span> len)</span>&#123;<br>    …<br>&#125;<br><span class="hljs-type">int</span> <span class="hljs-title function_">max</span><span class="hljs-params">(<span class="hljs-type">int</span> *intArr, <span class="hljs-type">int</span> len)</span>&#123;<br>    …<br>&#125;<br></code></pre></td></tr></table></figure><h1 id="空指针应初始化为NULL（注意大小写）"><a href="#空指针应初始化为NULL（注意大小写）" class="headerlink" title="空指针应初始化为NULL（注意大小写）"></a>空指针应初始化为NULL（注意大小写）</h1><p>  <code>char *str = NULL;</code>  </p><p>NULL 是在stdio.h中定义的一个宏 <code>#define NULL ((void *)0)</code>，<code>void *</code>表示指针指向的数据的类型是未知的，一般在后续使用时进行强制类型转换</p><h1 id="用指针作为函数返回值时"><a href="#用指针作为函数返回值时" class="headerlink" title="用指针作为函数返回值时"></a>用指针作为函数返回值时</h1><p>需要注意，函数运行结束后会销毁在它内部定义的所有局部数据，包括局部变量、局部数组和形式参数，函数返回的指针请尽量不要指向这些数据</p><h1 id="指针数组"><a href="#指针数组" class="headerlink" title="指针数组"></a>指针数组</h1><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">char</span> *lines[<span class="hljs-number">5</span>] = &#123;             <span class="hljs-comment">//lines占用内存 = 4(指针本身长度) *5</span><br><span class="hljs-string">&quot;COSC1283/1284&quot;</span>,<br><span class="hljs-string">&quot;Programming&quot;</span>,<br><span class="hljs-string">&quot;Techniques&quot;</span>,<br><span class="hljs-string">&quot;is&quot;</span>,<br><span class="hljs-string">&quot;great fun&quot;</span><br>&#125;;<br><span class="hljs-type">char</span> *str1 = lines[<span class="hljs-number">1</span>];<br><span class="hljs-type">char</span> *str2 = *(lines + <span class="hljs-number">3</span>);<br><span class="hljs-type">char</span> c1 = *(*(lines + <span class="hljs-number">4</span>) + <span class="hljs-number">6</span>);<br><span class="hljs-type">char</span> c2 = (*lines + <span class="hljs-number">5</span>)[<span class="hljs-number">5</span>];<br><span class="hljs-type">char</span> c3 = *lines[<span class="hljs-number">0</span>] + <span class="hljs-number">2</span>;<br><span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;str1 = %s\n&quot;</span>, str1);<br><span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;str2 = %s\n&quot;</span>, str2);<br><span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot; c1 = %c\n&quot;</span>, c1);<br><span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot; c2 = %c\n&quot;</span>, c2);<br><span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot; c3 = %c\n&quot;</span>, c3);<br><br></code></pre></td></tr></table></figure><p>输出结果为：</p><p><code>str1 = Programming</code><br><code>str2 = is</code><br><code>c1 = f</code><br><code>c2 = 2</code><br><code>c3 = E</code></p><ul><li><code>lines[1]</code>：它是一个指针，指向字符串string1，即string1 的首地址。</li><li><code>*(lines + 3)</code>：lines + 3 为数组中第 3 个元素的地址，<code>*(lines + 3)</code> 为第 3 个元素的值，它是一个指针，指向字符串 string3。</li><li><code>*(*(lines + 4)+ 6)</code>：<code>*(lines + 4) + 6 == lines[4] + 6 == string4 + 6</code>，表示字符串 string4 中第 6     个字符的地址，即 f 的地址，所以 <em>(</em>(lines + 4) + 6) 就表示字符 f。</li><li><code>(*lines +5)[5]</code>：<code>*lines + 5</code> 为字符串 string0 中第 5 个字符的地址，即 2 的地址，<code>(*lines+5)[5]</code>等价于<code>*(*lines+5+5)</code>，表示第10个字符，即 2。</li><li><code>*lines[0]+2</code>：lines[0] 为字符串 string0 中第 0 个字符的地址，即 C 的地址；<code>*lines[0]</code> 也就表示第 0 个字符，即字符  C。字符与整数运算，首先转换为该字符对应的 ASCII 码，然后再运算，所以 <code>*lines[0] + 2 = 67 + 2 = 69</code>，69     对应的字符为 E。</li></ul><h1 id="二维数组指针"><a href="#二维数组指针" class="headerlink" title="二维数组指针"></a>二维数组指针</h1><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">int</span> a[<span class="hljs-number">3</span>][<span class="hljs-number">4</span>] = &#123; &#123;<span class="hljs-number">0</span>, <span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>&#125;, &#123;<span class="hljs-number">4</span>, <span class="hljs-number">5</span>, <span class="hljs-number">6</span>, <span class="hljs-number">7</span>&#125;, &#123;<span class="hljs-number">8</span>, <span class="hljs-number">9</span>, <span class="hljs-number">10</span>, <span class="hljs-number">11</span>&#125; &#125;;<br><span class="hljs-type">int</span> (*p)[<span class="hljs-number">4</span>] = a;  <span class="hljs-comment">//p占用内存 = 4 (指针本身长度)</span><br><span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;%d\n&quot;</span>, <span class="hljs-keyword">sizeof</span>(*(p+<span class="hljs-number">1</span>)));<br><br>a+i == p+i<br>a[i] == p[i] == *(a+i) == *(p+i)<br>a[i][j] == p[i][j] == *(a[i]+j) == *(p[i]+j) == *(*(a+i)+j) == *(*(p+i)+j)   可用于遍历数组<br></code></pre></td></tr></table></figure><ul><li><p>括号中的*表明 p 是一个指针，它指向一个数组，数组的类型为int[4]，这正是 a 所包含的每个一维数组的类型。</p></li><li><p>[     ]的优先级高于*，(     )是必须要加的，如果赤裸裸地写作<code>int *p[4]</code>，那么应该理解为<code>int *(p[4])</code>，p 就成了一个指针数组，而不是二维数组指针</p></li><li><p>p指向数组 a 的开头，也即第 0 行；p+1前进一行，指向第 1 行。</p></li><li><p><code>*(p+1)</code>表示取地址上的数据，也就是整个第 1 行数据。注意是一行数据，是多个数据，不是第 1 行中的第 0 个元素</p></li><li><p><code>*(p+1)+1</code>表示第 1 行第 1 个元素的地址。因为<code>*(p+1)</code>单独使用时表示的是第 1 行数据，放在表达式中会被转换为第 1 行数据的首地址，也就是第 1 行第 0 个元素的地址，因为使用整行数据没有实际的含义，编译器遇到这种情况都会转换为指向该行第 0 个元素的指针；就像一维数组的名字，<strong>在定义时或者和 sizeof、&amp; 一起使用时才表示整个数组</strong>，<strong>出现在表达式中就会被转换为指向数组第 0 个元素的指针。</strong></p></li></ul><ol start="4"><li><code>*(*(p+1)+1)</code>表示第 1 行第 1 个元素的值。很明显，增加一个 * 表示取地址上的数据。</li></ol>]]></content>
+    
+    
+    <categories>
+      
+      <category>C</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>C语言基础</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>C语言-不定长参数宏</title>
+    <link href="/C%E8%AF%AD%E8%A8%80-%E4%B8%8D%E5%AE%9A%E9%95%BF%E5%8F%82%E6%95%B0%E5%AE%8F/"/>
+    <url>/C%E8%AF%AD%E8%A8%80-%E4%B8%8D%E5%AE%9A%E9%95%BF%E5%8F%82%E6%95%B0%E5%AE%8F/</url>
+    
+    <content type="html"><![CDATA[<p>C 语言中 VA_ARGS 是一个可变参数的宏，是新的 C99 规范中新增的，需要配合 define 使用，总体来说就是将左边宏中 … 的内容原样抄写在右边 VA_ARGS 所在的位置。</p><h1 id="一个不定长参数"><a href="#一个不定长参数" class="headerlink" title="一个不定长参数"></a>一个不定长参数</h1><p><code>#define MY_PRINT(...)   hesy_print(__VA_ARGS__)</code></p><h1 id="一个固定参数和一个不定长参数"><a href="#一个固定参数和一个不定长参数" class="headerlink" title="一个固定参数和一个不定长参数"></a>一个固定参数和一个不定长参数</h1><p><code>#define MY_PRINT(fmt, ...)   hesy_print(fmt, ##__VA_ARGS__)</code></p><p>如果可变参数被忽略或为空，## 操作将使预处理器（preprocessor）去除掉它前面的那个逗号</p><p><strong>可用于C语言下设置默认参数</strong></p><h1 id="示例"><a href="#示例" class="headerlink" title="示例"></a>示例</h1><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">define</span> print_LOG(level, fmt, ...) printf(<span class="hljs-string">&quot;[%s][%d]&quot;</span>fmt<span class="hljs-string">&quot;\n&quot;</span>, __FUNCTION__, __LINE__, ##__VA_ARGS__)</span><br><br><span class="hljs-meta">#<span class="hljs-keyword">define</span> print_LOG(level, fmt, args...) SYS_LOG(<span class="hljs-string">&quot;[WIFI]&quot;</span>, level, fmt,  ##args)</span><br></code></pre></td></tr></table></figure>]]></content>
+    
+    
+    <categories>
+      
+      <category>C</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>C语言技巧</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>C语言-预定义宏</title>
+    <link href="/C%E8%AF%AD%E8%A8%80-%E9%A2%84%E5%AE%9A%E4%B9%89%E5%AE%8F/"/>
+    <url>/C%E8%AF%AD%E8%A8%80-%E9%A2%84%E5%AE%9A%E4%B9%89%E5%AE%8F/</url>
+    
+    <content type="html"><![CDATA[<h1 id="标准C语言预定义宏"><a href="#标准C语言预定义宏" class="headerlink" title="标准C语言预定义宏"></a>标准C语言预定义宏</h1><p>标准C语言预处理要求定义某些对象宏，每个预定义宏的名称为两个下划线字符开头和结尾，这些预定义宏不能被取消定义（#undef）或由编程人员重新定义。</p><ul><li><strong>LINE</strong> ：当前程序行的行号，表示为十进制整型常量</li><li><strong>FILE</strong> ：当前源文件名，表示字符串型常量</li><li><strong>DATE</strong> ：转换的日历日期，表示为Mmm dd yyyy     形式的字符串常量，Mmm是由asctime产生的。</li><li><strong>TIME</strong>      ：转换的时间，表示”hh:mm:ss”形式的字符串型常量，是有asctime产生的。（asctime貌似是指的一个函数）</li><li><strong>STDC</strong> ：编辑器为ISO兼容实现时位十进制整型常量</li><li><strong>STDC_VERSION</strong>      ：如何实现复合C89整部1，则这个宏的值为19940SL；如果实现符合C99，则这个宏的值为199901L；否则数值是未定义</li><li><strong>STDC_EOBTED</strong>     ：(C99)实现为宿主实现时为1,实现为独立实现为0</li><li><strong>STDC_IEC_559</strong>     ：(C99)浮点数实现复合IBC 60559标准时定义为1，否者数值是未定义</li><li>__STDC_IEC_559_COMPLEX__：     (C99)复数运算实现复合IBC 60559标准时定义为1，否者数值是未定义</li><li><strong>STDC_ISO_10646</strong>     ：(C99)定义为长整型常量，yyyymmL表示wchar_t值复合ISO 10646标准及其指定年月的修订补充，否则数值未定义</li></ul><p>C++中还定义了 __cplusplus</p><p>C语言中的__FILE__、__LINE__和__DATE__等都在头文件#include&lt;stdio.h&gt;中</p><h1 id="打印函数示例"><a href="#打印函数示例" class="headerlink" title="打印函数示例"></a>打印函数示例</h1><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs C"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdio.h&gt;</span></span><br> <br><span class="hljs-comment">/* 指定下一行的__LINE__为200,重点是line的下一行是200 */</span><br><span class="hljs-meta">#<span class="hljs-keyword">line</span> 200</span><br> <br><span class="hljs-type">int</span> <span class="hljs-title function_">main</span><span class="hljs-params">(<span class="hljs-type">void</span>)</span><br>&#123;<br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;%d\n&quot;</span>,__LINE__);<br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;%d\n&quot;</span>,__LINE__);<br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;%d\n&quot;</span>,__LINE__);<br> <br><span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br></code></pre></td></tr></table></figure><h1 id="自定义的宕机函数中可使用到"><a href="#自定义的宕机函数中可使用到" class="headerlink" title="自定义的宕机函数中可使用到"></a><strong>自定义的宕机函数中可使用到</strong></h1><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">define</span> CM_ASSERT(x) (MSCP_ASSERT((int)(x), __FILE__,__func__, __LINE__))</span><br><span class="hljs-comment">/* 平台实现的宕机函数 */</span><br><span class="hljs-keyword">extern</span> <span class="hljs-type">void</span> <span class="hljs-title function_">MSCP_ASSERT</span><span class="hljs-params">(<span class="hljs-type">int</span> x, <span class="hljs-type">const</span> <span class="hljs-type">char</span> *filename, <span class="hljs-type">const</span> <span class="hljs-type">char</span> *func, <span class="hljs-type">int</span> line)</span>;<br></code></pre></td></tr></table></figure>]]></content>
+    
+    
+    <categories>
+      
+      <category>C</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>C语言技巧</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>C语言-预处理</title>
+    <link href="/C%E8%AF%AD%E8%A8%80-%E9%A2%84%E5%A4%84%E7%90%86/"/>
+    <url>/C%E8%AF%AD%E8%A8%80-%E9%A2%84%E5%A4%84%E7%90%86/</url>
+    
+    <content type="html"><![CDATA[<p>编译器会将预处理的结果保存到和源文件同名的 .i 文件中</p><h1 id="include-文件包含命令"><a href="#include-文件包含命令" class="headerlink" title="#include 文件包含命令"></a>#include 文件包含命令</h1><ul><li><p>使用尖括号&lt;     &gt;，编译器会到系统路径下查找头文件；</p></li><li><p>使用双引号”     “，编译器首先在当前目录下查找头文件，如果没有找到，再到系统路径下查找</p></li></ul><h1 id="define-宏定义"><a href="#define-宏定义" class="headerlink" title="#define 宏定义"></a>#define 宏定义</h1><ul><li><p>宏定义必须写在函数之外，其作用域为宏定义命令起到源程序结束。如要终止其作用域可使用 #undef 命令</p></li><li><p>代码中的宏名如果被引号包围，那么预处理程序不对其作宏代替（所以printf中打印的宏定义字符不会被替换）</p></li><li><p>带参数的宏定义需要格外小心，最好每一部分都用括号包住     #define SQ(y) ((y)*(y))</p></li><li><p>#用来将宏定义中的参数转换为字符，也就是在宏参数的开头和末尾添加引号。如果x是一个宏参量，那么#x可以把参数名转化成相应的字符串。该过程称为字符串化（stringizing）</p><blockquote><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#incldue <span class="hljs-string">&lt;stdio.h&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">define</span> PSQR(x) printf(<span class="hljs-string">&quot;the square of&quot;</span> #x <span class="hljs-string">&quot;is %d./n&quot;</span>,(x)*(x))</span><br><span class="hljs-type">int</span> <span class="hljs-title function_">main</span><span class="hljs-params">(<span class="hljs-type">void</span>)</span><br>&#123;<br>    <span class="hljs-type">int</span> y =<span class="hljs-number">4</span>;<br>    PSQR(y);<br>    PSQR(<span class="hljs-number">2</span>+<span class="hljs-number">4</span>);<br>    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br></code></pre></td></tr></table></figure><p>输出结果：</p><p>the square of y is 16.</p><p>the square of 2+4 is 36.</p><p>第一次调用宏时使用“y”代替#x；第二次调用时用“2+4”代#x。</p></blockquote></li><li><p>##称为连接符，用来将宏参数或其他的串连接起来，把两个语言符号组合成单个语言符号</p><blockquote><p>#define CON1(a, b) a##e##b</p><p>printf(“%f\n”, CON1(8.5, 2));</p><p>会被展开为</p><p>printf(“%f\n”, 8.5e2);</p></blockquote></li></ul><h1 id="预定义宏"><a href="#预定义宏" class="headerlink" title="预定义宏"></a>预定义宏</h1><p>ANSI C 规定了以下几个预定义宏，它们在各个编译器下都可以使用：</p><ul><li><code>__LINE__</code>：表示当前源代码的行号；</li><li><code>__FILE__</code>：表示当前源文件的名称；</li><li><code>__DATE__</code>：表示当前的编译日期；</li><li><code>__TIME__</code>：表示当前的编译时间；</li><li><code>__STDC__</code>：当要求程序严格遵循ANSI     C标准时该标识被赋值为1；</li><li><code>__cplusplus</code>：当编写C++程序时该标识符被定义</li></ul><h1 id="条件编译"><a href="#条件编译" class="headerlink" title="条件编译"></a>条件编译</h1><ul><li><p>#if 后面跟的是“整型常量表达式”，而 #ifdef 和     #ifndef 后面跟的只能是一个宏名</p></li><li><p>#ifdef 可以认为是 #if defined 的缩写</p></li><li><p>VS/VC 下，当以 Debug 模式编译程序时，宏 _DEBUG 会被定义，可用于条件编译区分release版</p></li></ul><h1 id="error-阻止编译"><a href="#error-阻止编译" class="headerlink" title="#error 阻止编译"></a>#error 阻止编译</h1><ul><li>在编译期间产生错误信息，并阻止程序继续编译</li></ul><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">ifndef</span> __cplusplus</span><br><span class="hljs-meta">#<span class="hljs-keyword">error</span> 当前程序必须以C++方式编译</span><br><span class="hljs-meta">#<span class="hljs-keyword">endif</span></span><br></code></pre></td></tr></table></figure>]]></content>
+    
+    
+    <categories>
+      
+      <category>C</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>C语言基础</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
     <title>QT-自定义信号槽与connect函数</title>
     <link href="/QT-%E8%87%AA%E5%AE%9A%E4%B9%89%E4%BF%A1%E5%8F%B7%E6%A7%BD%E4%B8%8Econnect%E5%87%BD%E6%95%B0/"/>
     <url>/QT-%E8%87%AA%E5%AE%9A%E4%B9%89%E4%BF%A1%E5%8F%B7%E6%A7%BD%E4%B8%8Econnect%E5%87%BD%E6%95%B0/</url>

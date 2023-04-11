@@ -16,24 +16,24 @@
   <meta name="author" content="TRknight">
   <meta name="keywords" content="">
   
-    <meta name="description" content="C++编译多个版本的OpenCV并切换使用">
+    <meta name="description" content="C语言数组知识记录">
 <meta property="og:type" content="article">
-<meta property="og:title" content="OpenCV多版本切换">
-<meta property="og:url" content="https://whiiiiisper.github.io/OpenCV%E5%A4%9A%E7%89%88%E6%9C%AC%E5%88%87%E6%8D%A2/index.html">
+<meta property="og:title" content="C语言-数组">
+<meta property="og:url" content="https://whiiiiisper.github.io/C%E8%AF%AD%E8%A8%80-%E6%95%B0%E7%BB%84/index.html">
 <meta property="og:site_name" content="TRknight的博客">
-<meta property="og:description" content="C++编译多个版本的OpenCV并切换使用">
+<meta property="og:description" content="C语言数组知识记录">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2023-02-08T10:37:56.201Z">
-<meta property="article:modified_time" content="2023-02-22T07:40:22.515Z">
+<meta property="article:published_time" content="2023-04-11T03:02:49.000Z">
+<meta property="article:modified_time" content="2023-04-11T04:27:22.113Z">
 <meta property="article:author" content="TRknight">
-<meta property="article:tag" content="OpenCV">
+<meta property="article:tag" content="C语言基础">
 <meta name="twitter:card" content="summary_large_image">
   
   
     <meta name="referrer" content="no-referrer-when-downgrade">
   
   
-  <title>OpenCV多版本切换 - TRknight的博客</title>
+  <title>C语言-数组 - TRknight的博客</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -228,7 +228,7 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle">OpenCV多版本切换</span>
+            <span id="subtitle">C语言-数组</span>
           
         </div>
 
@@ -239,8 +239,8 @@
     
       <span class="post-meta">
         <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-        <time datetime="2023-02-08 18:37" pubdate>
-          2023年2月8日 晚上
+        <time datetime="2023-04-11 11:02" pubdate>
+          2023年4月11日 上午
         </time>
       </span>
     
@@ -251,7 +251,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          782 字
+          1.1k 字
         
       </span>
     
@@ -262,7 +262,7 @@
         
         
         
-          7 分钟
+          9 分钟
         
       </span>
     
@@ -300,12 +300,12 @@
         <div id="board">
           <article class="post-content mx-auto">
             <!-- SEO header -->
-            <h1 style="display: none">OpenCV多版本切换</h1>
+            <h1 style="display: none">C语言-数组</h1>
             
               <p class="note note-info">
                 
                   
-                    本文最后更新于：2 个月前
+                    本文最后更新于：1 小时前
                   
                 
               </p>
@@ -313,22 +313,56 @@
             
               <div class="markdown-body">
                 
-                <h4 id="安装依赖包"><a href="#安装依赖包" class="headerlink" title="安装依赖包"></a>安装依赖包</h4><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs c++">[compiler] sudo apt-get install build-essential<br>[required] sudo apt-get install cmake git libgtk2<span class="hljs-number">.0</span>-dev pkg-config libavcodec-dev libavformat-dev libswscale-dev<br></code></pre></td></tr></table></figure>
-
-<h4 id="编译安装另一个版本的opencv"><a href="#编译安装另一个版本的opencv" class="headerlink" title="编译安装另一个版本的opencv"></a>编译安装另一个版本的opencv</h4><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs c++">$ cd opencv<span class="hljs-number">-3.4</span><span class="hljs-number">.1</span><br>$ mkdir build<br>$ cd build<br>$ mkdir installed<br>$ cmake -DCMAKE_BUILD_TYPE=RELEASE -DCMAKE_INSTALL_PREFIX=/home/xlg/opencv<span class="hljs-number">-3.4</span><span class="hljs-number">.10</span>/build/installed -DWITH_CUDA=OFF -DBUILD_DOCS=OFF -DBUILD_EXAMPLES=OFF -DBUILD_TESTS=OFF -DBUILD_PERF_TESTS=OFF ..<br>$ make -j4<br>$ sudo make install<br></code></pre></td></tr></table></figure>
-
-<ol>
-<li><p>其中<code>~/opencv-3.4.1/build/installed</code>为安装OpenCV3.4.1的路径，这个十分关键。</p>
+                <h1 id="数组名"><a href="#数组名" class="headerlink" title="数组名"></a>数组名</h1><ul>
+<li><p>求数组长度，只能使用数组名，不能使用数组指针</p>
+<blockquote>
+<p>C语言标准规定，当数组名作为数组定义的标识符（也就是定义或声明数组时）、sizeof 或 &amp; 的操作数时，它才表示整个数组本身，在其他的表达式中，数组名会被转换为指向第 0 个元素的指针（地址）。</p>
+</blockquote>
+<blockquote>
+<p>对数组名进行&amp;操作，并不是取其地址，而是得到了指向整个数组的指针。也就是说，arr与&amp;arr指向的是同一个地址，但是他们的类型不一样。arr相当于&amp;arr[0]，类型是int *，而&amp;arr是指向整个数组的指针，类型是<code>int (*)[5]</code></p>
+</blockquote>
 </li>
-<li><p>设置OFF的理由如下，可大大加快编译速度，当然还要根据需求进行设置。 </p>
+<li><p><strong>数组名不可以自增（可以加减）</strong></p>
+<figure class="highlight angelscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs angelscript"><span class="hljs-built_in">int</span> a[<span class="hljs-number">10</span>]=&#123;<span class="hljs-number">0</span>&#125;;<br>a++;  <span class="hljs-comment">//错误,数组名是指针型常量</span><br></code></pre></td></tr></table></figure></li>
+</ul>
+<h1 id="初始化"><a href="#初始化" class="headerlink" title="初始化"></a>初始化</h1><ul>
+<li><p>数组只给部分元素赋值时，剩余元素会自动初始化为0</p>
+<blockquote>
+<p><code>int nums[10] = &#123;0&#125;;</code> 相当于只给第一个元素赋0，剩余元素自动初始化为0了</p>
+<p>对于short、int、long，就是整数     0；</p>
+<p>对于char，就是字符     ‘\0’；</p>
+<p>对于float、double，就是小数     0.0</p>
+</blockquote>
 </li>
-</ol>
-<h4 id="使用多版本opencv"><a href="#使用多版本opencv" class="headerlink" title="使用多版本opencv"></a>使用多版本opencv</h4><p> 在写CmakeList.txt，如果只有一个版本的opencv,我们一般直接使用 </p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-built_in">FIND_PACKAGE</span>(OpenCV REQUIRED)<br></code></pre></td></tr></table></figure>
-
-<p> 现在如果是使用默认安装的opencv4.2,则使用使用上面的指令就足够了。如果使用安装我们自己指定路径的opencv3.4，则使用如下指令 </p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-built_in">set</span>(CMAKE_PREFIX_PATH <span class="hljs-string">&quot;/home/knight/opencv-3.4.10/build/installed/&quot;</span>)<br><span class="hljs-built_in">find_package</span>(OpenCV <span class="hljs-number">3</span> REQUIRED)<br></code></pre></td></tr></table></figure>
-
+<li><p>如给全部元素赋值，那么在定义数组时可以不给出数组长度<code>int nums[] = &#123;1，2，3&#125;；</code></p>
+</li>
+<li><p>C99标准后可以指定下标进行初始化</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">int</span> a[<span class="hljs-number">10</span>]=&#123; [<span class="hljs-number">2</span>]=<span class="hljs-number">12</span> &#125;;<br><span class="hljs-type">int</span> a[]=&#123; [<span class="hljs-number">9</span>]=<span class="hljs-number">11</span> &#125;;  <span class="hljs-comment">//C99中长度可以自动推算</span><br></code></pre></td></tr></table></figure></li>
+</ul>
+<h1 id="二维数组"><a href="#二维数组" class="headerlink" title="二维数组"></a>二维数组</h1><ul>
+<li>二维数组的初始化可以按行分段赋值，也可按行连续赋值。</li>
+</ul>
+<p><code>int a[5][3]=&#123;80, 75, 92, 61, 65, 71, 59, 63, 70, 85, 87, 90, 76, 77, 85&#125;;</code></p>
+<ul>
+<li>如果对全部元素赋值，那么第一维的长度可以不给出</li>
+</ul>
+<p><code>int a[][3] = &#123;1, 2, 3, 4, 5, 6, 7, 8, 9&#125;;</code></p>
+<ul>
+<li>一个二维数组也可以分解为多个一维数组</li>
+</ul>
+<p>二维数组<code>a[3][4]</code>可分解为三个一维数组，它们的数组名分别为 a[0]、a[1]、a[2]</p>
+<h1 id="变长数组"><a href="#变长数组" class="headerlink" title="变长数组"></a>变长数组</h1><ul>
+<li>普通数组（固定长度的数组）是在编译期间分配内存的，而变长数组是在运行期间分配内存的。（C99后才能使用变长数组）</li>
+<li>变长数组仍是静态数组（一旦定义长度不能变化）</li>
+</ul>
+<h1 id="数组下标"><a href="#数组下标" class="headerlink" title="数组下标"></a>数组下标</h1><ul>
+<li>对数组的引用 <code>a[i]</code> 在编译时总是被编译器改写成<code>*(a+i)</code>的形式，因此两者是一样的</li>
+<li>取下标操作符[ ]是建立在指针的基础上，它的作用是使一个指针和一个整数相加，产生出一个新的指针，然后从这个新指针（新地址）上取得数据</li>
+</ul>
+<p>​            <code>a[3] 等价于 *(a + 3)，3[a] 等价于 *(3 + a)</code></p>
+<ul>
+<li>使用下标时，编译器会自动把下标的步长调整到数组元素的大小</li>
+</ul>
 
                 
               </div>
@@ -347,7 +381,7 @@
     
       <span class="category-chain">
         
-  <a href="/categories/%E9%85%8D%E7%BD%AE-%E5%AE%89%E8%A3%85/" class="category-chain-item">配置&amp;安装</a>
+  <a href="/categories/C/" class="category-chain-item">C</a>
   
   
 
@@ -362,7 +396,7 @@
     <div class="post-meta">
       <i class="iconfont icon-tags"></i>
       
-        <a href="/tags/OpenCV/">#OpenCV</a>
+        <a href="/tags/C%E8%AF%AD%E8%A8%80%E5%9F%BA%E7%A1%80/">#C语言基础</a>
       
     </div>
   
@@ -376,15 +410,21 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/VS2019%E9%85%8D%E7%BD%AE%E4%B8%8E%E8%B0%83%E8%AF%95%E6%8A%80%E5%B7%A7/" title="VS2019配置与调试技巧">
+                      <a href="/C%E8%AF%AD%E8%A8%80-%E5%86%85%E5%AD%98/" title="C语言-内存">
                         <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">VS2019配置与调试技巧</span>
+                        <span class="hidden-mobile">C语言-内存</span>
                         <span class="visible-mobile">上一篇</span>
                       </a>
                     
                   </article>
                   <article class="post-next col-6">
                     
+                    
+                      <a href="/C%E8%AF%AD%E8%A8%80-%E6%8C%87%E9%92%88/" title="C语言-指针">
+                        <span class="hidden-mobile">C语言-指针</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
                     
                   </article>
                 </div>
@@ -404,7 +444,7 @@
         var options = Object.assign(
           {"clientID":"e9b52ee57707526358fd","clientSecret":"28d34ccc5d139a900131a3f8c5eedd770c50c71b","repo":"whiiiiisper.github.io","owner":"whiiiiisper","admin":["whiiiiisper"],"language":"zh-CN","labels":["Gitalk"],"perPage":10,"pagerDirection":"last","distractionFreeMode":false,"createIssueManually":true,"proxy":"https://cors-anywhere.azm.workers.dev/https://github.com/login/oauth/access_token"},
           {
-            id: '35ef30c8e20dbfe9216030033ccbfe10'
+            id: 'c08b1273e756ebea0a08acc678c014ff'
           }
         )
         var gitalk = new Gitalk(options);
