@@ -4,6 +4,806 @@
   
   
   <entry>
+    <title>Linux命令-文本格式转换unix2dos</title>
+    <link href="/Linux%E5%91%BD%E4%BB%A4-%E6%96%87%E6%9C%AC%E6%A0%BC%E5%BC%8F%E8%BD%AC%E6%8D%A2unix2dos/"/>
+    <url>/Linux%E5%91%BD%E4%BB%A4-%E6%96%87%E6%9C%AC%E6%A0%BC%E5%BC%8F%E8%BD%AC%E6%8D%A2unix2dos/</url>
+    
+    <content type="html"><![CDATA[<p>Ubuntu系统打开Windows下生成的文本文件，会在每行的末尾出现^M，会导致md5计算失败</p><p>原因就是Windows和Linux的回车符是不同的，在Windows下回车符是\r\n回车换行，在Linux下回车符是\n，可使用dos2unix进行转换。</p><p>Ubuntu下默认没有安装dos2unix工具，而且也没有一个叫这个名字的工具（我在solaris里用过dos2unix，不知道为啥Ubuntu没有）。但是有一个替代工具——tofrodos</p><p><strong>1.安装tofrodos</strong></p><p>sudo apt-get install tofrodos</p><p>todos Hello.txt (即unix2dos Hello.txt) </p><p>fromdos Hello.txt (即dos2unix Hello.txt)</p><p><strong>2.优化</strong></p><p>由于习惯了unix2dos和dos2unix的命令unix超级工具，可以把上面安装的两个工具链接成unix2dos 和dos2unix，或者仅仅是起个别名，并放在启动脚本里。</p><p>ln -s /usr/bin/todos /usr/bin/unix2dos </p><p>ln -s /usr/bin/fromdos /usr/bin/dos2unix </p><p>或者在 ~/.bashrc里起个别名</p><p>vi ~/.bashrc</p><p>添加</p><p>alias unix2dos=’todos’</p><p>alias dos2unix=’fromdos’</p>]]></content>
+    
+    
+    <categories>
+      
+      <category>Linux</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>踩坑</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>Linux命令-sed</title>
+    <link href="/Linux%E5%91%BD%E4%BB%A4-sed/"/>
+    <url>/Linux%E5%91%BD%E4%BB%A4-sed/</url>
+    
+    <content type="html"><![CDATA[<p>逐行读取文件保存在临时缓冲（模式空间），不会修改文件，除非用shell重定向</p><h1 id="常用选项"><a href="#常用选项" class="headerlink" title="常用选项"></a>常用选项</h1><table><thead><tr><th>-n</th><th>使用安静模式，在一般情况所有的 STDIN  都会输出到屏幕上，加入-n 后只打印被 sed 特殊处理的行</th></tr></thead><tbody><tr><td>-e</td><td>多重编辑，且命令顺序会影响结果</td></tr><tr><td>-f</td><td>指定一个 sed 脚本文件到命令行执行，</td></tr><tr><td>-r</td><td>Sed 使用扩展正则</td></tr><tr><td>-i</td><td>直接修改文档读取的内容，不在屏幕上输出</td></tr></tbody></table><h1 id="操作命令"><a href="#操作命令" class="headerlink" title="操作命令"></a>操作命令</h1><table><thead><tr><th>命令</th><th>说明</th></tr></thead><tbody><tr><td>a\</td><td>在当前行后添加一行或多行</td></tr><tr><td>c\</td><td>用新文本修改（替换）当前行中的文本</td></tr><tr><td>d</td><td>删除行</td></tr><tr><td>i\</td><td>在当前行之前插入文本</td></tr><tr><td>h</td><td>把模式空间里的内容复制到暂存缓存区</td></tr><tr><td>H</td><td>把模式空间里的内容追加到暂存缓存区</td></tr><tr><td>g</td><td>取出暂存缓冲区里的内容，将其复制到模式空间，覆盖该处原有内容</td></tr><tr><td>G</td><td>取出暂存缓冲区里的内容，将其复制到模式空间，追加在原有内容后面</td></tr><tr><td>l</td><td>列出非打印字符</td></tr><tr><td>p</td><td>打印行</td></tr><tr><td>n</td><td>读入下一输入行，并从下一条命令而不是第一条命令开始处理</td></tr><tr><td>q</td><td>结束或退出 sed</td></tr><tr><td>r</td><td>从文件中读取输入行</td></tr><tr><td>！</td><td>对所选行意外的所有行应用命令</td></tr><tr><td>s</td><td>用一个字符串替换另一个</td></tr></tbody></table><h1 id="示例"><a href="#示例" class="headerlink" title="示例"></a>示例</h1><p><code>_APPTYPE=$(sed &#39;/^APP_NAME\s*=/!d;s/.*=\s*//;s/\r$//&#39; /mnt/hgfs/Share_Ubuntu/main_base.ini)</code></p><div align=center>     <img src="image-20230411233323250.png" style="zoom:50%;"></img> </div><p>上述例子 ‘ ‘ 单引号中有三部分：</p><ul><li><code>/^APP_NAME\s*=/!d</code>  其中 / /内表示匹配以APP_NAME字符开头的行，\s* 匹配空格，!d表示删除其他非匹配的行</li><li><code>s/.*=\s*//</code> 表示替换字符，将 .*= 【=号前所有字符和=号后空格】替换为/【空字符】</li><li><code>s/\r$//</code> 表示将行尾的回车符替换为空字符，方式</li></ul>]]></content>
+    
+    
+    <categories>
+      
+      <category>Linux</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>shell</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>Linux命令-抓包tcpdump</title>
+    <link href="/Linux%E5%91%BD%E4%BB%A4-%E6%8A%93%E5%8C%85tcpdump/"/>
+    <url>/Linux%E5%91%BD%E4%BB%A4-%E6%8A%93%E5%8C%85tcpdump/</url>
+    
+    <content type="html"><![CDATA[<h1 id="常用参数"><a href="#常用参数" class="headerlink" title="常用参数"></a>常用参数</h1><p>-c : 抓包次数，打到指定次数后停止抓包</p><p>-C : 文件大小，写入文件钱判断文件是否超过了设置的大小，超过了则关闭当前文件，开启新文件</p><p>-i : 指定监听的网络接口</p><p>-nn : 不进行端口名称的转换</p><p>-r : 从指定文件中读取包</p><p>-s : 设置每个数据包的大小</p><p>-t : 在输出的每一行不打印时间戳</p><p>vv : 输出详细的报文信息</p><p>-w : 保存到指定文件中而不是打印出来，如tcpdump -w /home/test.pcap</p><p><img src="/./Linux%E5%91%BD%E4%BB%A4-%E6%8A%93%E5%8C%85tcpdump/clip_image001.png" alt="计算机生成了可选文字: host 、  port ，  iP6 ，  过 滤 顶  src host 、  src port ，  过 滤 顶 说 明  过 瘛 主 机  过 滤 喘 凵  过 滤 协 议  辑 表 达 式  tcpdump host 192 ． 1 68 ． 1 1 ． 1 1  tcpdump port 19999  tcpdump udp 192 ． 1 6 &amp; 1 1 ． 11  tcpdump host 192 ． 1 6 &amp; 11 ． 11 and port 19999  dst host  dst port  udp ， icmp  not  arp,  and ，  tcp ，  or ， "></p><h1 id="示例"><a href="#示例" class="headerlink" title="示例"></a>示例</h1><p>1、从所有网卡获取数据包</p><p>tcpdump -i any</p><p>2、获取指定网卡的数据包</p><p>tcpdump -i eth0</p><p>3、抓取包含指定ip的数据包</p><p>tcpdump host 192.168.11.11</p><p>4、获取指定网卡和地址的数据包，并写入文件</p><p>tcpdump -i eth0 host 192.168.11.11 -w testfile.cap</p><p>5、指定：网卡、源IP、目的IP，并写入文件</p><p>tcpdump -i eth0 src host 192.168.11.21 and dst host 192.168.11.11 -w testfile.cap</p><p>6、指定：网卡、源IP或目的IP、写入文件</p><p>tcpdump -i eth0 src host 192.168.11.21 0r dst host 192.168.11.11 -w testfile.cap</p><p>7、指定：网卡、tcp端口、源IP、目的IP</p><p>tcpdump -i eth0 port 19999 and src host 192.168.11.21 and dst host 192.168.11.11</p><p>8、抓包显示详细信息</p><p>tcpdump -vv</p><p>9、抓取udp包</p><p>tcpdump -i eth0 udp port 19999</p>]]></content>
+    
+    
+    <categories>
+      
+      <category>Linux</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>调试技巧</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>Linux命令-网卡</title>
+    <link href="/Linux%E5%91%BD%E4%BB%A4-%E7%BD%91%E5%8D%A1/"/>
+    <url>/Linux%E5%91%BD%E4%BB%A4-%E7%BD%91%E5%8D%A1/</url>
+    
+    <content type="html"><![CDATA[<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs c">ifconfig lo <span class="hljs-number">127.0</span><span class="hljs-number">.0</span><span class="hljs-number">.1</span> netmask <span class="hljs-number">255.255</span><span class="hljs-number">.255</span><span class="hljs-number">.0</span>  <span class="hljs-comment">//配置网卡lo</span><br>ifconfig lo:<span class="hljs-number">1</span> <span class="hljs-number">127.0</span><span class="hljs-number">.0</span><span class="hljs-number">.1</span> netmask <span class="hljs-number">255.255</span><span class="hljs-number">.255</span><span class="hljs-number">.0</span>  <span class="hljs-comment">//复用网卡lo</span><br><br><span class="hljs-comment">//ifconfig配置ip后会自动将网卡up</span><br>ifconfig lo up    <span class="hljs-comment">//启用网卡</span><br>ifconfig lo down   <span class="hljs-comment">//禁用网卡</span><br><br><span class="hljs-comment">//开机后网卡挂载不上，可以重新加载网卡驱动</span><br>dmesg | grep eth0   查看eth0的开机信息，可以看到网卡驱动是e1000<br><span class="hljs-comment">//卸载相应驱动</span><br>sudo rmmod e1000<br><span class="hljs-comment">//重新加载驱动</span><br>sudo modprobe e1000<br></code></pre></td></tr></table></figure><p><img src="/Linux%E5%91%BD%E4%BB%A4-%E7%BD%91%E5%8D%A1/image-20230411233012529.png"></p>]]></content>
+    
+    
+    <categories>
+      
+      <category>Linux</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>调试技巧</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>Linux命令-环境变量</title>
+    <link href="/Linux%E5%91%BD%E4%BB%A4-%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F/"/>
+    <url>/Linux%E5%91%BD%E4%BB%A4-%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F/</url>
+    
+    <content type="html"><![CDATA[<h1 id="PKG-CONFIG-PATH"><a href="#PKG-CONFIG-PATH" class="headerlink" title="PKG_CONFIG_PATH"></a><strong>PKG_CONFIG_PATH</strong></h1><ul><li><p>pkg-config用来检索系统中安装库文件的信息。典型的是用作库的编译和连接。</p></li><li><p>pkg-config是通过库提供的一个.pc文件获得库的各种必要信息的，包括版本信息、编译和连接需要的参数等。需要的时候可以通过pkg-config提供的参数(–cflags,     –libs)，将所需信息提取出来供编译和连接使用。这样，不管库文件安装在哪，通过库对应的.pc文件就可以准确定位,可以使用相同的编译和连接命令，使得编译和连接界面统一。</p></li></ul><p>​        –cflags 可以给出编译时需要的选项 (头文件路径 -I)</p><p>​        –libs 可以给出链接时的选项 (库文件路径 -L , 所要使用的库 -l)</p><ul><li>在默认情况下，每个支持 pkg-config     的库对应的.pc文件在安装后都位于安装目录中的lib/pkgconfig目录下。</li><li>环境变量PKG_CONFIG_PATH是用来设置.pc文件的搜索路径的，pkg-config按照设置路径的先后顺序进行搜索，直到找到指定的.pc     文件为止。这样，库的头文件的搜索路径的设置实际上就变成了对.pc文件搜索路径的设置。</li></ul><h1 id="LIBRARY-PATH"><a href="#LIBRARY-PATH" class="headerlink" title="LIBRARY_PATH"></a><strong>LIBRARY_PATH</strong></h1><ul><li>LIBRARY_PATH环境变量用于在<strong>程序编译期间</strong>查找动态链接库时指定查找共享库的路径，例如，指定gcc编译需要用到的动态链接库的目录。设置方法如下（其中，LIBDIR1和LIBDIR2为两个库目录）</li></ul><p>​        <code>export LIBRARY_PATH=LIBDIR1:LIBDIR2:$LIBRARY_PATH</code></p><h1 id="LD-LIBRARY-PATH"><a href="#LD-LIBRARY-PATH" class="headerlink" title="LD_LIBRARY_PATH"></a><strong>LD_LIBRARY_PATH</strong></h1><ul><li>LD_LIBRARY_PATH环境变量用于在<strong>程序加载运行期间</strong>查找动态链接库时指定除了系统默认路径之外的其他路径，注意，LD_LIBRARY_PATH中指定的路径会在系统默认路径之前进行查找。设置方法如下（其中，LIBDIR1和LIBDIR2为两个库目录）</li></ul><p>​        <code>export LD_LIBRARY_PATH=LIBDIR1:LIBDIR2:$LD_LIBRARY_PATH</code></p>]]></content>
+    
+    
+    <categories>
+      
+      <category>Linux</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>Linux基础</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>Linux编程-sockaddr和sockaddr_in区别</title>
+    <link href="/Linux%E7%BC%96%E7%A8%8B-sockaddr%E5%92%8Csockaddr_in%E5%8C%BA%E5%88%AB/"/>
+    <url>/Linux%E7%BC%96%E7%A8%8B-sockaddr%E5%92%8Csockaddr_in%E5%8C%BA%E5%88%AB/</url>
+    
+    <content type="html"><![CDATA[<p>sockaddr在头文件#include &lt;sys/socket.h&gt;中定义，sockaddr的缺陷是：sa_data把目标地址和端口信息混在一起了</p><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-comment">/* POSIX.1g specifies this type name for the `sa_family&#x27; member.  */</span><br><span class="hljs-keyword">typedef</span> <span class="hljs-type">unsigned</span> <span class="hljs-type">short</span> <span class="hljs-type">int</span> <span class="hljs-type">sa_family_t</span>;<br> <br><span class="hljs-comment">/* This macro is used to declare the initial common members</span><br><span class="hljs-comment">   of the data types used for socket addresses, `struct sockaddr&#x27;,</span><br><span class="hljs-comment">   `struct sockaddr_in&#x27;, `struct sockaddr_un&#x27;, etc.  */</span><br> <br><span class="hljs-meta">#<span class="hljs-keyword">define</span>        __SOCKADDR_COMMON(sa_prefix) \</span><br><span class="hljs-meta">  sa_family_t sa_prefix##family</span><br> <br><span class="hljs-comment">/* Structure describing a generic socket address.  */</span><br><span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">sockaddr</span></span><br><span class="hljs-class">  &#123;</span><br>    __SOCKADDR_COMMON (sa_);        <span class="hljs-comment">/* Common data: address family and length.  */</span><br>    <span class="hljs-type">char</span> sa_data[<span class="hljs-number">14</span>];                <span class="hljs-comment">/* Address data.  */</span><br>  &#125;;<br></code></pre></td></tr></table></figure><p>sockaddr_in在头文件#include&lt;netinet/in.h&gt;或#include &lt;arpa/inet.h&gt;中定义，该结构体解决了sockaddr的缺陷，把port和addr 分开储存在两个变量中</p><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-comment">/* Structure describing an Internet socket address.  */</span><br><span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">sockaddr_in</span></span><br><span class="hljs-class">  &#123;</span><br>    __SOCKADDR_COMMON (sin_);<br>    <span class="hljs-type">in_port_t</span> sin_port; <span class="hljs-comment">/* Port number.  */</span><br>    <span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">in_addr</span> <span class="hljs-title">sin_addr</span>;</span> <span class="hljs-comment">/* Internet address. 32位unsigned int的IPv4地址 */</span><br> <br>    <span class="hljs-comment">/* Pad to size of `struct sockaddr&#x27;.  */</span><br>    <span class="hljs-type">unsigned</span> <span class="hljs-type">char</span> sin_zero[<span class="hljs-keyword">sizeof</span> (<span class="hljs-keyword">struct</span> sockaddr)<br>           - __SOCKADDR_COMMON_SIZE<br>           - <span class="hljs-keyword">sizeof</span> (<span class="hljs-type">in_port_t</span>)<br>           - <span class="hljs-keyword">sizeof</span> (<span class="hljs-keyword">struct</span> in_addr)];<br>  &#125;;<br></code></pre></td></tr></table></figure><p>​        二者长度一样，都是16个字节，即占用的内存大小是一致的，因此可以互相转化。二者是并列结构，指向sockaddr_in结构的指针也可以指向sockaddr。     sockaddr常用于bind、connect、recvfrom、sendto等函数的参数，指明地址信息，是一种通用的套接字地址。    sockaddr_in  是internet环境下套接字的地址形式。所以在网络编程中我们会对sockaddr_in结构体进行操作，使用sockaddr_in来建立所需的信息，最后使用类型转化就可以了。一般先把sockaddr_in变量赋值后，强制类型转换后传入用sockaddr做参数的函数：sockaddr_in用于socket定义和赋值；sockaddr用于函数参数。     </p>]]></content>
+    
+    
+    <categories>
+      
+      <category>Linux</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>网络编程</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>Linux编程-获取修改ip</title>
+    <link href="/Linux%E7%BC%96%E7%A8%8B-%E8%8E%B7%E5%8F%96%E4%BF%AE%E6%94%B9ip/"/>
+    <url>/Linux%E7%BC%96%E7%A8%8B-%E8%8E%B7%E5%8F%96%E4%BF%AE%E6%94%B9ip/</url>
+    
+    <content type="html"><![CDATA[<h1 id="获取netmask"><a href="#获取netmask" class="headerlink" title="获取netmask"></a>获取netmask</h1><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">int</span> sock_get_netmask;  <br><span class="hljs-type">char</span> netmask_addr[<span class="hljs-number">50</span>];  <br><span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">sockaddr_in</span> *<span class="hljs-title">sin</span>;</span>  <br><span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">ifreq</span> <span class="hljs-title">ifr_netmask</span>;</span>     <br><br><span class="hljs-comment">//创建socket  </span><br><span class="hljs-keyword">if</span> ((sock_get_netmask=socket(AF_INET, SOCK_STREAM, <span class="hljs-number">0</span>)) == <span class="hljs-number">-1</span>)  <br>&#123;  <br><span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;socket create failse...GetLocalNetMask!/n&quot;</span>);  <br><span class="hljs-keyword">return</span> <span class="hljs-number">-1</span>;  <br>&#125;  <br>     <br><span class="hljs-built_in">memset</span>(&amp;ifr_netmask, <span class="hljs-number">0</span>, <span class="hljs-keyword">sizeof</span>(ifr_netmask));     <br><span class="hljs-built_in">strcpy</span>(ifr_netmask.ifr_name, <span class="hljs-string">&quot;eth0&quot;</span>);     <br>   <br><span class="hljs-keyword">if</span>(ioctl(sock_get_netmask, SIOCGIFNETMASK, &amp;ifr_netmask) &lt; <span class="hljs-number">0</span> )     <br>&#123;     <br><span class="hljs-keyword">return</span> <span class="hljs-number">-1</span>;     <br>&#125;<br>       <br><span class="hljs-built_in">sin</span> = (<span class="hljs-keyword">struct</span> sockaddr_in *)&amp;(ifr_netmask.ifr_netmask);<span class="hljs-comment">//此处设置ifr_mask.ifr_addr也可获取子网掩码     </span><br><span class="hljs-built_in">strcpy</span>(netmask_addr,inet_ntoa(<span class="hljs-built_in">sin</span>-&gt;sin_addr));         <br>      <br><span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;local netmask:%s /n&quot;</span>,netmask_addr);      <br>close(sock_get_netmask );  <br><span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br></code></pre></td></tr></table></figure><h1 id="修改netmask"><a href="#修改netmask" class="headerlink" title="修改netmask"></a>修改netmask</h1><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">int</span> <span class="hljs-title function_">SetLocalNetMask</span><span class="hljs-params">(<span class="hljs-type">const</span> <span class="hljs-type">char</span> *szNetMask)</span>  <br>&#123;  <br>    <span class="hljs-type">int</span> sock_netmask;  <br>    <span class="hljs-type">char</span> netmask_addr[<span class="hljs-number">32</span>];     <br>  <br>    <span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">ifreq</span> <span class="hljs-title">ifr_mask</span>;</span>  <br>    <span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">sockaddr_in</span> *<span class="hljs-title">sin_net_mask</span>;</span>  <br>    <br>        <span class="hljs-keyword">if</span>( szNetMask == <span class="hljs-literal">NULL</span>)  <br>    &#123;    <br>        <span class="hljs-keyword">return</span> <span class="hljs-number">-1</span>;  <br>    &#125; <br>      <br>    sock_netmask = socket( AF_INET, SOCK_STREAM, <span class="hljs-number">0</span> );  <br>    <span class="hljs-keyword">if</span>( sock_netmask == <span class="hljs-number">-1</span>)  <br>    &#123;  <br>        perror(<span class="hljs-string">&quot;Not create network socket connect/n&quot;</span>);  <br>        <span class="hljs-keyword">return</span> <span class="hljs-number">-1</span>;  <br>    &#125;  <br>      <br>    <span class="hljs-built_in">memset</span>(&amp;ifr_mask, <span class="hljs-number">0</span>, <span class="hljs-keyword">sizeof</span>(ifr_mask));     <br>    <span class="hljs-built_in">strcpy</span>(ifr_mask.ifr_name, <span class="hljs-string">&quot;eth0&quot;</span>);     <br>    sin_net_mask = (<span class="hljs-keyword">struct</span> sockaddr_in *)&amp;ifr_mask.ifr_netmask;<span class="hljs-comment">//此处设置ifr_mask.ifr_addr也可配置子网掩码  </span><br>    sin_net_mask -&gt; sin_family = AF_INET;  <br>    inet_pton(AF_INET, szNetMask, &amp;sin_net_mask -&gt;sin_addr);  <br>  <br>    <span class="hljs-keyword">if</span>(ioctl(sock_netmask, SIOCSIFNETMASK, &amp;ifr_mask ) &lt; <span class="hljs-number">0</span>)   <br>    &#123;  <br>        <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;sock_netmask ioctl error/n&quot;</span>);  <br>        <span class="hljs-keyword">return</span> <span class="hljs-number">-1</span>;  <br>    &#125;  <br><br>        close(sock_netmask);<br>        <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br><br></code></pre></td></tr></table></figure>]]></content>
+    
+    
+    <categories>
+      
+      <category>Linux</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>Linux编程基础</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>Linux编程-获取修改netmask</title>
+    <link href="/Linux%E7%BC%96%E7%A8%8B-%E8%8E%B7%E5%8F%96%E4%BF%AE%E6%94%B9netmask/"/>
+    <url>/Linux%E7%BC%96%E7%A8%8B-%E8%8E%B7%E5%8F%96%E4%BF%AE%E6%94%B9netmask/</url>
+    
+    <content type="html"><![CDATA[<h1 id="获取netmask"><a href="#获取netmask" class="headerlink" title="获取netmask"></a>获取netmask</h1><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">int</span> sock_get_netmask;  <br><span class="hljs-type">char</span> netmask_addr[<span class="hljs-number">50</span>];  <br><span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">sockaddr_in</span> *<span class="hljs-title">sin</span>;</span>  <br><span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">ifreq</span> <span class="hljs-title">ifr_netmask</span>;</span>     <br><br><span class="hljs-comment">//创建socket  </span><br><span class="hljs-keyword">if</span> ((sock_get_netmask=socket(AF_INET, SOCK_STREAM, <span class="hljs-number">0</span>)) == <span class="hljs-number">-1</span>)  <br>&#123;  <br><span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;socket create failse...GetLocalNetMask!/n&quot;</span>);  <br><span class="hljs-keyword">return</span> <span class="hljs-number">-1</span>;  <br>&#125;  <br>     <br><span class="hljs-built_in">memset</span>(&amp;ifr_netmask, <span class="hljs-number">0</span>, <span class="hljs-keyword">sizeof</span>(ifr_netmask));     <br><span class="hljs-built_in">strcpy</span>(ifr_netmask.ifr_name, <span class="hljs-string">&quot;eth0&quot;</span>);     <br>   <br><span class="hljs-keyword">if</span>(ioctl(sock_get_netmask, SIOCGIFNETMASK, &amp;ifr_netmask) &lt; <span class="hljs-number">0</span> )     <br>&#123;     <br><span class="hljs-keyword">return</span> <span class="hljs-number">-1</span>;     <br>&#125;<br>       <br><span class="hljs-built_in">sin</span> = (<span class="hljs-keyword">struct</span> sockaddr_in *)&amp;(ifr_netmask.ifr_netmask);<span class="hljs-comment">//此处设置ifr_mask.ifr_addr也可获取子网掩码 </span><br><br><span class="hljs-built_in">strcpy</span>(netmask_addr,inet_ntoa(<span class="hljs-built_in">sin</span>-&gt;sin_addr));         <br>      <br><span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;local netmask:%s /n&quot;</span>,netmask_addr);      <br>close(sock_get_netmask );  <br><span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br></code></pre></td></tr></table></figure><h1 id="修改netmask"><a href="#修改netmask" class="headerlink" title="修改netmask"></a>修改netmask</h1><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">int</span> <span class="hljs-title function_">SetLocalNetMask</span><span class="hljs-params">(<span class="hljs-type">const</span> <span class="hljs-type">char</span> *szNetMask)</span>  <br>&#123;  <br>    <span class="hljs-type">int</span> sock_netmask;  <br>    <span class="hljs-type">char</span> netmask_addr[<span class="hljs-number">32</span>];     <br>  <br>    <span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">ifreq</span> <span class="hljs-title">ifr_mask</span>;</span>  <br>    <span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">sockaddr_in</span> *<span class="hljs-title">sin_net_mask</span>;</span>  <br>    <br>        <span class="hljs-keyword">if</span>( szNetMask == <span class="hljs-literal">NULL</span>)  <br>    &#123;    <br>        <span class="hljs-keyword">return</span> <span class="hljs-number">-1</span>;  <br>    &#125; <br>      <br>    sock_netmask = socket( AF_INET, SOCK_STREAM, <span class="hljs-number">0</span> );  <br>    <span class="hljs-keyword">if</span>( sock_netmask == <span class="hljs-number">-1</span>)  <br>    &#123;  <br>        perror(<span class="hljs-string">&quot;Not create network socket connect/n&quot;</span>);  <br>        <span class="hljs-keyword">return</span> <span class="hljs-number">-1</span>;  <br>    &#125;  <br>      <br>    <span class="hljs-built_in">memset</span>(&amp;ifr_mask, <span class="hljs-number">0</span>, <span class="hljs-keyword">sizeof</span>(ifr_mask));     <br>    <span class="hljs-built_in">strcpy</span>(ifr_mask.ifr_name, <span class="hljs-string">&quot;eth0&quot;</span>);     <br>    sin_net_mask = (<span class="hljs-keyword">struct</span> sockaddr_in *)&amp;ifr_mask.ifr_netmask; <span class="hljs-comment">//此处设置ifr_mask.ifr_addr也可配置子网掩码 </span><br>    sin_net_mask -&gt; sin_family = AF_INET;  <br>    inet_pton(AF_INET, szNetMask, &amp;sin_net_mask -&gt;sin_addr);  <br>  <br>    <span class="hljs-keyword">if</span>(ioctl(sock_netmask, SIOCSIFNETMASK, &amp;ifr_mask ) &lt; <span class="hljs-number">0</span>)   <br>    &#123;  <br>        <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;sock_netmask ioctl error/n&quot;</span>);  <br>        <span class="hljs-keyword">return</span> <span class="hljs-number">-1</span>;  <br>    &#125;  <br><br>        close(sock_netmask);<br>        <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br></code></pre></td></tr></table></figure>]]></content>
+    
+    
+    <categories>
+      
+      <category>Linux</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>Linux编程基础</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>Linux编程-修改网关</title>
+    <link href="/Linux%E7%BC%96%E7%A8%8B-%E4%BF%AE%E6%94%B9%E7%BD%91%E5%85%B3/"/>
+    <url>/Linux%E7%BC%96%E7%A8%8B-%E4%BF%AE%E6%94%B9%E7%BD%91%E5%85%B3/</url>
+    
+    <content type="html"><![CDATA[<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;errno.h&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdio.h&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;netinet/in.h&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;arpa/inet.h&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;sys/ioctl.h&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;net/route.h&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;fcntl.h&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;sys/socket.h&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;net/if.h&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;unistd.h&gt;</span></span><br> <br> <br><span class="hljs-type">int</span> <span class="hljs-title function_">main</span><span class="hljs-params">()</span><br>&#123;<br>   <span class="hljs-type">int</span> sockfd;<br>   <span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">rtentry</span> <span class="hljs-title">rt</span>;</span><br> <br>   sockfd = socket(AF_INET, SOCK_DGRAM, <span class="hljs-number">0</span>);<br>   <span class="hljs-keyword">if</span> (sockfd == <span class="hljs-number">-1</span>)<br>   &#123;<br>      perror(<span class="hljs-string">&quot;socket creation failed\n&quot;</span>);<br>      <span class="hljs-keyword">return</span> <span class="hljs-number">-1</span>;<br>   &#125;<br> <br>   <span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">sockaddr_in</span> *<span class="hljs-title">sockinfo</span> =</span> (<span class="hljs-keyword">struct</span> sockaddr_in *)&amp;rt.rt_gateway;<br>   sockinfo-&gt;sin_family = AF_INET;<br>   sockinfo-&gt;sin_addr.s_addr = inet_addr(<span class="hljs-string">&quot;192.168.0.1&quot;</span>);<br> <br>   sockinfo = (<span class="hljs-keyword">struct</span> sockaddr_in *)&amp;rt.rt_dst;<br>   sockinfo-&gt;sin_family = AF_INET;<br>   sockinfo-&gt;sin_addr.s_addr = INADDR_ANY;<br> <br>   sockinfo = (<span class="hljs-keyword">struct</span> sockaddr_in *)&amp;rt.rt_genmask;<br>   sockinfo-&gt;sin_family = AF_INET;<br>   sockinfo-&gt;sin_addr.s_addr = INADDR_ANY;<br> <br>   rt.rt_flags = RTF_UP | RTF_GATEWAY;<br>   rt.rt_dev = <span class="hljs-string">&quot;eth0&quot;</span>;<br> <br>   <span class="hljs-keyword">if</span>(ioctl(sockfd, SIOCADDRT, &amp;rt) &lt; <span class="hljs-number">0</span> )<br>       perror(<span class="hljs-string">&quot;ioctl&quot;</span>);<br> <br>   <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br><br></code></pre></td></tr></table></figure>]]></content>
+    
+    
+    <categories>
+      
+      <category>Linux</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>Linux编程基础</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>Linux编程-进程</title>
+    <link href="/Linux%E7%BC%96%E7%A8%8B-%E8%BF%9B%E7%A8%8B/"/>
+    <url>/Linux%E7%BC%96%E7%A8%8B-%E8%BF%9B%E7%A8%8B/</url>
+    
+    <content type="html"><![CDATA[<ul><li>进程是资源分配的基本单位</li><li>进程有独立的地址空间</li></ul><blockquote><p>pid_t getpid(void)<em>//获取进程号</em></p><p>pid_t getppid(void)<em>//获取父进程号</em></p><p>pid_t getpgid(pid_t pid)<em>//获取pid所属组进程号</em></p></blockquote><h1 id="退出进程"><a href="#退出进程" class="headerlink" title="退出进程"></a>退出进程</h1><p><code>exit(int status)(stdlib.h)</code>  </p><p><code>_exit(int status)(unistd.h)</code></p><p> <img src="/Linux%E7%BC%96%E7%A8%8B-%E8%BF%9B%E7%A8%8B/image-20230411231317565.png"></p><p>exit会刷新IO缓冲，输出缓冲区里的内容，_exit()会直接退出，缓冲区里的内容被丢弃。</p><h1 id="孤儿进程"><a href="#孤儿进程" class="headerlink" title="孤儿进程"></a>孤儿进程</h1><p>父进程结束，子进程还在运行。被init进程接管回收资源。所以孤儿进程不会有危害。</p><h1 id="僵尸进程"><a href="#僵尸进程" class="headerlink" title="僵尸进程"></a>僵尸进程</h1><p>进程终止时，会释放用户区数据，但是内核区PCB需要父进程释放，如果父进程不调用wait() /waitpid(),该进程号就会一直占用，PCB一直存在内核，变为僵尸进程。（进程号会被一直占用，系统所能使用的进程号是有限的，如果大量的产生僵死进程，将因为没有可用的进程号而导致系统不能产生新的进程）</p><p>僵尸进程不能被kill -9杀死。</p><p><strong>在内核源码中有如下的代码：</strong></p><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs c">do_exit-&gt;exit_notify-&gt;<br>state = EXIT_ZOMBIE<br><span class="hljs-keyword">if</span> (tsk-&gt;exit_signal == <span class="hljs-number">-1</span> &amp;&amp;<br>(likely(tsk-&gt;ptrace == <span class="hljs-number">0</span>) ||<br>unlikely(tsk-&gt;parent-&gt;signal-&gt;flags &amp; SIGNAL_GROUP_EXIT)))<br><br>state = EXIT_DEAD;<br>        tsk-&gt;exit_state = state;<br></code></pre></td></tr></table></figure><p>说明如果定义了子进程退出时向父进程发送信号，则设置进程状态为EXIT_ZOMBIE，否则为EXIT_DEAD。而子进程退出时一定会向父进程发送信号，所以进程的状态为EXIT_ZOMBIE，如果此时父进程调用wait等待子进程结束的话，由 do_wait-&gt;wait_task_zombie函数可以将进程的状态设置为EXIT_DEAD，并且释放进程的内核堆栈资源，最后由 put_task_struct将其task_struct结构体释放掉。否则子进程会变成僵尸进程。</p><p><strong>解决方案</strong>：</p><p>1）此时可以杀死父进程，其产生的僵尸进程会被init进程接管，调用wait() 回收进程表中的资源。</p><p>2） wait()/waitpid()得到子进程退出状态同时清除该进程的相关资源，但一次只能处理一个子进程。</p><p>3）通过信号机制：子进程退出时，向父进程发送 SIGCHILD 信号，父进程处理 SIGCHILD 信号，在信号处理函数中调用 wait 进行处理僵尸进程。</p><blockquote><p><code>pid_t wait(int *wstatus)</code> //阻塞 直到一个子进程退出，或者收到一个不能被忽略的信号才被唤醒，往下执行*wstatus： 进程退出时的状态信息，传入的是一个int类型的地址，传出参数。成功返回被回收的进程id，失败：-1（所有子进程都结束）</p><p> <code>pid_t wait_pid(pid_t pid,int * wstatus,int options)</code> 可以设置不阻塞与指定等待哪个子进程。</p><p>​    //pid&gt;0 回收某个子进程的pid  =0： 回收当前进程组的所有子进程  =-1：回收所有子进程，相当wait（）.&lt;-1: 回收某个进程组的组id的绝对值。</p><p>​    //&gt;0 返回子进程id  =0 表示还有子进程没有退出 -1 都退出了</p><p>可以通过将 options 设置为常量 WNOHANG、WUNTRACED 和 WCONTINUED，0: 阻塞</p><p>的各种组合来修改默认行为：</p><p>WNOHANG: 如果等待集合中的任何子进程都还没有终止，那么就立即返回(返回值为0)。 默认的行为是挂起调用进程，直到有子进程终止 。在等待子进程终止的同时，如果还想做些有用的工作，这个选项会有用。</p><p>WUNTRACED: 挂起调用进程的执行，直到等待集合中的一个进程变成已终止或者被停止 。返回的PID 为导致返回的已终止或被停止子进程的 PID。默认的行为是只返回已终止的子进程。当你想要检査已终止和被停止的子进程时，这个选项会有用。</p><p>WCONTINUED: 挂起调用进程的执行，直到等待集合中一个正在运行的进程终止或等待集合中一 个被停止的进程收到 SIGCONT 信号重新开始执行。</p><p>​    可以用或运算把这些选项组合起来 。例如：WNOHANG | WUNTRACED: 立即返回，如果等待集合中的子进程都没有被停止或终止，则返回值为0: 如果有一个停止或终止，则返回值为该子进程的 PID。</p></blockquote><p>4）fork两次：</p><p>原理是将进程成为孤儿进程，从而其的父进程变为 init 进程，通过 init 进程处理僵尸进程。具体操作为：父进程一次 fork() 后产生一个子进程随后立即执行 wait(NULL) 来等待子进程结束，然后子进程 fork() 后产生孙子进程随后立即exit(0)。这样子进程顺利终止（父进程仅仅给子进程收尸，并不需要子进程的返回值），然后父进程继续执行。这时的孙子进程由于失去了它的父进程（即是父进程的子进程），将被转交给Init进程托管。于是父进程与孙子进程无继承关系了，它们的父进程均为Init，Init进程在其子进程结束时会自动收尸，这样也就不会产生僵死进程了</p>]]></content>
+    
+    
+    <categories>
+      
+      <category>Linux</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>Linux基础</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>Linux编程-线程</title>
+    <link href="/Linux%E7%BC%96%E7%A8%8B-%E7%BA%BF%E7%A8%8B/"/>
+    <url>/Linux%E7%BC%96%E7%A8%8B-%E7%BA%BF%E7%A8%8B/</url>
+    
+    <content type="html"><![CDATA[<ul><li><p>线程是CPU调度的基本单位</p></li><li><p>线程有自己的堆栈和局部变量，但是没有独立的地址空间(同一个进程内的线程共享进程的地址空间)</p></li></ul><h1 id="线程函数"><a href="#线程函数" class="headerlink" title="线程函数"></a>线程函数</h1><p><strong>pthread_create()</strong></p><p>pthread_create() 函数专门用来创建线程，语法格式如下：</p><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">int</span> <span class="hljs-title function_">pthread_create</span><span class="hljs-params">(<span class="hljs-type">pthread_t</span> *thread,</span><br><span class="hljs-params"></span><br><span class="hljs-params">          <span class="hljs-type">const</span> <span class="hljs-type">pthread_attr_t</span> *attr,</span><br><span class="hljs-params"></span><br><span class="hljs-params">          <span class="hljs-type">void</span> (start_routine) (<span class="hljs-type">void</span> *),</span><br><span class="hljs-params"></span><br><span class="hljs-params">          <span class="hljs-type">void</span> *arg)</span>;<br></code></pre></td></tr></table></figure><p>各个参数的含义是：</p><ul><li>thread：接收一个     pthread_t 类型变量的地址，每个 pthread_t 类型的变量都可以表示一个线程。</li><li>attr：手动指定新线程的属性，我们可以将其置为     NULL，表示新建线程遵循默认属性。</li><li>start_routine：以函数指针的方式指明新建线程需要执行哪个函数。</li><li>arg：向     start_routinue() 函数的形参传递数据。将 arg 置为 NULL，表示不传递任何数据。</li></ul><p>如果成功创建线程，pthread_create() 函数返回数字 0，否则返回一个非零值。各个非零值都对应着不同的宏，指明创建失败的原因，常见的宏有以下几种：</p><ul><li>EAGAIN：系统资源不足，无法提供创建线程所需的资源。</li><li>EINVAL：传递给     pthread_create() 函数的 attr 参数无效。</li><li>EPERM：传递给     pthread_create() 函数的 attr 参数中，某些属性的设置为非法操作，程序没有相关的设置权限。</li></ul><p>以上这些宏都定义在 &lt;errno.h&gt; 头文件中，如果想使用这些宏，需提前引入此头文件。</p><p><strong>pthread_exit()</strong></p><p>pthread_exit() 函数用于终止线程执行，语法格式如下：</p><p><code>void pthread_exit(void *retval);</code></p><p>retval 参数指向的数据将作为线程执行结束时的返回值，如果不需要返回任何数据，将其置为 NULL 即可。注意，retval 不能指向函数内部的局部变量，否则会导致程序运行出错甚至崩溃。</p><p><strong>pthread_cancel()</strong></p><p>在多线程程序中，一个线程可以借助 pthread_cancel() 函数向另一个线程发送“终止执行”的信号。</p><p>pthread_cancel() 函数的语法格式如下：</p><p><code>int pthread_cancel(pthread_t thread);</code></p><p>thread 参数用于指定接收信号的目标线程。当成功发送“终止执行”的信号时，函数返回值为 0，否则返回非零数。</p><p><strong>pthread_join()</strong></p><p>pthread_join() 函数的功能主要有两个，分别是：</p><ol><li>接收目标线程执行结束时的返回值；</li><li>释放目标线程占用的进程资源。</li></ol><p>pthead_join() 函数的语法格式如下：</p><p><code>int pthread_join(pthread_t thread, void ** retval);</code></p><p>thread 参数用于指定目标线程；retval 参数用于存储接收到的返回值。实际场景中，调用 pthread_join() 函数可能仅是为了及时释放目标线程占用的资源，并不想接收它的返回值，这种情况下可以将 retval 置为 NULL。</p><p>pthread_join() 函数会一直阻塞当前线程，直至目标线程执行结束，阻塞状态才会消除。如果成功等到了目标线程执行结束（成功获取到目标线程的返回值），pthread_join() 函数返回数字 0，否则返回非零数。</p><h1 id="设置线程优先级"><a href="#设置线程优先级" class="headerlink" title="设置线程优先级"></a>设置线程优先级</h1><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">pthread_attr_t</span> attr = &#123; <span class="hljs-number">0</span> &#125;;  <span class="hljs-comment">/* 线程属性 */</span><br><span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">sched_param</span> <span class="hljs-title">params</span>;</span>    <span class="hljs-comment">/* 线程调度参数 */</span><br><br><span class="hljs-comment">/*- 配置线程属性 */</span><br>pthread_attr_init(&amp;attr);<br><br><span class="hljs-comment">/*- 设置线程优先级 */</span><br>params.sched_priority = priority;<br><br><span class="hljs-comment">/*设置 Attr 属性的优先级为 param*/</span><br>res = pthread_attr_setschedparam(&amp;attr, &amp;param);<br><br><span class="hljs-comment">/*创建线程并遵循attr属性*/</span><br>rt = pthread_create(thread, &amp;attr, (CM_THREAD_FUNC_T)myfunc, args);<br></code></pre></td></tr></table></figure>]]></content>
+    
+    
+    <categories>
+      
+      <category>Linux</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>Linux编程基础</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>Linux编程-信号</title>
+    <link href="/Linux%E7%BC%96%E7%A8%8B-%E4%BF%A1%E5%8F%B7/"/>
+    <url>/Linux%E7%BC%96%E7%A8%8B-%E4%BF%A1%E5%8F%B7/</url>
+    
+    <content type="html"><![CDATA[<blockquote><p>信号名称定义在signal.h中，相当于软中断。</p></blockquote><p><strong>常用信号</strong>如下：</p><p><img src="/Linux%E7%BC%96%E7%A8%8B-%E4%BF%A1%E5%8F%B7/clip_image001.png"></p><p><strong>信号总览</strong>：(31号前为不可靠信号，34号以后为可靠信号)</p><p><img src="/Linux%E7%BC%96%E7%A8%8B-%E4%BF%A1%E5%8F%B7/image-20230411230231245.png"></p><p><strong>信号绑定示例：</strong></p><p><img src="/Linux%E7%BC%96%E7%A8%8B-%E4%BF%A1%E5%8F%B7/image-20230411230551598.png"></p><p><strong>struct sigaction 结构体</strong></p> <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">sigaction</span> &#123;</span><br>  <span class="hljs-type">void</span> (*sa_handler)(<span class="hljs-type">int</span>);<br>  <span class="hljs-type">void</span> (*sa_sigaction)(<span class="hljs-type">int</span>, <span class="hljs-type">siginfo_t</span> *, <span class="hljs-type">void</span> *);<br>  <span class="hljs-type">sigset_t</span> sa_mask;<br>  <span class="hljs-type">int</span> sa_flags;<br>  <span class="hljs-type">void</span> (*sa_restorer)(<span class="hljs-type">void</span>); <span class="hljs-comment">//废弃数据域，不要使用</span><br>&#125;<br></code></pre></td></tr></table></figure><ul><li><p>sa_handler 是信号处理函数</p></li><li><p>sa_sigaction     也是信号处理函数，有三个参数，可以获得关于信号的更详细的信息</p></li><li><p>sa_mask 用来设置在处理该信号时暂时将sa_mask     指定的信号集搁置</p></li><li><p>sa_flags     用来设置信号处理的其他相关操作，下列的数值可用。 </p></li><li><ul><li>SA_SIGINFO：使用 sa_sigaction 成员而不是      sa_handler 作为信号处理函数。</li><li>SA_RESETHAND：当调用信号处理函数时，将信号的处理函数重置为缺省值SIG_DFL</li><li>SA_RESTART：如果信号中断了进程的某个系统调用，则系统自动启动该系统调用</li><li>SA_NODEFER ：一般情况下，      当信号处理函数运行时，内核将阻塞该给定信号。但是如果设置了 SA_NODEFER标记， 那么在该信号处理函数运行时，内核将不会阻塞该信号</li><li>SA_NOCLDSTOP：使父进程在它的子进程暂停或继续运行时不会收到      SIGCHLD 信号</li><li> SA_NOCLDWAIT：使父进程在它的子进程退出时不会收到 SIGCHLD      信号，这时子进程如果退出也不会成为僵尸进程。</li></ul></li></ul>]]></content>
+    
+    
+    <categories>
+      
+      <category>Linux</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>Linux知识</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>Linux编程-信号量</title>
+    <link href="/Linux%E7%BC%96%E7%A8%8B-%E4%BF%A1%E5%8F%B7%E9%87%8F/"/>
+    <url>/Linux%E7%BC%96%E7%A8%8B-%E4%BF%A1%E5%8F%B7%E9%87%8F/</url>
+    
+    <content type="html"><![CDATA[<p>POSIX 标准中，信号量用 sem_t 类型的变量表示，该类型定义在&lt;semaphore.h&gt;头文件中</p><p>多线程程序中，使用信号量需遵守以下几条规则：</p><ol><li><p>信号量的值不能小于 0；</p></li><li><p>有线程访问资源时，信号量执行“减 1”操作，访问完成后再执行“加 1”操作；</p></li><li><p>当信号量的值为 0   时，想访问资源的线程必须等待，直至信号量的值大于 0，等待的线程才能开始访问。</p></li></ol><p><strong>定义信号量</strong></p><p><code>#include &lt;semaphore.h&gt;</code></p><p><code>sem_t mySem;</code></p><p><strong>初始化信号量</strong></p><p> <code>int sem_init(sem_t *sem, int pshared, unsigned int value);</code> </p><ul><li>sem：表示要初始化的目标信号量；</li><li>pshared：表示该信号量是否可以和其他进程共享，pshared     值为 0 时表示不共享，值为 1 时表示共享；</li><li>value：设置信号量的初始值。</li></ul><p><strong>操作信号量</strong></p><p>  <code>int sem_post(sem_t* sem);  </code></p><p><code>int sem_wait(sem_t* sem);  </code></p><p><code>int sem_trywait(sem_t* sem);  </code></p><p><code>int sem_destroy(sem_t* sem);</code>      </p><p>参数 sem 都表示要操作的目标信号量。各个函数的功能如下：</p><ul><li>sem_post() 函数的功能是：将信号量的值“加     1”，同时唤醒其它等待访问资源的线程；</li><li>当信号量的值大于 0 时，sem_wait() 函数会对信号量做“减 1”操作；当信号量的值为 0     时，sem_wait() 函数会阻塞当前线程，直至有线程执行 sem_post() 函数（使信号量的值大于 0），暂停的线程才会继续执行；</li><li>sem_trywait() 函数的功能和 sem_wait()     函数类似，唯一的不同在于，当信号量的值为 0 时，sem_trywait() 函数并不会阻塞当前线程，而是立即返回 -1；</li><li>sem_destory() 函数用于手动销毁信号量。</li></ul><p>以上函数执行成功时，返回值均为 0 ；如果执行失败，返回值均为 -1。</p>]]></content>
+    
+    
+    <categories>
+      
+      <category>Linux</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>Linux编程基础</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>Linux编程-条件变量</title>
+    <link href="/Linux%E7%BC%96%E7%A8%8B-%E6%9D%A1%E4%BB%B6%E5%8F%98%E9%87%8F/"/>
+    <url>/Linux%E7%BC%96%E7%A8%8B-%E6%9D%A1%E4%BB%B6%E5%8F%98%E9%87%8F/</url>
+    
+    <content type="html"><![CDATA[<ul><li>阻塞线程，直至接收到“条件成立”的信号；</li><li>向等待队列中的一个或所有线程发送“条件成立”的信号，解除它们的“被阻塞”状态。</li><li>使用时必须和一个互斥锁搭配</li></ul><p><strong>初始化条件变量</strong></p><p>方式一：</p><p><code>pthread_cond_t myCond = PTHREAD_COND_INITIALIZER;</code></p><p>方式二：</p><p>  <code>int pthread_cond_init(pthread_cond_t * cond, const pthread_condattr_t * attr);</code>  </p><blockquote><p>参数 cond 用于指明要初始化的条件变量；参数 attr 用于自定义条件变量的属性，通常我们将它赋值为 NULL，表示以系统默认的属性完成初始化操作。</p><p>pthread_cond_init() 函数初始化成功时返回数字 0，反之函数返回非零数。</p></blockquote><p><strong>阻塞当前线程，等待条件成立</strong></p><p>当条件不成立时，条件变量可以阻塞当前线程，所有被阻塞的线程会构成一个等待队列。</p><p>  <code>int pthread_cond_wait(pthread_cond_t* cond, pthread_mutex_t* mutex);  </code></p><p><code>int pthread_cond_timedwait(pthread_cond_t* cond, pthread_mutex_t* mutex, const struct timespec*  abstime);</code>   </p><p>函数尚未接收到“条件成立”的信号之前，它将一直阻塞线程执行。注意，当函数接收到“条件成立”的信号后，它并不会立即结束对线程的阻塞，而是先完成对互斥锁的“加锁”操作，然后才解除阻塞。</p><p>pthread_cond_timedwait() 函数只能在 abstime 参数指定的时间内阻塞线程，超出时限后，该函数将重新对互斥锁执行“加锁”操作，并解除对线程的阻塞，函数的返回值为 ETIMEDOUT。</p><p>如果函数成功接收到了“条件成立”的信号，重新对互斥锁完成了“加锁”并使线程继续执行，函数返回数字 0，反之则返回非零数。</p><p><strong>解除线程的阻塞状态</strong></p><p>  <code>int pthread_cond_signal(pthread_cond_t* cond);  </code></p><p><code>int pthread_cond_broadcast(pthread_cond_t* cond);</code>  </p><p><strong>销毁条件变量</strong></p><p><code>int pthread_cond_destroy(pthread_cond_t *cond);</code></p><p>成功销毁 cond 参数指定的条件变量，返回数字 0，反之返回非零数。</p><p>销毁后的条件变量还可以调用 pthread_cond_init() 函数重新初始化后使用。</p>]]></content>
+    
+    
+    <categories>
+      
+      <category>Linux</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>Linux编程基础</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>Linux编程-互斥锁</title>
+    <link href="/Linux%E7%BC%96%E7%A8%8B-%E4%BA%92%E6%96%A5%E9%94%81/"/>
+    <url>/Linux%E7%BC%96%E7%A8%8B-%E4%BA%92%E6%96%A5%E9%94%81/</url>
+    
+    <content type="html"><![CDATA[<ul><li>递归锁：在同一个线程可以多次获取同一个锁，不会产生死锁；</li><li>非递归锁：在同一个线程中，加锁后不可以再次获取该锁，如果获取可能产生死锁；</li></ul><blockquote><p>Linux的互斥量pthread_mutex_t是非递归锁，但是可以在创建互斥量时设置PTHREAD_MUTEX_RECURSIVE属性，将pthread_mutex_t设置为递归锁。</p></blockquote><p><strong>1.创建互斥锁</strong></p><p><code>pthread_mutex_t mtx; //定义互斥锁类型的变量</code></p><p><strong>2.初始化互斥锁</strong></p><p>//第二个参数为 NULL，互斥锁的属性会设置为默认属性</p><p><code>pthread_mutex_init(&amp;mtx, NULL);</code></p><p><strong>3.获取互斥锁</strong></p><p><em><strong>3.1* *阻塞调用</strong></em></p><p><code>pthread_mutex_lock(&amp;mtx);</code></p><p>如果这个锁此时正在被其它线程占用， 那么 pthread_mutex_lock() 调用会进入到这个锁的排队队列中，并会进入阻塞状态， 直到拿到锁之后才会返回。</p><p><em><strong>3.2* *非阻塞调用</strong></em></p><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">int</span> err = pthread_mutex_trylock(&amp;mtx);<br><br><span class="hljs-keyword">if</span>(<span class="hljs-number">0</span> != err) &#123;<br>  <span class="hljs-keyword">if</span>(EBUSY == err) &#123;<br>    <span class="hljs-comment">//The mutex could not be acquired because it was already locked.</span><br>  &#125;<br>&#125;<br></code></pre></td></tr></table></figure><p>如果不想阻塞，而是想尝试获取一下，如果锁被占用就不用，如果没被占用那就用， 可以使用 pthread_mutex_trylock() 函数。 当请求的锁正在被占用的时候， 不会进入阻塞状态，而是立刻返回，并返回一个错误代码 EBUSY</p><p><em><strong>3.3* *超时调用</strong></em></p><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs C"><span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">timespec</span> <span class="hljs-title">abs_timeout</span>;</span><br>abs_timeout.tv_sec = time(<span class="hljs-literal">NULL</span>) + <span class="hljs-number">1</span>;<br>abs_timeout.tv_nsec = <span class="hljs-number">0</span>;<br><br><span class="hljs-type">int</span> err = pthread_mutex_timedlock(&amp;mtx, &amp;abs_timeout);<br><br><span class="hljs-keyword">if</span>(<span class="hljs-number">0</span> != err) &#123;<br>  <span class="hljs-keyword">if</span>(ETIMEDOUT == err) &#123;<br>    <span class="hljs-comment">//The mutex could not be locked before the specified timeout expired.</span><br>  &#125;<br>&#125;<br></code></pre></td></tr></table></figure><p>如果不想不断的调用 pthread_mutex_trylock() 来测试互斥锁是否可用， 而是想阻塞调用，但是增加一个超时时间，那么可以使用 pthread_mutex_timedlock() 来解决。上面代码的意思是，阻塞等待线程锁，但是只等1秒钟，一秒钟后如果还没拿到锁的话， 那就返回，并返回一个错误代码 ETIMEDOUT，意思是超时了。</p><p><strong>4.释放互斥锁</strong></p><p><code>pthread_mutex_unlock(&amp;mtx);</code></p><p><strong>5.销毁互斥锁</strong></p><p><code>pthread_mutex_destroy(&amp;mtx)</code></p><p>通过 man pthread_mutex_destroy 命令可以看到 pthread_mutex_destroy() 函数的说明， 在使用此函数销毁一个线程锁后，线程锁的状态变为”未定义”。有的 pthread_mutex_destroy 实现方式，会使线程锁变为一个不可用的值。一个被销毁的线程锁可以被 pthread_mutex_init() 再次初始化。对被销毁的线程锁进行其它操作，其结果是未定义的。</p>]]></content>
+    
+    
+    <categories>
+      
+      <category>Linux</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>Linux编程基础</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>Linux编程-GPIO操作</title>
+    <link href="/Linux%E7%BC%96%E7%A8%8B-GPIO%E6%93%8D%E4%BD%9C/"/>
+    <url>/Linux%E7%BC%96%E7%A8%8B-GPIO%E6%93%8D%E4%BD%9C/</url>
+    
+    <content type="html"><![CDATA[<p>/sys/class/gpio/export</p><p>文件用于通知系统需要导出控制的GPIO引脚编号</p><p>/sys/class/gpio/unexport</p><p>用于通知系统取消导出</p><p>/sys/class/gpio/gpiochipX</p><p>目录保存系统中GPIO寄存器的信息，包括每个寄存器控制引脚的起始编号base，寄存器名称，引脚总数</p><h1 id="导出一个引脚的步骤："><a href="#导出一个引脚的步骤：" class="headerlink" title="导出一个引脚的步骤："></a>导出一个引脚的步骤：</h1><p>(1) <strong>计算此引脚编号</strong>，引脚编号=控制寄存器的寄存器基数+控制引脚寄存器位数。在 rk3399 中，GPIO_number的计算方法为：n*32 + (K-A)*8 + x;</p><p>比如 GPIO1_B1 = 1 * 32 + (B-A)*8 + 1 = 32 + 8 + 1 = 41;</p><p>GPIO1_B2 = 1 * 32 + (B-A)*8 + 2 = 32 + 8 + 2 = 42;</p><p>GPIO0_A3= 0 * 32 + (A-A)*8 + 3 = 0 + 0 + 3 = 3</p><p>括号里面的 A、B、C、D 分别代表数值 0、1、2、3，在计算时候分别对应即可。</p><p>(2) <strong>向/sys/class/gpio/export 写入此编号</strong>，比如引脚编号是 3，在 shell 中可以通过以下命令实现，命令成功后生成/sys/class/gpio/gpio3 目录，如果没有出现相应的目录，说明此引脚不可导出：</p><p>echo 3 &gt; /sys/class/gpio/export</p><p>如果在执行第一步的时候即 echo 3 &gt; /sys/class/gpio/export 时出现了以下问题：</p><p>sh: write error: Device or resource busy</p><p>出现这个问题的原因是你将要使用的这个 gpio 口之前已经申请过了,包括内核申请或者使用上述方法申请过。释放相应的 GPIO，相应的节点会被删掉，如下所示：</p><p>echo 3 &gt; /sys/class/gpio/unexport</p><p>(3) <strong>direction 文件，定义输入输出方向</strong>，可以通过下面的命令定义为输出，如下图所示：</p><p>/sys/class/gpio/gpio3/direction</p><p>/sys/class/gpio/gpio3/value</p><p>注意：direction 接受的参数：in（输入）, out（输出）, high, low。high/low 同时设置方向为输出，并将 value设置为相应的 1（高电平）或 0（低电平）。</p><p>(4) <strong>edge 文件可以监听对应引脚的事件</strong>，需要把 direction 设置为输入。参数可设置为”none”（无中断触发）, “rising”（上升沿触发）, “falling”（下降沿触发）,“both”（上升、下降都沿触发）。</p><p>/sys/class/gpio/gpio3/edge</p><p>(5) <strong>active_low</strong>：此值可以反转 value 中的值。</p><p>/sys/class/gpio/gpio3/active_low</p>]]></content>
+    
+    
+    <categories>
+      
+      <category>Linux</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>Linux编程基础</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>Linux编程-Makefile</title>
+    <link href="/Linux%E7%BC%96%E7%A8%8B-Makefile/"/>
+    <url>/Linux%E7%BC%96%E7%A8%8B-Makefile/</url>
+    
+    <content type="html"><![CDATA[<h1 id="伪目标"><a href="#伪目标" class="headerlink" title="伪目标"></a>伪目标</h1><p><strong>.PHONY : clean</strong></p><p>PHONY 目标并非实际的文件名：只是在显式请求时执行命令的名字。有两种理由需要使用PHONY 目标：避免和同名文件冲突，改善性能。</p><figure class="highlight makefile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs makefile">.PHONY : clean<br>clean :<br>  -rm edit <span class="hljs-variable">$(objects)</span><br>  <br><span class="hljs-comment">#rm 命令前面加了一个小减号的意思就是，也许某些文件出现问题，但不要管，继续做后面的事。</span><br></code></pre></td></tr></table></figure><h1 id="默认语法"><a href="#默认语法" class="headerlink" title="默认语法"></a>默认语法</h1><p>$@–目标文件，</p><p>$^–所有的依赖文件，</p><p>$&lt;–第一个依赖文件。</p><p>:= 即时展开右边的变量，= 是在parse所有的makefile之后最后再展开变量值</p><p>?= 是如果没有被赋值过就赋予等号后面的值</p><p>+= 是添加等号后面的值，是否即时展开右边的变量，取决于变量是=复制还是:=赋值</p><h1 id="静态模式"><a href="#静态模式" class="headerlink" title="静态模式"></a><strong>静态模式</strong></h1><p>objects = foo.o bar.o<br> all: $(objects)<br> $(objects): %.o: %.c<br> $(CC) -c $(CFLAGS) $&lt; -o $@</p><p>上面的例子中，指明了我们的目标从$objects中获取，“%.o”表明要所有以“.o”结尾的目标，也就是“foo.o bar.o”，也就是变量$object集合的模式，而依赖模式“%.c”则取模式“%.o”的“%”，也就是“foo bar”，并为其加下“.c”的后缀，于是，我们的依赖目标就是“foo.c bar.c”。而命令中的“$&lt;”和“$@”则是自动化变量，“$&lt;”表示所有的依赖目标集（也就是“foo.c bar.c”），“$@”表示目标集（也就是“foo.o bar.o”）。</p><p>于是，上面的规则展开后等价于下面的规则：</p><p>foo.o : foo.c<br> $(CC) -c $(CFLAGS) foo.c -o foo.o<br> bar.o : bar.c<br> $(CC) -c $(CFLAGS) bar.c -o bar.o</p><h1 id="示例"><a href="#示例" class="headerlink" title="示例"></a>示例</h1><figure class="highlight makefile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br></pre></td><td class="code"><pre><code class="hljs makefile"><span class="hljs-comment">#################################################</span><br><span class="hljs-comment">####此部分为路径配置</span><br><br><span class="hljs-comment">#头文件路径</span><br>INC_DIRS := src/ \<br>            src/CC \<br>            src/CM  \<br>src/common \<br>src/dqu_dfs_common \<br>src/DRV<br> <br><span class="hljs-comment">#源文件相对路径，以MakeFile所在文件为根目录</span><br>SRC_DIRS := src/ \<br>            src/CC \<br>            src/CM  \<br>src/common \<br>src/dqu_dfs_common \<br>src/DRV<br><br><span class="hljs-comment">#静态/动态库路径(CC工程没有自定义库)</span><br><span class="hljs-comment">#LIB_DIRS := dir1 \</span><br><span class="hljs-comment">#            dir2 \</span><br><span class="hljs-comment">#            dir3</span><br><br><span class="hljs-comment">#.o文件输出目录，以MakeFile所在文件为根目录</span><br>OUTPUT_DIR := build<br><span class="hljs-comment">#################################################</span><br><br><span class="hljs-comment">#设定生成的目标名称(可执行文件名称)</span><br>TARGET := app_bin<br><br><span class="hljs-comment">#编译选项配置</span><br>CFLAGS += -Wall -O -g<br>CLIBS += -lpthread -lrt  -Lhome/zfr/cross_tool/aarch64-linux-gnu/bin<br><br>CC = arm-linux-gnueabihf-gcc<br>CXX = arm-linux-gnueabihf-g++<br>LD = <span class="hljs-variable">$(CC)</span><br> <br><span class="hljs-comment">#将INC_DIRS、SRC_DIRS、OUTPUT_DIR 转换为绝对路径</span><br>CUR_DIRS = <span class="hljs-variable">$(<span class="hljs-built_in">shell</span> pwd)</span><br>INC_DIRS := <span class="hljs-variable">$(<span class="hljs-built_in">patsubst</span> %,<span class="hljs-variable">$(CUR_DIRS)</span>/%,<span class="hljs-variable">$(INC_DIRS)</span>)</span><br>SRC_DIRS := <span class="hljs-variable">$(<span class="hljs-built_in">patsubst</span> %,<span class="hljs-variable">$(CUR_DIRS)</span>/%,<span class="hljs-variable">$(SRC_DIRS)</span>)</span><br><span class="hljs-comment">#LIB_DIRS := $(patsubst %,$(CUR_DIRS)/%,$(LIB_DIRS))</span><br>OUTPUT_DIR := <span class="hljs-variable">$(<span class="hljs-built_in">patsubst</span> %,<span class="hljs-variable">$(CUR_DIRS)</span>/%,<span class="hljs-variable">$(OUTPUT_DIR)</span>)</span><br> <br><span class="hljs-comment">#VPATH是Makefile的内置变量</span><br><span class="hljs-comment">#依赖项如果在根目录找不到的话就从VPATH目录中查找.</span><br>VPATH := <span class="hljs-variable">$(SRC_DIRS)</span><br><br><span class="hljs-comment">#################################################</span><br><br><span class="hljs-comment">#CFLAGS用于C编译器的编译选项。</span><br>CFLAGS += <span class="hljs-variable">$(<span class="hljs-built_in">patsubst</span> %,-I%,<span class="hljs-variable">$(INC_DIRS)</span>)</span><br><span class="hljs-comment">#LDFLAGS += $(patsubst %,-L%,$(LIB_DIRS))</span><br> <br><span class="hljs-comment">#将SRC_DIRS内全部目录下的.c文件展开并返回到CFILES(包含绝对路径)</span><br><span class="hljs-comment">#SRC_DIRS在mk-rules.mk文件中由用户指定</span><br>CFILES := <span class="hljs-variable">$(<span class="hljs-built_in">foreach</span> dirs,<span class="hljs-variable">$(SRC_DIRS)</span>,$(<span class="hljs-built_in">wildcard</span> <span class="hljs-variable">$(dirs)</span>/*.c)</span> )<br> <br><span class="hljs-comment">#CFILES_NO_DIR包含了所有指定目录下的.c文件(去除掉了绝对路径)</span><br>CFILES_NO_DIR := <span class="hljs-variable">$(<span class="hljs-built_in">notdir</span> <span class="hljs-variable">$(CFILES)</span>)</span><br> <br><span class="hljs-comment">#COBJS包含了所有.c文件对应的.o文件</span><br>COBJS := <span class="hljs-variable">$(<span class="hljs-built_in">patsubst</span> %.c,%.o,<span class="hljs-variable">$(CFILES_NO_DIR)</span>)</span><br>COBJS := <span class="hljs-variable">$(<span class="hljs-built_in">patsubst</span> %,<span class="hljs-variable">$(OUTPUT_DIR)</span>/%,<span class="hljs-variable">$(COBJS)</span>)</span><br> <br><span class="hljs-comment">#声明伪目标</span><br><span class="hljs-meta"><span class="hljs-keyword">.PHONY</span>: all clean</span><br> <br><span class="hljs-comment">#声明可忽略错误的目标。</span><br><span class="hljs-comment">#在命令行执行 make all ，如果没有这一行，当不存在*.o文件或者TARGET文件的时候</span><br><span class="hljs-comment">#会导致目标 clean 会出错导致make停止运行。</span><br><span class="hljs-section">.IGNORE: clean</span><br> <br><span class="hljs-section">all: <span class="hljs-variable">$(OUTPUT_DIR)</span> <span class="hljs-variable">$(TARGET)</span></span><br> <br><span class="hljs-comment">#TARGET生成依赖于COBJS中的所有.o</span><br><span class="hljs-variable">$(TARGET)</span> : <span class="hljs-variable">$(COBJS)</span><br><span class="hljs-variable">$(CC)</span> -o <span class="hljs-variable">$@</span> <span class="hljs-variable">$^</span> <span class="hljs-variable">$(CLIBS)</span><br><span class="hljs-comment">#$(CC) -o $@ $^ $(CLIBS) $(LDFLAGS)</span><br> <br><span class="hljs-comment">#COBJS内所有.o文件的生成依赖于对应的.c.</span><br><span class="hljs-comment">#以下是MakeFile的一种循环目标匹配规则：</span><br><span class="hljs-comment">#每次从COBJS中拿出一项进行 $(OUTPUT_DIR)/%.o:%.c 这样的字符串匹配。</span><br><span class="hljs-comment">#$(OUTPUT_DIR)/%.o为目标，%.c为依赖</span><br><span class="hljs-variable">$(COBJS)</span> : <span class="hljs-variable">$(OUTPUT_DIR)</span>/%.o:%.c<br><span class="hljs-variable">$(CC)</span> -o <span class="hljs-variable">$@</span> -c <span class="hljs-variable">$&lt;</span> <span class="hljs-variable">$(CFLAGS)</span><br><br><span class="hljs-variable">$(OUTPUT_DIR)</span>:<br>mkdir -p <span class="hljs-variable">$(OUTPUT_DIR)</span><br><br><span class="hljs-comment">#4 clean执行流程</span><br><span class="hljs-section">clean:</span><br>rm <span class="hljs-variable">$(OUTPUT_DIR)</span>/*.o <br>rm <span class="hljs-variable">$(TARGET)</span><br><br></code></pre></td></tr></table></figure>]]></content>
+    
+    
+    <categories>
+      
+      <category>Linux</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>Makefile</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>Linux编程-shell脚本</title>
+    <link href="/Linux%E7%BC%96%E7%A8%8B-shell%E8%84%9A%E6%9C%AC/"/>
+    <url>/Linux%E7%BC%96%E7%A8%8B-shell%E8%84%9A%E6%9C%AC/</url>
+    
+    <content type="html"><![CDATA[<p><strong>windows文本文件到Linux会多一个回车符号</strong></p><p>Linux上把回车和换行当作是同一个字符处理。会导致shell脚本中判断字符相等时失败。用vi和cat -A都可以看到。</p><p><img src="/Linux%E7%BC%96%E7%A8%8B-shell%E8%84%9A%E6%9C%AC/%E4%BC%81%E4%B8%9A%E5%BE%AE%E4%BF%A1%E6%88%AA%E5%9B%BE_16799672131937.png"></p><p><strong>判断目录为空</strong></p><p><code>&quot;ls -A /mnt/hgfs/Share_Ubuntu/test&quot; = &quot;&quot;</code></p><p> <strong>可通过 ls -l /bin/sh 或sh –help查看使用的shell解释器，对于 busybox的ash来说有以下特性：</strong></p><ul><li><p>不支持数组</p></li><li><p>读文件内容时可用</p></li><li><ul><li>read ARG &lt; /sys/class/gpio/gpio228/value</li><li>$(cat      /sys/class/gpio/gpio231/value)</li></ul></li><li><p>赋值语句的=前后不能有空格</p></li><li><p>判断语句 （=前后，[ ]前后都需要有空格）</p></li><li><ul><li>if [ $buf = “1001” ];      then</li></ul></li></ul><p><img src="/Linux%E7%BC%96%E7%A8%8B-shell%E8%84%9A%E6%9C%AC/image-20230411224301206.png"></p>]]></content>
+    
+    
+    <categories>
+      
+      <category>Linux</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>Shell</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>Linux编程-正则表达式</title>
+    <link href="/Linux%E7%BC%96%E7%A8%8B-%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/"/>
+    <url>/Linux%E7%BC%96%E7%A8%8B-%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/</url>
+    
+    <content type="html"><![CDATA[<figure class="highlight prolog"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br></pre></td><td class="code"><pre><code class="hljs prolog">^开始位置<br>$结束位置<br>*表达式<span class="hljs-number">0</span>次或多次<br>+表达式<span class="hljs-number">1</span>次或多次<br>?表达式<span class="hljs-number">0</span>次或<span class="hljs-number">1</span>次。跟在其他限制符后边表示非贪婪模式<br>[^xyz]负值字符集合，匹配非xyz字符<br>\d匹配数字字符<br>\<span class="hljs-symbol">D</span>匹配非数字字符<br>\s匹配空白字符<br>\<span class="hljs-symbol">S</span>匹配非空白字符<br>\w匹配包括下划线的单词字符[<span class="hljs-symbol">A</span>-<span class="hljs-symbol">Za</span>-z0<span class="hljs-number">-9</span><span class="hljs-symbol">_</span>]<br>\<span class="hljs-symbol">W</span>匹配非单词字符[^<span class="hljs-symbol">A</span>-<span class="hljs-symbol">Za</span>-z0<span class="hljs-number">-9</span><span class="hljs-symbol">_</span>]<br><br><br>验证数字的正则表达式集 <br>验证数字：^[<span class="hljs-number">0</span><span class="hljs-number">-9</span>]*$<br>验证n位的数字：^\d&#123;n&#125;$<br>验证至少n位数字：^\d&#123;n,&#125;$<br>验证m-n位的数字：^\d&#123;m,n&#125;$<br>验证零和非零开头的数字：^(<span class="hljs-number">0</span>|[<span class="hljs-number">1</span><span class="hljs-number">-9</span>][<span class="hljs-number">0</span><span class="hljs-number">-9</span>]*)$<br>验证有两位小数的正实数：^[<span class="hljs-number">0</span><span class="hljs-number">-9</span>]+(.[<span class="hljs-number">0</span><span class="hljs-number">-9</span>]&#123;<span class="hljs-number">2</span>&#125;)?$<br>验证有<span class="hljs-number">1</span><span class="hljs-number">-3</span>位小数的正实数：^[<span class="hljs-number">0</span><span class="hljs-number">-9</span>]+(.[<span class="hljs-number">0</span><span class="hljs-number">-9</span>]&#123;<span class="hljs-number">1</span>,<span class="hljs-number">3</span>&#125;)?$<br>验证非零的正整数：^\+?[<span class="hljs-number">1</span><span class="hljs-number">-9</span>][<span class="hljs-number">0</span><span class="hljs-number">-9</span>]*$<br>验证非零的负整数：^\-[<span class="hljs-number">1</span><span class="hljs-number">-9</span>][<span class="hljs-number">0</span><span class="hljs-number">-9</span>]*$<br>验证非负整数（正整数 + <span class="hljs-number">0</span>）  ^\d+$<br>验证非正整数（负整数 + <span class="hljs-number">0</span>）  ^((-\d+)|(<span class="hljs-number">0</span>+))$<br>验证长度为<span class="hljs-number">3</span>的字符：^.&#123;<span class="hljs-number">3</span>&#125;$<br>验证由<span class="hljs-number">26</span>个英文字母组成的字符串：^[<span class="hljs-symbol">A</span>-<span class="hljs-symbol">Za</span>-z]+$<br>验证由<span class="hljs-number">26</span>个大写英文字母组成的字符串：^[<span class="hljs-symbol">A</span>-<span class="hljs-symbol">Z</span>]+$<br>验证由<span class="hljs-number">26</span>个小写英文字母组成的字符串：^[a-z]+$<br>验证由数字和<span class="hljs-number">26</span>个英文字母组成的字符串：^[<span class="hljs-symbol">A</span>-<span class="hljs-symbol">Za</span>-z0<span class="hljs-number">-9</span>]+$<br>验证由数字、<span class="hljs-number">26</span>个英文字母或者下划线组成的字符串：^\w+$<br>验证用户密码:^[a-zA-<span class="hljs-symbol">Z</span>]\w&#123;<span class="hljs-number">5</span>,<span class="hljs-number">17</span>&#125;$ 正确格式为：以字母开头，长度在<span class="hljs-number">6</span><span class="hljs-number">-18</span>之间，只能包含字符、数字和下划线。<br>验证是否含有 ^<span class="hljs-comment">%&amp;&#x27;,;=?$\&quot; 等字符：[^%&amp;&#x27;,;=?$\x22]+</span><br>验证汉字：^[\u4e00-\u9fa5],&#123;<span class="hljs-number">0</span>,&#125;$<br>验证<span class="hljs-symbol">Email</span>地址：^\w+[-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$<br>验证<span class="hljs-symbol">InternetURL</span>：^http://([\w-]+\.)+[\w-]+(/[\w-./?<span class="hljs-comment">%&amp;=]*)?$ ；^[a-zA-z]+://(w+(-w+)*)(.(w+(-w+)*))*(?S*)?$</span><br>验证电话号码：^(\(\d&#123;<span class="hljs-number">3</span>,<span class="hljs-number">4</span>&#125;\)|\d&#123;<span class="hljs-number">3</span>,<span class="hljs-number">4</span>&#125;-)?\d&#123;<span class="hljs-number">7</span>,<span class="hljs-number">8</span>&#125;$：--正确格式为：<span class="hljs-symbol">XXXX</span>-<span class="hljs-symbol">XXXXXXX</span>，<span class="hljs-symbol">XXXX</span>-<span class="hljs-symbol">XXXXXXXX</span>，<span class="hljs-symbol">XXX</span>-<span class="hljs-symbol">XXXXXXX</span>，<span class="hljs-symbol">XXX</span>-<span class="hljs-symbol">XXXXXXXX</span>，<span class="hljs-symbol">XXXXXXX</span>，<span class="hljs-symbol">XXXXXXXX</span>。<br>验证身份证号（<span class="hljs-number">15</span>位或<span class="hljs-number">18</span>位数字）：^\d&#123;<span class="hljs-number">15</span>&#125;|\d&#123;&#125;<span class="hljs-number">18</span>$<br>验证一年的<span class="hljs-number">12</span>个月：^(<span class="hljs-number">0</span>?[<span class="hljs-number">1</span><span class="hljs-number">-9</span>]|<span class="hljs-number">1</span>[<span class="hljs-number">0</span><span class="hljs-number">-2</span>])$ 正确格式为：“<span class="hljs-number">01</span>”-“<span class="hljs-number">09</span>”和“<span class="hljs-number">1</span>”“<span class="hljs-number">12</span>”<br>验证一个月的<span class="hljs-number">31</span>天：^((<span class="hljs-number">0</span>?[<span class="hljs-number">1</span><span class="hljs-number">-9</span>])|((<span class="hljs-number">1</span>|<span class="hljs-number">2</span>)[<span class="hljs-number">0</span><span class="hljs-number">-9</span>])|<span class="hljs-number">30</span>|<span class="hljs-number">31</span>)$    正确格式为：<span class="hljs-number">01</span>、<span class="hljs-number">09</span>和<span class="hljs-number">1</span>、<span class="hljs-number">31</span>。<br>整数：^-?\d+$<br>非负浮点数（正浮点数 + <span class="hljs-number">0</span>）：^\d+(\.\d+)?$<br>正浮点数   ^(([<span class="hljs-number">0</span><span class="hljs-number">-9</span>]+\.[<span class="hljs-number">0</span><span class="hljs-number">-9</span>]*[<span class="hljs-number">1</span><span class="hljs-number">-9</span>][<span class="hljs-number">0</span><span class="hljs-number">-9</span>]*)|([<span class="hljs-number">0</span><span class="hljs-number">-9</span>]*[<span class="hljs-number">1</span><span class="hljs-number">-9</span>][<span class="hljs-number">0</span><span class="hljs-number">-9</span>]*\.[<span class="hljs-number">0</span><span class="hljs-number">-9</span>]+)|([<span class="hljs-number">0</span><span class="hljs-number">-9</span>]*[<span class="hljs-number">1</span><span class="hljs-number">-9</span>][<span class="hljs-number">0</span><span class="hljs-number">-9</span>]*))$<br>非正浮点数（负浮点数 + <span class="hljs-number">0</span>） ^((-\d+(\.\d+)?)|(<span class="hljs-number">0</span>+(\<span class="hljs-number">.0</span>+)?))$<br>负浮点数  ^(-(([<span class="hljs-number">0</span><span class="hljs-number">-9</span>]+\.[<span class="hljs-number">0</span><span class="hljs-number">-9</span>]*[<span class="hljs-number">1</span><span class="hljs-number">-9</span>][<span class="hljs-number">0</span><span class="hljs-number">-9</span>]*)|([<span class="hljs-number">0</span><span class="hljs-number">-9</span>]*[<span class="hljs-number">1</span><span class="hljs-number">-9</span>][<span class="hljs-number">0</span><span class="hljs-number">-9</span>]*\.[<span class="hljs-number">0</span><span class="hljs-number">-9</span>]+)|([<span class="hljs-number">0</span><span class="hljs-number">-9</span>]*[<span class="hljs-number">1</span><span class="hljs-number">-9</span>][<span class="hljs-number">0</span><span class="hljs-number">-9</span>]*)))$<br>浮点数  ^(-?\d+)(\.\d+)?<br>符号表示意义：<br>匹配除换行符以外的任意字符<br>\w 匹配字母或数字或下划线或汉字<br>\s 匹配任意的空白符<br>\d 匹配数字<br>\b 匹配单词的开始或结束<br>^ 匹配字符串的开始<br>$ 匹配字符串的结束<br>[\u4e00-\u9fa5]&#123;<span class="hljs-number">2</span>,<span class="hljs-number">20</span>&#125; 匹配<span class="hljs-number">2</span><span class="hljs-number">-20</span>个汉字<br><br>.　　　　匹配除换行符 \n 之外的任何单字符。要匹配 . ，请使用 \. <br>* 重复零次或更多次<br>+ 重复一次或更多次<br>? 重复零次或一次<br>&#123;n&#125; 重复n次<br>&#123;n,&#125; 重复n次或更多次<br>&#123;n,m&#125; 重复n到m次<br><br>\<span class="hljs-symbol">W</span> 匹配任意字母，数字，下划线，汉字的字符<br>\<span class="hljs-symbol">S</span> 匹配任意空白符的字符<br>\<span class="hljs-symbol">D</span> 匹配任意数字的字符<br>\<span class="hljs-symbol">B</span> 匹配单词开头或结束的位置<br>[^x] 匹配x以外的任意字符<br>[^aeiou] 匹配aeiou这几个字母以外的任意字符<br><br>(exp) 匹配exp,并捕获文本到自动命名的组里<br>(?&lt;name&gt;exp) 匹配exp,并捕获文本到名称为name的组里，也可以写成(?<span class="hljs-string">&#x27;name&#x27;</span>exp)<br>(?:exp) 匹配exp,不捕获匹配的文本，也不给此分组分配组号<br>零宽断言<br>(?=exp) 匹配exp前面的位置<br>(?&lt;=exp) 匹配exp后面的位置<br>(?!exp) 匹配后面跟的不是exp的位置<br>(?&lt;!exp) 匹配前面不是exp的位置<br>注释<br>(?#comment) 这种类型的组不对正则表达式的处理产生任何影响，用于提供注释让人阅读<br></code></pre></td></tr></table></figure>]]></content>
+    
+    
+    <categories>
+      
+      <category>Linux</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>调试技巧</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>Linux编程-GDB调试</title>
+    <link href="/Linux%E7%BC%96%E7%A8%8B-GDB%E8%B0%83%E8%AF%95/"/>
+    <url>/Linux%E7%BC%96%E7%A8%8B-GDB%E8%B0%83%E8%AF%95/</url>
+    
+    <content type="html"><![CDATA[<h1 id="常用命令"><a href="#常用命令" class="headerlink" title="常用命令"></a>常用命令</h1><table><thead><tr><th>命令</th><th>命令缩写</th><th>命令说明</th></tr></thead><tbody><tr><td>set  args</td><td></td><td>设置主程序的参数</td></tr><tr><td>break</td><td>b</td><td>设置断点  b  test.c:20</td></tr><tr><td></td><td>d</td><td>删除断电，先用info b查看断电，然后按照断点序号删</td></tr><tr><td>run</td><td>r</td><td>运行程序</td></tr><tr><td>next</td><td>n</td><td>执行当前语句，如果该语句为函数调用，不会进入函数内部</td></tr><tr><td>step</td><td>s</td><td>执行当前语句，如果该语句为函数调用，则进入函数执行其中的第一句语句。但是如果函数是库函数或第三方没有源代码的函数，用s也进不去。</td></tr><tr><td>print</td><td>p</td><td>打印变量值 print num</td></tr><tr><td></td><td>p/x</td><td>十六进制打印</td></tr><tr><td>continue</td><td>c</td><td>继续允许程序，直到下一个断点</td></tr><tr><td>finish</td><td></td><td>退出进入的函数，若是你的函数里有断点，是不能退出的</td></tr><tr><td>until</td><td>u</td><td>在一个循环体内单步跟踪时，这个命令可以运行程序直到退出循环体，即跳出当前(for)循环</td></tr><tr><td>set var  name=value</td><td></td><td>设置变量的值，如set  var i=10</td></tr><tr><td>watch</td><td></td><td>监视某个变量，变量值改变时停下 watch i</td></tr><tr><td>quit</td><td>q</td><td>退出gdb调试</td></tr><tr><td>bt</td><td></td><td>查看函数调用栈</td></tr><tr><td>kill</td><td>k</td><td>杀死当前调试进程</td></tr><tr><td>list</td><td></td><td>查看近十行代码</td></tr></tbody></table><h1 id="GDB查看core文件"><a href="#GDB查看core文件" class="headerlink" title="GDB查看core文件"></a>GDB查看core文件</h1><ul><li>使用 ulimit -a查看当前core文件的生成限制</li><li>使用 ulimit -c unlimited解除该限制</li><li>运行需要调试的程序</li><li>使用gdb ./文件 生成的core文件直接查看段错误的位置</li><li>在gdb内使用bt命令可以查看函数的调用栈</li></ul><h1 id="多进程调试"><a href="#多进程调试" class="headerlink" title="多进程调试"></a>多进程调试</h1><ul><li><p>调试父进程 set     follow-fork-mode parent  （缺省）</p></li><li><p>调试子进程 set     follow-fork-mode child</p></li><li><p>设置调试模式 set     detach-on-fork [on|off] ，</p></li><li><ul><li>缺省是on，表示调试当前进程时，其他进程继续运行</li><li>off时调试当前进程，其他进程挂起</li></ul></li><li><p>查看当前调试的进程 info inferiors</p></li><li><p>切换当前调试的进程 inferior 进程id</p><blockquote><p>调试已在运行的进程</p><p>gdb book1 -p 21495</p></blockquote></li></ul><h1 id="多线程调试"><a href="#多线程调试" class="headerlink" title="多线程调试"></a>多线程调试</h1><ul><li>查看线程 info threads</li><li>切换线程 thread 线程id</li><li>只运行当前线程 set     scheduler-locking on</li><li>运行全部线程 set     scheduler-locking off</li><li>指定某一线程执行某GDB指令 thread apply 线程id cmd</li><li>所有线程执行某GDB指令 thread apply all     cmd</li></ul>]]></content>
+    
+    
+    <categories>
+      
+      <category>Linux</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>调试技巧</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>Linux编程-errno及perror的应用</title>
+    <link href="/Linux%E7%BC%96%E7%A8%8B-errno%E5%8F%8Aperror%E7%9A%84%E5%BA%94%E7%94%A8/"/>
+    <url>/Linux%E7%BC%96%E7%A8%8B-errno%E5%8F%8Aperror%E7%9A%84%E5%BA%94%E7%94%A8/</url>
+    
+    <content type="html"><![CDATA[<blockquote><p>perror 定义在头文件&lt;stdlib.h&gt;</p><p>errno 定义在头文件&lt;errno.h&gt;</p></blockquote><p>  <code>void perror(const char *s);</code>  </p><p>函数说明：</p><p>**perror ( )**用 来 将 上 一 个 函 数 发 生 错 误 的 原 因 输 出 到 标 准 设备 (stderr) 。参数 s 所指的字符串会先打印出,后面再加上错误原因字符串。此错误原因依照全局变量errno 的值来决定要输出的字符串。</p><p>在库函数中有个errno变量，每个errno值对应着以字符串表示的错误类型。当你调用”某些”函数出错时，该函数已经重新设置了errno的值。perror函数只是将你输入的一些信息和现在的errno所对应的错误一起输出。</p><p><strong>errno</strong>是一个全局变量，这里使用不同的数值代表不同场景下出错的原因，当调用linux 系统api 失败时，这时可以根据errno知道失败的大致原因。在程序代码中包含errno.h ,然后每次程序调用失败时系统会自动用用错误代码填充errno</p><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-comment">//打开设备</span><br>fd = open(TEST_FILE,O_RDWR);<br><span class="hljs-keyword">if</span>(fd &lt; <span class="hljs-number">0</span>)<br>&#123;<br>perror(<span class="hljs-string">&quot;TEST_FILE&quot;</span>);<br><span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;errno=%d\n&quot;</span>,errno);<br><span class="hljs-type">char</span> * mesg = strerror(errno);<br><span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;Mesg:%s\n&quot;</span>,mesg);<br><span class="hljs-built_in">exit</span>(<span class="hljs-number">1</span>);<br>&#125;<br></code></pre></td></tr></table></figure><p>上述代码结果为</p><figure class="highlight fortran"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs fortran"><span class="hljs-keyword">bind</span>: Address already <span class="hljs-keyword">in</span> <span class="hljs-keyword">use</span><br>errno=<span class="hljs-number">98</span><br>Mesg:Address already <span class="hljs-keyword">in</span> <span class="hljs-keyword">use</span><br></code></pre></td></tr></table></figure>]]></content>
+    
+    
+    <categories>
+      
+      <category>Linux</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>调试技巧</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>TCP-零窗口通知与窗口探测</title>
+    <link href="/TCP-%E9%9B%B6%E7%AA%97%E5%8F%A3%E9%80%9A%E7%9F%A5%E4%B8%8E%E7%AA%97%E5%8F%A3%E6%8E%A2%E6%B5%8B/"/>
+    <url>/TCP-%E9%9B%B6%E7%AA%97%E5%8F%A3%E9%80%9A%E7%9F%A5%E4%B8%8E%E7%AA%97%E5%8F%A3%E6%8E%A2%E6%B5%8B/</url>
+    
+    <content type="html"><![CDATA[<p>假设接收方处理数据的速度跟不上接收数据的速度，缓存就会被占满，从而导致接收窗口为 0，当发送方接收到零窗口通知时，就会停止发送数据。</p><p>如下图，可以看到接收方的窗口大小在不断的收缩至 0：</p><p><img src="/TCP-%E9%9B%B6%E7%AA%97%E5%8F%A3%E9%80%9A%E7%9F%A5%E4%B8%8E%E7%AA%97%E5%8F%A3%E6%8E%A2%E6%B5%8B/clip_image001.png"></p><p>窗口大小在收缩</p><p>接着，发送方会<strong>定时发送窗口大小探测报文</strong>，以便及时知道接收方窗口大小的变化。</p><p>以下图 Wireshark 分析图作为例子说明：</p><p><img src="/TCP-%E9%9B%B6%E7%AA%97%E5%8F%A3%E9%80%9A%E7%9F%A5%E4%B8%8E%E7%AA%97%E5%8F%A3%E6%8E%A2%E6%B5%8B/clip_image002.png"></p><p><strong>零窗口 与 窗口探测</strong></p><ul><li>发送方发送了数据包 1 给接收方，接收方收到后，由于缓冲区被占满，回了个零窗口通知；</li><li>发送方收到零窗口通知后，就不再发送数据了，直到过了 3.4 秒后，发送了一个     TCP Keep-Alive 报文，也就是窗口大小探测报文；</li><li>当接收方收到窗口探测报文后，就立马回一个窗口通知，但是窗口大小还是 0；</li><li>发送方发现窗口还是 0，于是继续等待了 6.8（翻倍）     秒后，又发送了窗口探测报文，接收方依然还是回了窗口为 0 的通知；</li><li>发送方发现窗口还是 0，于是继续等待了 13.5（翻倍）     秒后，又发送了窗口探测报文，接收方依然还是回了窗口为 0 的通知；</li></ul><p>可以发现，这些窗口探测报文以 3.4s、6.5s、13.5s 的间隔出现，说明超时时间会<strong>翻倍</strong>递增。</p>]]></content>
+    
+    
+    <categories>
+      
+      <category>TCP</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>网络</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>TCP-发送窗口分析</title>
+    <link href="/TCP-%E5%8F%91%E9%80%81%E7%AA%97%E5%8F%A3%E5%88%86%E6%9E%90/"/>
+    <url>/TCP-%E5%8F%91%E9%80%81%E7%AA%97%E5%8F%A3%E5%88%86%E6%9E%90/</url>
+    
+    <content type="html"><![CDATA[<p><strong>在 Wireshark 看到的 Windows size 也就是 “ win = “，这个值表示发送窗口吗？</strong></p><p>这不是发送窗口，而是在向对方声明自己的接收窗口。</p><p>你可能会好奇，抓包文件里有「Window size scaling factor」，它其实是算出实际窗口大小的乘法因子，「Window size value」实际上并不是真实的窗口大小，真实窗口大小的计算公式如下：</p><p><em>「Window size value」 * 「Window size scaling factor」 = 「Caculated window size 」</em></p><p>对应的下图案例，也就是 32 * 2048 = 65536。</p><p><img src="/TCP-%E5%8F%91%E9%80%81%E7%AA%97%E5%8F%A3%E5%88%86%E6%9E%90/clip_image001.png"></p><p>实际上是 Caculated window size 的值是 Wireshark 工具帮我们算好的，Window size scaling factor 和 Windos size value 的值是在 TCP 头部中，其中 Window size scaling factor 是在三次握手过程中确定的，如果你抓包的数据没有 TCP 三次握手，那可能就无法算出真实的窗口大小的值，如下图：</p><p><img src="/TCP-%E5%8F%91%E9%80%81%E7%AA%97%E5%8F%A3%E5%88%86%E6%9E%90/clip_image002.png"></p><p><strong>如何在包里看出发送窗口的大小？</strong></p><p>很遗憾，没有简单的办法，发送窗口虽然是由接收窗口决定，但是它又可以被网络因素影响，也就是拥塞窗口，实际上发送窗口是值是 min(拥塞窗口，接收窗口)。</p><p><strong>发送窗口和 MSS 有什么关系？</strong></p><p>发送窗口决定了一口气能发多少字节，而 MSS 决定了这些字节要分多少包才能发完。</p><p>举个例子，如果发送窗口为 16000 字节的情况下，如果 MSS 是 1000 字节，那就需要发送 1600/1000 = 16 个包。</p><p><strong>发送方在一个窗口发出 n 个包，是不是需要 n 个 ACK 确认报文？</strong></p><p>不一定，因为 TCP 有累计确认机制，所以当收到多个数据包时，只需要应答最后一个数据包的 ACK 报文就可以了。</p>]]></content>
+    
+    
+    <categories>
+      
+      <category>TCP</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>网络</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>Linux内核-标识符</title>
+    <link href="/Linux%E5%86%85%E6%A0%B8-%E6%A0%87%E8%AF%86%E7%AC%A6/"/>
+    <url>/Linux%E5%86%85%E6%A0%B8-%E6%A0%87%E8%AF%86%E7%AC%A6/</url>
+    
+    <content type="html"><![CDATA[<p>内核驱动中的入口和出口函数：</p><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">static</span> <span class="hljs-type">int</span> __init <span class="hljs-title function_">hellowolrd_init</span><span class="hljs-params">(<span class="hljs-type">void</span>)</span> &#123;<br>    pr_info(<span class="hljs-string">&quot;Hello world!\n&quot;</span>);<br>    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br><br><span class="hljs-type">static</span> <span class="hljs-type">void</span> __exit <span class="hljs-title function_">hellowolrd_exit</span><span class="hljs-params">(<span class="hljs-type">void</span>)</span> &#123;<br>    pr_info(<span class="hljs-string">&quot;End of the world\n&quot;</span>);<br>&#125;<br></code></pre></td></tr></table></figure><p>​    对于__init、__<strong>initdata</strong>和__exit、__<strong>exitdata</strong>的定义位于**&lt;linux/init.h&gt;**,这些宏定义的作用是告诉编译器将这些函数或者数据放入相应的section中，而在模块加载的阶段，.ko文件中的代码和数据的加载区域是根据section来加载的。</p><blockquote><p> 比如：如果函数的定义中带有__init，那么这个函数的所有代码会被放入.init.text的section中。</p><p>如果函数的定义中带有__initdata，那么这个函数的所有代码会被放入.init.data的section中。</p></blockquote><p>  之所以要使用这个宏定义，其中一个原因是标记为初始化的函数和数据,表明该函数和数据仅在初始化期间使用。在模块装载之后，模块装载就会将初始化函数扔掉。这样可以将该函数占用的内存释放出来。</p><p>这种释放根据是否编译进内核是有区别的：</p><p>​    （1）<strong>模块编译进内核</strong>：所有的初始化数据和函数都是在系统启动的最后阶段，在所有模块都初始化完成以后被内核统一释放的。所有你一般可以在内核启动信息的后面看到：</p><figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs apache"><span class="hljs-attribute">PHY</span>: <span class="hljs-number">0</span>:<span class="hljs-number">01</span> - Link is Up - <span class="hljs-number">100</span>/Full<br><span class="hljs-attribute">VFS</span>: Mounted root (nfs filesystem) <span class="hljs-literal">on</span> device <span class="hljs-number">0</span>:<span class="hljs-number">14</span>.<br><span class="hljs-attribute">devtmpfs</span>: mounted<br><span class="hljs-attribute">Freeing</span> init memory: <span class="hljs-number">196</span>K<br><span class="hljs-attribute">INIT</span>: version <span class="hljs-number">2</span>.<span class="hljs-number">86</span> booting<br></code></pre></td></tr></table></figure><p>（2）<strong>独立的模块</strong>：模块是通过module-init-tool中的insmod的程序利用系统调用来挂载的，而所有的初始化数据和函数都是被这个系统调用所使用的，在模块挂载完成并初始化过后，由系统调用来完成对初始化数据和函数所占空间的释放。</p><blockquote><p>对于将内核驱动代码中的函数和数据定义为“初始化”时需要注意：不要将驱动定义的文件方法（如 open、read、write、close）或者驱动在实际工作中需要使用的函数和数据定义为“初始化”属性，因为在驱动初始化后这些东东就已经被释放了，如果使用了就会Oops。</p></blockquote>]]></content>
+    
+    
+    <categories>
+      
+      <category>Linux</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>内核驱动</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>Linux内核-最小驱动示例</title>
+    <link href="/Linux%E5%86%85%E6%A0%B8-%E6%9C%80%E5%B0%8F%E9%A9%B1%E5%8A%A8%E7%A4%BA%E4%BE%8B/"/>
+    <url>/Linux%E5%86%85%E6%A0%B8-%E6%9C%80%E5%B0%8F%E9%A9%B1%E5%8A%A8%E7%A4%BA%E4%BE%8B/</url>
+    
+    <content type="html"><![CDATA[<h1 id="驱动代码示例"><a href="#驱动代码示例" class="headerlink" title="驱动代码示例"></a>驱动代码示例</h1><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;linux/module.h&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;linux/moduleparam.h&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;linux/cdev.h&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;linux/fs.h&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;linux/wait.h&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;linux/poll.h&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;linux/sched.h&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;linux/slab.h&gt;</span></span><br><br><span class="hljs-meta">#<span class="hljs-keyword">define</span> BUFFER_MAX    (10)</span><br><span class="hljs-meta">#<span class="hljs-keyword">define</span> OK            (0)</span><br><span class="hljs-meta">#<span class="hljs-keyword">define</span> ERROR         (-1)</span><br><br><span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">cdev</span> *<span class="hljs-title">gDev</span>;</span><br><span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">file_operations</span> *<span class="hljs-title">gFile</span>;</span><br><span class="hljs-type">dev_t</span>  devNum;<br><span class="hljs-type">unsigned</span> <span class="hljs-type">int</span> subDevNum = <span class="hljs-number">1</span>;<br><span class="hljs-type">int</span> reg_major  =  <span class="hljs-number">232</span>;    <br><span class="hljs-type">int</span> reg_minor =   <span class="hljs-number">0</span>;<br><span class="hljs-type">char</span> *buffer;<br><span class="hljs-type">int</span> flag = <span class="hljs-number">0</span>;<br><span class="hljs-type">int</span> <span class="hljs-title function_">hello_open</span><span class="hljs-params">(<span class="hljs-keyword">struct</span> inode *p, <span class="hljs-keyword">struct</span> file *f)</span><br>&#123;<br>    printk(KERN_EMERG<span class="hljs-string">&quot;hello_open\r\n&quot;</span>);<br>    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br><br><span class="hljs-type">ssize_t</span> <span class="hljs-title function_">hello_write</span><span class="hljs-params">(<span class="hljs-keyword">struct</span> file *f, <span class="hljs-type">const</span> <span class="hljs-type">char</span> __user *u, <span class="hljs-type">size_t</span> s, <span class="hljs-type">loff_t</span> *l)</span><br>&#123;<br>    printk(KERN_EMERG<span class="hljs-string">&quot;hello_write\r\n&quot;</span>);<br>    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br><span class="hljs-type">ssize_t</span> <span class="hljs-title function_">hello_read</span><span class="hljs-params">(<span class="hljs-keyword">struct</span> file *f, <span class="hljs-type">char</span> __user *u, <span class="hljs-type">size_t</span> s, <span class="hljs-type">loff_t</span> *l)</span><br>&#123;<br>    printk(KERN_EMERG<span class="hljs-string">&quot;hello_read\r\n&quot;</span>);      <br>    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br><span class="hljs-type">int</span> <span class="hljs-title function_">hello_init</span><span class="hljs-params">(<span class="hljs-type">void</span>)</span><br>&#123;<br>    <br>    devNum = MKDEV(reg_major, reg_minor);  <span class="hljs-comment">//获取设备号，实际是主设备号左移后|上次设备号</span><br>    <span class="hljs-keyword">if</span>(OK == register_chrdev_region(devNum, subDevNum, <span class="hljs-string">&quot;helloworld&quot;</span>))&#123;    <span class="hljs-comment">//也可以让内核自己注册</span><br>        printk(KERN_EMERG<span class="hljs-string">&quot;register_chrdev_region ok \n&quot;</span>); <br>    &#125;<span class="hljs-keyword">else</span> &#123;<br>        printk(KERN_EMERG<span class="hljs-string">&quot;register_chrdev_region error n&quot;</span>);<br>        <span class="hljs-keyword">return</span> ERROR;<br>    &#125;<br>    printk(KERN_EMERG<span class="hljs-string">&quot; hello driver init \n&quot;</span>);<br>    gDev = kzalloc(<span class="hljs-keyword">sizeof</span>(<span class="hljs-keyword">struct</span> cdev), GFP_KERNEL);<br>    gFile = kzalloc(<span class="hljs-keyword">sizeof</span>(<span class="hljs-keyword">struct</span> file_operations), GFP_KERNEL);<br>    gFile-&gt;open = hello_open;   <span class="hljs-comment">//实现file_operations中的函数指针</span><br>    gFile-&gt;read = hello_read;<br>    gFile-&gt;write = hello_write;<br>    gFile-&gt;owner = THIS_MODULE;<br>    cdev_init(gDev, gFile);   <br>    cdev_add(gDev, devNum, <span class="hljs-number">3</span>);   <span class="hljs-comment">//这两句之后，内核可以通过设备号找到对应操作</span><br>    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br><br><span class="hljs-type">void</span> __exit <span class="hljs-title function_">hello_exit</span><span class="hljs-params">(<span class="hljs-type">void</span>)</span><br>&#123;<br>    cdev_del(gDev);<br>    unregister_chrdev_region(devNum, subDevNum);<br>    <span class="hljs-keyword">return</span>;<br>&#125;<br><br>module_init(hello_init);<br>module_exit(hello_exit);<br>MODULE_LICENSE(<span class="hljs-string">&quot;GPL&quot;</span>);<br></code></pre></td></tr></table></figure><p>其中 file_operations结构体如下：</p><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">file_operations</span> &#123;</span><br>        <span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">module</span> *<span class="hljs-title">owner</span>;</span><br>        <span class="hljs-type">loff_t</span> (*llseek) (<span class="hljs-keyword">struct</span> file *, <span class="hljs-type">loff_t</span>, <span class="hljs-type">int</span>);<br>        <span class="hljs-type">ssize_t</span> (*read) (<span class="hljs-keyword">struct</span> file *, <span class="hljs-type">char</span> __user *, <span class="hljs-type">size_t</span>, <span class="hljs-type">loff_t</span> *);<br>        <span class="hljs-type">ssize_t</span> (*write) (<span class="hljs-keyword">struct</span> file *, <span class="hljs-type">const</span> <span class="hljs-type">char</span> __user *, <span class="hljs-type">size_t</span>, <span class="hljs-type">loff_t</span> *);<br>        <span class="hljs-type">int</span> (*mmap) (<span class="hljs-keyword">struct</span> file *, <span class="hljs-keyword">struct</span> vm_area_struct *);<br>        <span class="hljs-type">int</span> (*open) (<span class="hljs-keyword">struct</span> inode *, <span class="hljs-keyword">struct</span> file *);<br>        <span class="hljs-type">int</span> (*flush) (<span class="hljs-keyword">struct</span> file *, <span class="hljs-type">fl_owner_t</span> id);<br>        <span class="hljs-type">int</span> (*release) (<span class="hljs-keyword">struct</span> inode *, <span class="hljs-keyword">struct</span> file *);<br>        <span class="hljs-type">int</span> (*fsync) (<span class="hljs-keyword">struct</span> file *, <span class="hljs-type">loff_t</span>, <span class="hljs-type">loff_t</span>, <span class="hljs-type">int</span> datasync);<br>        <span class="hljs-type">int</span> (*fasync) (<span class="hljs-type">int</span>, <span class="hljs-keyword">struct</span> file *, <span class="hljs-type">int</span>);<br>  ...<br>&#125;;<br></code></pre></td></tr></table></figure><h1 id="Makefile"><a href="#Makefile" class="headerlink" title="Makefile"></a>Makefile</h1><figure class="highlight makefile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs makefile"><span class="hljs-keyword">ifneq</span> (<span class="hljs-variable">$(KERNELRELEASE)</span>,)<br>obj-m := helloworld.o<br><span class="hljs-keyword">else</span><br>PWD := <span class="hljs-variable">$(<span class="hljs-built_in">shell</span> pwd)</span><br>KDIR := /lib/modules/<span class="hljs-variable">$(<span class="hljs-built_in">shell</span> uname -r)</span>/build<br><span class="hljs-section">all:</span><br>        make -C <span class="hljs-variable">$(KDIR)</span> M=<span class="hljs-variable">$(PWD)</span><br><span class="hljs-section">clean:        </span><br>        rm -rf *.o *.ko *.mod.c *.symvers *.c~ *~<br><span class="hljs-keyword">endif</span><br></code></pre></td></tr></table></figure><blockquote><p>进入内核目录执行makefile再返回当前目录时会定义KERNELRELEASE</p><p>如果没有bulid目录说明缺少内核开发包，需要apt下载</p></blockquote><p>测试时需要手动创建设备文件</p><p><code>mknod /dev/hello c 232 0</code></p>]]></content>
+    
+    
+    <categories>
+      
+      <category>Linux</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>内核驱动</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>QT-基本项目结构分析</title>
+    <link href="/QT-%E5%9F%BA%E6%9C%AC%E9%A1%B9%E7%9B%AE%E7%BB%93%E6%9E%84%E5%88%86%E6%9E%90/"/>
+    <url>/QT-%E5%9F%BA%E6%9C%AC%E9%A1%B9%E7%9B%AE%E7%BB%93%E6%9E%84%E5%88%86%E6%9E%90/</url>
+    
+    <content type="html"><![CDATA[<p><img src="/QT-%E5%9F%BA%E6%9C%AC%E9%A1%B9%E7%9B%AE%E7%BB%93%E6%9E%84%E5%88%86%E6%9E%90/image-20230411221805595.png"></p>]]></content>
+    
+    
+    <categories>
+      
+      <category>QT</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>QT基础</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>QT-设置窗口属性</title>
+    <link href="/QT-%E8%AE%BE%E7%BD%AE%E7%AA%97%E5%8F%A3%E5%B1%9E%E6%80%A7/"/>
+    <url>/QT-%E8%AE%BE%E7%BD%AE%E7%AA%97%E5%8F%A3%E5%B1%9E%E6%80%A7/</url>
+    
+    <content type="html"><![CDATA[<h1 id="setWindowFlags（QT-WindowFlags）"><a href="#setWindowFlags（QT-WindowFlags）" class="headerlink" title="setWindowFlags（QT::WindowFlags）"></a>setWindowFlags（QT::WindowFlags）</h1><p>setWindowFlags（QT::WindowFlags）主要设置一些窗口标志，平常开发中主要有两类需求：</p><ul><li>将某一子窗口设置为最顶层窗口。使用Qt::Tool 属性：setWindowFlags（Qt::Tool）</li><li>重新定义窗口的属性，比如：取掉最大、最小、关闭等按钮，或者直接使用无边框窗口</li></ul><p>注意：很多人可能使用第2类设置属性，但是总是不成功，其原因是如果子窗口有父亲，则窗口属性也被父亲控制，这时候的这个子窗口其实并不是严格意义上的完整窗口，相当于父窗口的一个部件，所以这时候设置自定义窗口属性，有两种方法：</p><p>（1）设置父亲窗口属性，</p><p>（2）给子窗口设置属性的时候加上 Qt::Window 或 Qt::Dialog等指定该子窗口为完整窗口，(Qt::DIalog | Qt::CustomizeWindowHint ）</p><p><strong>以下是窗口具体属性介绍：</strong></p><ul><li><strong>Qt::Widget</strong> :     QWidget构造函数的默认值，如新的窗口部件没有父窗口部件，则它是一个独立的窗口，否则就是一个子窗口部件。</li><li><strong>Qt::Window</strong> :     无论是否有父窗口部件，新窗口部件都是一个窗口，通常有一个窗口边框和一个标题栏。</li><li><strong>Qt::Dialog</strong> :     新窗口部件是一个对话框，指示部件是应该作为对话框窗口（即标题栏中通常没有最大化或最小化按钮）。这是QDialog的默认类型。如果要将其用作模态对话框，则应从另一个窗口启动它，或者如果有父窗口，则与QWidget::windowModality属性一起使用。如果将其设置为模态，则对话框将阻止应用程序中的其他顶级窗口获取任何输入。我们将具有父级的顶级窗口称为辅助窗口。</li><li><strong>Qt::Sheet</strong> : 新窗口部件是一个Macintosh表单。</li><li><strong>Qt::Drawer</strong> :     新窗口部件是一个Macintosh抽屉。</li><li><strong>Qt::Popup</strong> : 新窗口部件是一个弹出式顶层窗口。</li><li><strong>Qt::Tool</strong> :     新窗口部件是一个工具窗口，它通常是一个用于显示工具按钮的小窗<pre><code class="hljs">      口，如果一个工具窗口有父窗口部件，则它将显示在父窗口部件的上面，否则，将相当于使用了Qt::WindowStaysOnTopHint展示。</code></pre></li><li><strong>Qt::Tooltip</strong> :     新窗口部件是一个提示窗口，没有标题栏和窗口边框.</li><li><strong>Qt::SplashScreen</strong> :     新窗口部件是一个欢迎窗口，它是QSplashScreen构造函数的默认值。</li><li><strong>Qt::Desktop</strong> :     新窗口部件是桌面，它是QDesktopWidget构造函数的默认值。</li><li><strong>Qt::SubWindow</strong> :     新窗口部件是一个子窗口，而无论该窗口部件是否有父窗口部件。</li><li><strong>Qt::X11BypassWindowManagerHint</strong> :     完全忽视窗口管理器，它的作用是产生一个根本不被管理器的无窗口边框的窗口，此时，用户无法使用键盘进行输入，除非手动调用QWidget::ActivateWindow()函数。</li><li><strong>Qt::FramelessWindowHint</strong> :     产生一个无窗口边框的窗口，此时用户无法移动该窗口和改变它的大小。</li><li><strong>Qt::CustomizeWindowHint</strong> :     关闭默认的窗口标题提示。</li><li>this-&gt;setWindowModality(Qt::WindowModal); //设置窗体为模态</li></ul><h1 id="setAttribute-Qt-WA-DeleteOnClose，true"><a href="#setAttribute-Qt-WA-DeleteOnClose，true" class="headerlink" title="setAttribute(Qt::WA_DeleteOnClose，true)"></a>setAttribute(Qt::WA_DeleteOnClose，true)</h1><p>setAttribute(Qt::WA_DeleteOnClose，true)用于设置各种窗口小部件（widget）的属性，平时开发一般两种需求：</p><ul><li>关闭窗口时删掉实例化的类<pre><code class="hljs">      使用Qt::WA_DeleteOnClose 属性：setAttribute（Qt::WA_DeleteOnClose，true）</code></pre></li><li>QT中窗口部件背景透明化<pre><code class="hljs">      Qt::WA_NoSystemBackground, Qt::WA_TranslucentBackground:</code></pre></li></ul><p>注意：窗口透明还有很多方法，以下列举几个</p><p>**Qt::WA_DeleteOnClose<br>** 一个QWidget在close()时，对象并没有被删除，可以设置this-&gt;setAttribute(Qt::WA_DeleteOnClose,true);使此对象被<br> 若下次再调用show()就会段错误。不过这种方法有个弊端：因为这个指针是没有办法自动设为NULL，会变为野指针。</p><p><strong>Qt::WA_QuitOnClose属性</strong></p><p>表示当拥有该属性的最后一个部件接受到QCloseEvent事件时，让Qt终止应用程序。默认情况 下，所有Qt::Window类型的部件都具有该属性。</p><p><strong>Qt::WA_NoSystemBackground, Qt::WA_TranslucentBackground</strong>:<br> setAutoFillBackground(false); //这个不设置的话就背景变黑<br> setWindowFlags(Qt::FramelessWindowHint);<br> setAttribute(Qt::WA_TranslucentBackground,true); 表示窗口小部件应具有半透明背景，即窗口小部件的任何非不透明区域将 是半透明的（因为窗口小部件将具有Alpha通道。）设置此标志会导致设置WA_NoSystemBackground。在Windows上，窗口 小部件还需要设置Qt :: FramelessWindowHint窗口标志。该标志由小部件的作者设置或清除。</p><p>以下为其他几种属性</p><p><strong>Qt::WA_PaintOutsidePaintEvent</strong> 一般QPainter只能在PaintEvent事件中使用，使用此flag可以使在paintEvent 之外的函数中使用。</p><p><strong>Qt::WA_AcceptDrops</strong> 允许将拖放操作中的数据拖放到窗口小部件上（请参阅QWidget :: setAcceptDrops（））。</p><p><strong>Qt::WA_AlwaysShowToolTips</strong> 为非活动窗口启用工具提示。</p><p><strong>Qt::WA_DeleteOnClose</strong> 当窗口小部件接受close事件时，Qt删除此窗口小部件（请参阅QWidget :: closeEvent（））。</p><p><strong>Qt::WA_Disabled</strong> 表示窗口小部件已禁用，即它不接收任何鼠标或键盘事件。还有一个getter函数QWidget :: isEnabled（）。这由Qt内核设置/清除。</p><p><strong>Qt::WA_DontShowOnScreen</strong> 表示窗口小部件已隐藏或不是可查看桌面的一部分。</p><p><strong>Qt::WA_MouseTracking</strong> 表示窗口小部件已启用鼠标跟踪。请参阅QWidget :: mouseTracking。</p><p><strong>Qt::WA_NoMouseReplay</strong> 用于弹出窗口小部件(popup)。指示弹出窗口小部件关闭时不应重播最近的鼠标按下事件。该标志由小部件的作者设置，并在每次小部件接收到新的鼠标事件时由Qt内核清除。</p><p><strong>Qt::WA_OpaquePaintEvent</strong>，paintEvent已经画好的不会被擦除，但是发现此时界面的颜色无法设置，只有一种颜色</p>]]></content>
+    
+    
+    <categories>
+      
+      <category>QT</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>QT基础</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>QT-QLineEdit输入校验</title>
+    <link href="/QT-QLineEdit%E8%BE%93%E5%85%A5%E6%A0%A1%E9%AA%8C/"/>
+    <url>/QT-QLineEdit%E8%BE%93%E5%85%A5%E6%A0%A1%E9%AA%8C/</url>
+    
+    <content type="html"><![CDATA[<h1 id="格式掩码"><a href="#格式掩码" class="headerlink" title="格式掩码"></a>格式掩码</h1><ul><li><p><code>ui.lineedit -&gt;setInputMask(&quot;000.000.000.000;_&quot;);</code></p></li><li><p>其中 000.000.000.000;_ 的_ 表示填充符      0是匹配字符</p></li></ul><p><img src="/QT-QLineEdit%E8%BE%93%E5%85%A5%E6%A0%A1%E9%AA%8C/clip_image001.png"></p><h1 id="格式校验（整数、浮点数、正则表达式）"><a href="#格式校验（整数、浮点数、正则表达式）" class="headerlink" title="格式校验（整数、浮点数、正则表达式）"></a>格式校验（整数、浮点数、正则表达式）</h1><ul><li>整数、浮点数使用QValidator验证</li></ul> <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-comment">//设置输入为整型</span><br><br> QIntValidator *ival = <span class="hljs-keyword">new</span> <span class="hljs-built_in">QIntValidator</span>();<br><br> ival-&gt;<span class="hljs-built_in">setRange</span>(<span class="hljs-number">0</span>,<span class="hljs-number">24</span>);<br><br> ui.lineedit-&gt;<span class="hljs-built_in">setValidator</span>(ival);<br><br> <span class="hljs-comment">//设置输入为浮点型</span><br><br> QDoubleValidator *dval = <span class="hljs-keyword">new</span> <span class="hljs-built_in">QDoubleValidator</span>();<br><br> dval-&gt;<span class="hljs-built_in">setRange</span>(<span class="hljs-number">10</span>,<span class="hljs-number">10000</span>);<br><br> dval-&gt;<span class="hljs-built_in">setDecimals</span>(<span class="hljs-number">3</span>);<span class="hljs-comment">//还需额外设置小数点位数</span><br><br> <span class="hljs-comment">//dval-&gt;setRange(10,10000,3); 也可以直接设置小数点位数</span><br><br> dval-&gt;<span class="hljs-built_in">setNotation</span>(QDoubleValidator::StandardNotation);<span class="hljs-comment">//设置不使用科学计数法，保证位数不会超出</span><br><br> ui.lineedit-&gt;<span class="hljs-built_in">setValidator</span>(dval);<br></code></pre></td></tr></table></figure><ul><li>正则表达式使用QRegExpValidator验证</li></ul><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-comment">//匹配邮箱</span><br><br><span class="hljs-function">QRegExp <span class="hljs-title">rx</span><span class="hljs-params">(<span class="hljs-string">&quot;[a-zA-Z0-9-]+@[a-zA-Z0-9-]+\.[a-zA-Z-_]+&quot;</span>)</span></span>;<br><br>QRedExpValidator *pReg = <span class="hljs-keyword">new</span> <span class="hljs-built_in">QRegExpValidator</span>(rx,<span class="hljs-keyword">this</span>);<br><br>ui.email-&gt;<span class="hljs-built_in">setValidator</span>(pReg);<br><br></code></pre></td></tr></table></figure><ul><li>校验状态</li></ul><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-comment">/*返回</span><br><span class="hljs-comment"></span><br><span class="hljs-comment">  enum State&#123;</span><br><span class="hljs-comment"></span><br><span class="hljs-comment">    Invalid,  不正确</span><br><span class="hljs-comment"></span><br><span class="hljs-comment">    Intermediate,  未输入结束</span><br><span class="hljs-comment"></span><br><span class="hljs-comment">    Acceptable   格式正确</span><br><span class="hljs-comment"></span><br><span class="hljs-comment">  &#125;</span><br><span class="hljs-comment"></span><br><span class="hljs-comment">*/</span><br><br><span class="hljs-type">const</span> QValidator *v = ui.lineedit-&gt;<span class="hljs-built_in">validator</span>();<br><br><span class="hljs-type">int</span> pos = <span class="hljs-number">0</span>;<br><br><span class="hljs-keyword">if</span>(v-&gt;<span class="hljs-built_in">validate</span>(ui.lineedit-&gt;<span class="hljs-built_in">text</span>(),pos)!=QValidator::Acceptable)<br><br>&#123;<br><br>  <span class="hljs-comment">//校验不正确时的执行代码</span><br><br>&#125;<br><br></code></pre></td></tr></table></figure>]]></content>
+    
+    
+    <categories>
+      
+      <category>QT</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>QT基础</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>QT-VS2019+QT打包</title>
+    <link href="/QT-VS2019-QT%E6%89%93%E5%8C%85/"/>
+    <url>/QT-VS2019-QT%E6%89%93%E5%8C%85/</url>
+    
+    <content type="html"><![CDATA[<ul><li><p>VS2019+QT时 .pro文件通过插件生成</p><p><img src="/QT-VS2019-QT%E6%89%93%E5%8C%85/image-20230411221027457.png"></p></li><li><p>VS2019+QT时 ui_xxxxx.h文件通过.ui文件编译生成【注意属性最上边配置项是release还是debug】</p><p><img src="/QT-VS2019-QT%E6%89%93%E5%8C%85/image-20230411221040081.png"></p></li><li><p>VS2019+QT时在插件里的Qt Project Settings中添加QT模块，而非直接在.pro文件中修改。【注意最上边配置项 和 build config】</p><p><img src="/QT-VS2019-QT%E6%89%93%E5%8C%85/image-20230411221054425.png"></p></li><li><p>打包QT程序，使用windeployqt 生成QT运行所需的dll</p></li></ul><p><img src="/QT-VS2019-QT%E6%89%93%E5%8C%85/image-20230411221116272.png"></p><blockquote><p>也可以在开始菜单找到对应的命令行</p><div align=center>     <img src="clip_image001.png" style="zoom:70%;"></img> </div></blockquote><ul><li>如果在别的电脑上运行可能还需要VC2015运行环境，参考如下原则从正常电脑上拷贝dll文件</li></ul><p><img src="/QT-VS2019-QT%E6%89%93%E5%8C%85/image-20230411221241879.png"></p>]]></content>
+    
+    
+    <categories>
+      
+      <category>QT</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>工具</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>QT-中文乱码</title>
+    <link href="/QT-%E4%B8%AD%E6%96%87%E4%B9%B1%E7%A0%81/"/>
+    <url>/QT-%E4%B8%AD%E6%96%87%E4%B9%B1%E7%A0%81/</url>
+    
+    <content type="html"><![CDATA[<h1 id="IDE的文件编码"><a href="#IDE的文件编码" class="headerlink" title="IDE的文件编码"></a>IDE的文件编码</h1><ul><li><p>QT</p></li><li><ul><li> 默认UTF-8</li><li> 字符集转换函数(将多字节字符集转换成UTF-8) QStringLiteral</li></ul></li><li><p>VS</p></li><li><ul><li><p> 默认GBK </p></li><li><p>可在 高级保存 -&gt; 编码      中改变格式，或者使用插件ForceUTF8</p></li><li><p>可使用宏指定 #pragma      execution_character_set(“UTF-8”)</p></li><li><p>命令行输入/utf-8 ，要求使用utf-8编译</p><p><img src="/QT-%E4%B8%AD%E6%96%87%E4%B9%B1%E7%A0%81/image-20230411220759278.png"></p><p><img src="/QT-%E4%B8%AD%E6%96%87%E4%B9%B1%E7%A0%81/image-20230411220810841.png"></p></li></ul></li></ul><h1 id="外部数据的编码转换"><a href="#外部数据的编码转换" class="headerlink" title="外部数据的编码转换"></a>外部数据的编码转换</h1><ul><li><p>设置本地默认处理编码方式(一般不用改变，只用后边两个转换函数)</p></li><li><ul><li><p>包含头文件 #include      <QTextCodec></p></li><li><p>设置本地编码方式为UTF-8</p><p>​       <code>QTextCodec::setCodecForLocale(QTextCodec::codecForName(&quot;UTF-8&quot;));</code></p></li></ul></li><li><p>QString str2 =     QString::fromLocal8Bit(str1.toUtf8());</p></li><li><p>QString::toLocal8Bit()</p></li></ul><p>​       windows API 中使用的是宽字符型wchar，需要先转换 str2.toStdWString().c_str()</p>]]></content>
+    
+    
+    <categories>
+      
+      <category>QT</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>踩坑</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>QT-QString字符串</title>
+    <link href="/QT-QString%E5%AD%97%E7%AC%A6%E4%B8%B2/"/>
+    <url>/QT-QString%E5%AD%97%E7%AC%A6%E4%B8%B2/</url>
+    
+    <content type="html"><![CDATA[<ul><li><p>16-bit QChars ushort     Unicode 4.0</p></li><li><p>封装了字符串处理功能</p></li><li><p>用cout显示时需转换</p></li></ul><blockquote><p> 使用qDebug()函数，它可以把调试信息直接输出到控制台上。</p><p>输出到控制台上有两种方式：</p><p>(1) 将字符串当做参数传给qDebug()函数。(这种方法可以不用添加头文件#include<QDebug>) 如 qDebug(“x:%d”,x); </p><p>(2) 使用流输出的方法输出多个字符串。（需要添加 #include<QDebug>头文件）如 qDebug() &lt;&lt; “y:” &lt;&lt; y; </p><p>使用cout输出时需要先进行类型转换，QChar类型的单个字符需先转换成ASCII码，如 cout &lt;&lt; str[i].toLatin(); QString类型的字符串可以直接使用 str.toStdString();</p></blockquote><h1 id="int转QString"><a href="#int转QString" class="headerlink" title="int转QString"></a>int转QString</h1><p><strong>方法一</strong>：用QString的arg**()**函数可以完美解决其他类型转换为字符串的问题。</p><p>代码：</p> <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-type">int</span> str;<br>QString str;<br>strValue = <span class="hljs-built_in">tr</span>(<span class="hljs-string">&quot;%1&quot;</span>).<span class="hljs-built_in">arg</span>(intValue);<br></code></pre></td></tr></table></figure><p><strong>方法二</strong>：QString**::**number();</p><p>代码：</p><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-type">int</span> tmp;<br>QString str = QString::<span class="hljs-built_in">number</span>(tmp);<br></code></pre></td></tr></table></figure><h1 id="QString转int"><a href="#QString转int" class="headerlink" title="QString转int"></a>QString转int</h1><p>直接调用toInt**()**函数</p><p>代码：</p> <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs c++">QString str;<br><span class="hljs-type">int</span> tmp = str.<span class="hljs-built_in">toInt</span>();<br></code></pre></td></tr></table></figure><h1 id="常用指令"><a href="#常用指令" class="headerlink" title="常用指令"></a>常用指令</h1><ul><li><p><strong>空判断</strong> </p><ul><li><p>== “ ” 空串和未初始化时都为真</p></li><li><p>isNull 对象未初始化</p></li><li><p>isEmpty 空串</p></li></ul></li><li><p><strong>字符串拼接</strong> </p><ul><li><p>+=</p></li><li><p>str**.<strong>append</strong>(<strong>“test3”</strong>)**</p></li></ul></li><li><p><strong>格式化表示</strong></p></li></ul><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs c">QString str;<br>str = QString(<span class="hljs-string">&quot;name=%1 arg=%2 %3 %4 %5&quot;</span>).arg(<span class="hljs-string">&quot;xiaoming&quot;</span>).arg(<span class="hljs-number">15</span>).arg(<span class="hljs-number">14.5</span>).arg(<span class="hljs-number">123</span>,<span class="hljs-number">0</span>,<span class="hljs-number">2</span>).arg(<span class="hljs-number">255</span>,<span class="hljs-number">6</span>,<span class="hljs-number">16</span>);<br><br><span class="hljs-comment">//arg(123,0,2) 中 第二个参数表示最小宽度，第三个参数表示进制</span><br></code></pre></td></tr></table></figure><ul><li><p><strong>类型转换（除格式化外的方法）</strong></p><ul><li><p>单个整型转字符串 QString num =      QString::number(14);</p></li><li><p>单个浮点型转字符串 QString num =      QString::number(14.6);</p></li><li><p>字符串转整型 str.toInt();</p></li><li><p>字符串转浮点型      str.toDouble();</p><pre><code class="hljs">   表示一个浮点数的字符串不能使用toInt()，转换结果会是0；反之，表示一个整型的字符串使用toDouble()不会有问题。</code></pre></li></ul></li><li><p><strong>遍历字符串</strong></p><p>迭代器遍历</p></li></ul><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-keyword">for</span>(QString::iterator itr=itstr.<span class="hljs-built_in">begin</span>();itr!=itstr.<span class="hljs-built_in">end</span>();++itr)<br> &#123;<br>     <span class="hljs-comment">//(*itr).toLatin1();</span><br>     cout&lt;&lt; itr-&gt;<span class="hljs-built_in">toLatin1</span>();<br> &#125;<br></code></pre></td></tr></table></figure><p>​    下标遍历</p><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs c++"> <span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i=<span class="hljs-number">0</span>;i&gt;itstr.<span class="hljs-built_in">size</span>();++i)<br><br> &#123;<br><br>   cout&lt;&lt;str[i].<span class="hljs-built_in">toLatin1</span>();<br><br> &#125;<br><span class="hljs-comment">//旧版本c++的std::vector中，size方法会遍历一遍vector，影响效率。此处QString不会。</span><br></code></pre></td></tr></table></figure><ul><li><p><strong>字符串查找</strong></p><ul><li><p>查找子串第一次出现的位置(若没有查到返回-1)      <code>int pos = itstr.indexOf(&quot;xc&quot;);</code></p></li><li><p>查找字串第二次出现的位置(相当于设置了起始查找位置) </p><p><code>QString key = &quot;xc&quot;;</code> </p></li></ul></li></ul><p>​                <code>int pos2 = str.indexOf(key,pos+key.size());</code></p><ul><li><p>​    查找子串最后一次出现的位置     <code>itstr.lastIndexOf(&quot;xc&quot;);</code></p><ul><li>正则查找 <code>itstr.indexOf(QRegExp(&quot;[0-9]+&quot;));</code></li></ul></li><li><p><strong>字符串截断</strong></p><ul><li><p>去除结尾子串(直接修改原字符串) itstr.chop(5);</p></li><li><p>最左侧开始截取指定长度      itstr.left(itstr.indexOf(“xc”));</p></li><li><p>最右侧开始截取指定长度      itstr.right(itstr.size()-itstr.indexOf(“xc”)-2);</p></li></ul></li><li><p><strong>字符串替换</strong></p><ul><li><p>直接修改原字符串      itstr.replace(“[name]”,”xiaoming”);</p></li><li><p>也可用正则表达式      itstr.replace(QRedExp(“[0-9]+”),”[NUM]”);</p></li></ul></li><li><p><strong>字符串切割</strong></p></li><li><p>QStringList list1 = str.split(“,”);</p></li></ul>]]></content>
+    
+    
+    <categories>
+      
+      <category>QT</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>QT基础</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>QT-Qthread多线程</title>
+    <link href="/QT-Qthread%E5%A4%9A%E7%BA%BF%E7%A8%8B/"/>
+    <url>/QT-Qthread%E5%A4%9A%E7%BA%BF%E7%A8%8B/</url>
+    
+    <content type="html"><![CDATA[<h1 id="开启子线程处理函数"><a href="#开启子线程处理函数" class="headerlink" title="开启子线程处理函数"></a>开启子线程处理函数</h1><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><code class="hljs C++">WorkObject * workObject = <span class="hljs-keyword">new</span> <span class="hljs-built_in">WorkObject</span>();<span class="hljs-comment">//工作对象</span><br>QThread * workThread = <span class="hljs-keyword">new</span> <span class="hljs-built_in">QThread</span>();<span class="hljs-comment">//工作线程</span><br><br><span class="hljs-comment">//转移线程</span><br>workObject-&gt;<span class="hljs-built_in">moveToThread</span>(workThread);<br><br><span class="hljs-comment">//开始工作</span><br>QObject::<span class="hljs-built_in">connect</span>(workThread, &amp;QThread::started, workObject, &amp;WorkObject::starWork);<br><br><span class="hljs-comment">//工作对象工作结束，停止线程</span><br>QObject::<span class="hljs-built_in">connect</span>(workObject, &amp;WorkObject::workFinished, workThread, [=]() &#123;<br>    workThread-&gt;<span class="hljs-built_in">quit</span>();<br>    workThread-&gt;<span class="hljs-built_in">wait</span>();<br>&#125;);<br><br><span class="hljs-comment">//工作线程停止，销毁工作对象</span><br>QObject::<span class="hljs-built_in">connect</span>(workThread, &amp;QThread::finished, workObject, &amp;WorkObject::deleteLater);<br><br><span class="hljs-comment">//工作对象销毁，销毁工作线程</span><br>QObject::<span class="hljs-built_in">connect</span>(workObject, &amp;WorkObject::destroyed, workThread, &amp;QThread::deleteLater);<br><br><span class="hljs-comment">//线程销毁</span><br>QObject::<span class="hljs-built_in">connect</span>(workThread, &amp;QThread::destroyed, [&amp;]() &#123;<br>    <span class="hljs-built_in">qDebug</span>() &lt;&lt; <span class="hljs-string">&quot;workThread 销毁&quot;</span> &lt;&lt; endl;<br> &#125;);<br><br><span class="hljs-comment">//启动线程</span><br> workThread-&gt;<span class="hljs-built_in">start</span>();<br><br></code></pre></td></tr></table></figure>]]></content>
+    
+    
+    <categories>
+      
+      <category>QT</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>QT基础</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
     <title>C语言-链接</title>
     <link href="/C%E8%AF%AD%E8%A8%80-%E9%93%BE%E6%8E%A5/"/>
     <url>/C%E8%AF%AD%E8%A8%80-%E9%93%BE%E6%8E%A5/</url>
