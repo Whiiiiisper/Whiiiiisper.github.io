@@ -16,24 +16,30 @@
   <meta name="author" content="TRknight">
   <meta name="keywords" content="">
   
-    <meta name="description" content="C语言不定长参数宏使用方法">
+    <meta name="description" content="函数栈帧&#x2F;活动记录">
 <meta property="og:type" content="article">
-<meta property="og:title" content="C语言-不定长参数宏">
-<meta property="og:url" content="https://whiiiiisper.github.io/C%E8%AF%AD%E8%A8%80-%E4%B8%8D%E5%AE%9A%E9%95%BF%E5%8F%82%E6%95%B0%E5%AE%8F/index.html">
+<meta property="og:title" content="C语言-函数栈帧">
+<meta property="og:url" content="https://whiiiiisper.github.io/C%E8%AF%AD%E8%A8%80-%E5%87%BD%E6%95%B0%E6%A0%88%E5%B8%A7/index.html">
 <meta property="og:site_name" content="TRknight的博客">
-<meta property="og:description" content="C语言不定长参数宏使用方法">
+<meta property="og:description" content="函数栈帧&#x2F;活动记录">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2023-04-11T03:02:02.000Z">
-<meta property="article:modified_time" content="2023-04-11T03:49:05.328Z">
+<meta property="og:image" content="https://whiiiiisper.github.io/C%E8%AF%AD%E8%A8%80-%E5%87%BD%E6%95%B0%E6%A0%88%E5%B8%A7/image-20230411210854946.png">
+<meta property="og:image" content="https://whiiiiisper.github.io/C%E8%AF%AD%E8%A8%80-%E5%87%BD%E6%95%B0%E6%A0%88%E5%B8%A7/image-20230411211240628.png">
+<meta property="og:image" content="https://whiiiiisper.github.io/C%E8%AF%AD%E8%A8%80-%E5%87%BD%E6%95%B0%E6%A0%88%E5%B8%A7/image-20230411211416137.png">
+<meta property="og:image" content="https://whiiiiisper.github.io/C%E8%AF%AD%E8%A8%80-%E5%87%BD%E6%95%B0%E6%A0%88%E5%B8%A7/image-20230411211718207.png">
+<meta property="og:image" content="https://whiiiiisper.github.io/C%E8%AF%AD%E8%A8%80-%E5%87%BD%E6%95%B0%E6%A0%88%E5%B8%A7/image-20230411211729873.png">
+<meta property="article:published_time" content="2023-04-11T03:04:56.000Z">
+<meta property="article:modified_time" content="2023-04-11T13:18:21.478Z">
 <meta property="article:author" content="TRknight">
-<meta property="article:tag" content="C语言技巧">
+<meta property="article:tag" content="C语言高级">
 <meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://whiiiiisper.github.io/C%E8%AF%AD%E8%A8%80-%E5%87%BD%E6%95%B0%E6%A0%88%E5%B8%A7/image-20230411210854946.png">
   
   
     <meta name="referrer" content="no-referrer-when-downgrade">
   
   
-  <title>C语言-不定长参数宏 - TRknight的博客</title>
+  <title>C语言-函数栈帧 - TRknight的博客</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -228,7 +234,7 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle">C语言-不定长参数宏</span>
+            <span id="subtitle">C语言-函数栈帧</span>
           
         </div>
 
@@ -239,7 +245,7 @@
     
       <span class="post-meta">
         <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-        <time datetime="2023-04-11 11:02" pubdate>
+        <time datetime="2023-04-11 11:04" pubdate>
           2023年4月11日 上午
         </time>
       </span>
@@ -251,7 +257,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          456 字
+          1.7k 字
         
       </span>
     
@@ -262,7 +268,7 @@
         
         
         
-          4 分钟
+          15 分钟
         
       </span>
     
@@ -300,12 +306,12 @@
         <div id="board">
           <article class="post-content mx-auto">
             <!-- SEO header -->
-            <h1 style="display: none">C语言-不定长参数宏</h1>
+            <h1 style="display: none">C语言-函数栈帧</h1>
             
               <p class="note note-info">
                 
                   
-                    本文最后更新于：10 小时前
+                    本文最后更新于：31 分钟前
                   
                 
               </p>
@@ -313,13 +319,104 @@
             
               <div class="markdown-body">
                 
-                <p>C 语言中 VA_ARGS 是一个可变参数的宏，是新的 C99 规范中新增的，需要配合 define 使用，总体来说就是将左边宏中 … 的内容原样抄写在右边 VA_ARGS 所在的位置。</p>
-<h1 id="一个不定长参数"><a href="#一个不定长参数" class="headerlink" title="一个不定长参数"></a>一个不定长参数</h1><p><code>#define MY_PRINT(...)   hesy_print(__VA_ARGS__)</code></p>
-<h1 id="一个固定参数和一个不定长参数"><a href="#一个固定参数和一个不定长参数" class="headerlink" title="一个固定参数和一个不定长参数"></a>一个固定参数和一个不定长参数</h1><p><code>#define MY_PRINT(fmt, ...)   hesy_print(fmt, ##__VA_ARGS__)</code></p>
-<p>如果可变参数被忽略或为空，## 操作将使预处理器（preprocessor）去除掉它前面的那个逗号</p>
-<p><strong>可用于C语言下设置默认参数</strong></p>
-<h1 id="示例"><a href="#示例" class="headerlink" title="示例"></a>示例</h1><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">define</span> print_LOG(level, fmt, ...) printf(<span class="hljs-string">&quot;[%s][%d]&quot;</span>fmt<span class="hljs-string">&quot;\n&quot;</span>, __FUNCTION__, __LINE__, ##__VA_ARGS__)</span><br><br><span class="hljs-meta">#<span class="hljs-keyword">define</span> print_LOG(level, fmt, args...) SYS_LOG(<span class="hljs-string">&quot;[WIFI]&quot;</span>, level, fmt,  ##args)</span><br></code></pre></td></tr></table></figure>
+                <h1 id="栈帧概念"><a href="#栈帧概念" class="headerlink" title="栈帧概念"></a>栈帧概念</h1><p>当发生函数调用时，会将函数运行需要的信息全部压入栈中，这常常被称为栈帧（Stack Frame）或 活动记录（Activate Record），一般包括一下几个方面内容：</p>
+<ol>
+<li><p>函数的返回地址，也就是函数执行完成后从哪里开始继续执行后面的代码。</p>
+</li>
+<li><p>参数和局部变量。<em>（有些编译器，或者编译器在开启优化选项的情况下，会通过寄存器来传递参数，而不是将参数压入栈中）</em></p>
+</li>
+<li><p>编译器自动生成的临时数据。</p>
+<p><em>a. 当函数返回值的长度较大（比如占用40个字节）时，会先将返回值压入栈中，然后再交给函数调用者。</em></p>
+</li>
+<li><p><em>b. 当返回值的长度较小（char、int、long      等）时，不会被压入栈中，而是先将返回值放入寄存器，再传递给函数调用者。</em></p>
+</li>
+<li><p>一些需要保存的寄存器，为了在函数退出时能够恢复到函数调用之前的场景，继续执行上层函数。</p>
+</li>
+</ol>
+<h1 id="调用惯例"><a href="#调用惯例" class="headerlink" title="调用惯例"></a>调用惯例</h1><ol>
+<li><p>函数参数的传递方式，是通过栈传递还是通过寄存器传递</p>
+</li>
+<li><p>函数参数的传递顺序，是从左到右入栈还是从右到左入栈。</p>
+</li>
+<li><p>参数弹出方式。函数调用结束后需要将压入栈中的参数全部弹出，以使得栈在函数调用前后保持一致。这个弹出的工作可以由调用方来完成，也可以由被调用方来完成。</p>
+</li>
+<li><p>函数名修饰方式。函数名在编译时会被修改，调用惯例可以决定如何修改函数名</p>
+</li>
+</ol>
+<div align=center>     <img src="image-20230411210854946.png" srcset="/img/loading.gif" lazyload style="zoom:70%;"></img> </div>
 
+<blockquote>
+<p>在函数声明处是为调用方指定调用惯例，</p>
+<p>而在函数定义处是为被调用方（也就是函数本身）指定调用惯例。</p>
+</blockquote>
+<table>
+<thead>
+<tr>
+<th><strong>调用惯例</strong></th>
+<th><strong>参数传递方式</strong></th>
+<th><strong>参数出栈方式</strong></th>
+<th><strong>名字修饰</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td>cdecl</td>
+<td>按照从右到左的顺序入栈</td>
+<td>调用方</td>
+<td>下划线+函数名，  如函数  max() 的修饰名为 _max</td>
+</tr>
+<tr>
+<td>stdcall</td>
+<td>按照从右到左的顺序入栈</td>
+<td>函数本身  （被调用方）</td>
+<td>下划线+函数名+@+参数的字节数，  如函数 int  max(int m, int n) 的修饰名为 <em>max</em>@8</td>
+</tr>
+<tr>
+<td>fastcall</td>
+<td>将部分参数放入寄存器，  剩下的参数按照从右到左的顺序入栈</td>
+<td>函数本身  （被调用方）</td>
+<td>@+函数名+@+参数的字节数</td>
+</tr>
+<tr>
+<td>pascal</td>
+<td>按照从左到右的顺序入栈</td>
+<td>函数本身  （被调用方）</td>
+<td>较复杂</td>
+</tr>
+</tbody></table>
+<h1 id="示例一"><a href="#示例一" class="headerlink" title="示例一"></a>示例一</h1><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">void</span> <span class="hljs-title function_">func</span><span class="hljs-params">(<span class="hljs-type">int</span> a, <span class="hljs-type">int</span> b)</span>&#123;<br>	<span class="hljs-type">int</span> p =<span class="hljs-number">12</span>, q = <span class="hljs-number">345</span>;<br>&#125;<br><span class="hljs-type">int</span> <span class="hljs-title function_">main</span><span class="hljs-params">()</span>&#123;<br>	func(<span class="hljs-number">90</span>, <span class="hljs-number">26</span>);<br>	<span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<blockquote>
+<p>函数使用默认的调用惯例 cdecl，即参数从右到左入栈，由调用方负责将参数出栈</p>
+</blockquote>
+<p>函数进栈出栈过程：</p>
+<p><img src="/C%E8%AF%AD%E8%A8%80-%E5%87%BD%E6%95%B0%E6%A0%88%E5%B8%A7/image-20230411211240628.png" srcset="/img/loading.gif" lazyload></p>
+<ul>
+<li><p>第一个变量和 old ebp 之间有4个字节的空白，变量之间也有若干字节的空白。</p>
+<blockquote>
+<p>因为Debug模式下方便加入调试信息，Release模式下会优化</p>
+</blockquote>
+</li>
+<li><p>为局部变量分配内存时，仅仅是将 esp 的值减去一个整数，预留出足够的空白内存。因此<strong>未初始化的局部变量值是垃圾值</strong></p>
+</li>
+</ul>
+<h1 id="示例二"><a href="#示例二" class="headerlink" title="示例二"></a>示例二</h1><div align=center>     <img src="image-20230411211416137.png" srcset="/img/loading.gif" lazyload style="zoom:80%;"></img> </div>
+
+<p><img src="/C%E8%AF%AD%E8%A8%80-%E5%87%BD%E6%95%B0%E6%A0%88%E5%B8%A7/image-20230411211718207.png" srcset="/img/loading.gif" lazyload></p>
+<p><img src="/C%E8%AF%AD%E8%A8%80-%E5%87%BD%E6%95%B0%E6%A0%88%E5%B8%A7/image-20230411211729873.png" srcset="/img/loading.gif" lazyload></p>
+<p>从133~139行我们可以看到main函数栈帧的形成过程（入栈操作）：</p>
+<p>1）  push %rbp 将上一级函数栈帧的栈底指针压栈</p>
+<p>2）  mov %rsp, %rbp 将BP指针指向SP，因为上一级函数的栈顶指针是下一级函数的栈底指针，证明栈帧是依次向下增长的</p>
+<p>3）  sub $0x10, %rsp SP栈顶指针向下位移16个字节，即创建main函数栈帧。这个地方为什么是16个字节呢？是因为上一级函数栈底指针和当前函数返回时下一条指令地址各占4个字节，m和n两个整形变量各占4个字节，加起来就是16个字节。</p>
+<p>4）  movl $0x8, -0x4(%rbp) 将变量m压栈</p>
+<p>5）  movl $0x6, -0x8(%rbp) 将变量n压栈</p>
+<p>6）  mov -0x8(%rbp), %edx   将m变量值加载到edx寄存器</p>
+<p>mov -0x4(%rbp), %eax   将n变量值加载到eax寄存器</p>
+<p>mov %edx, %esi</p>
+<p>mov %eax, %edi</p>
+<p>7）callq 4004c4 <func> 调用callq指令跳转到func函数段，同时压栈EIP+4，即返回func函数时下一条可执行指令的地址</p>
+<blockquote>
+<p>从func函数的反汇编代码可以看到，0x4004c4地址就是func函数开始处，和前面的callq对应。在进入func函数段之后，就是func函数压栈的动作，基本顺序和前面的main函数压栈过程一致。这个地方需要注意的是，首先是mov %edi, -0x4(rbp)，从前面的汇编代码可以看到%edi保存的是n变量的值，其次才执行mov %esi, -0x8(rbp)压栈m变量值，证明函数参数的传递顺序是从右往左。</p>
+</blockquote>
 
                 
               </div>
@@ -353,7 +450,7 @@
     <div class="post-meta">
       <i class="iconfont icon-tags"></i>
       
-        <a href="/tags/C%E8%AF%AD%E8%A8%80%E6%8A%80%E5%B7%A7/">#C语言技巧</a>
+        <a href="/tags/C%E8%AF%AD%E8%A8%80%E9%AB%98%E7%BA%A7/">#C语言高级</a>
       
     </div>
   
@@ -367,9 +464,9 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/C%E8%AF%AD%E8%A8%80-%E6%8C%87%E9%92%88/" title="C语言-指针">
+                      <a href="/C%E8%AF%AD%E8%A8%80-%E7%BC%96%E8%AF%91%E8%BF%87%E7%A8%8B/" title="C语言-编译过程">
                         <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">C语言-指针</span>
+                        <span class="hidden-mobile">C语言-编译过程</span>
                         <span class="visible-mobile">上一篇</span>
                       </a>
                     
@@ -377,8 +474,8 @@
                   <article class="post-next col-6">
                     
                     
-                      <a href="/C%E8%AF%AD%E8%A8%80-%E9%A2%84%E5%AE%9A%E4%B9%89%E5%AE%8F/" title="C语言-预定义宏">
-                        <span class="hidden-mobile">C语言-预定义宏</span>
+                      <a href="/C%E8%AF%AD%E8%A8%80-%E5%86%85%E5%AD%98%E6%A8%A1%E5%9E%8B/" title="C语言-内存模型">
+                        <span class="hidden-mobile">C语言-内存模型</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>
@@ -401,7 +498,7 @@
         var options = Object.assign(
           {"clientID":"e9b52ee57707526358fd","clientSecret":"28d34ccc5d139a900131a3f8c5eedd770c50c71b","repo":"whiiiiisper.github.io","owner":"whiiiiisper","admin":["whiiiiisper"],"language":"zh-CN","labels":["Gitalk"],"perPage":10,"pagerDirection":"last","distractionFreeMode":false,"createIssueManually":true,"proxy":"https://cors-anywhere.azm.workers.dev/https://github.com/login/oauth/access_token"},
           {
-            id: '1b41860a08fd602c0a4dcff4a642eff5'
+            id: '80850ba8b1e05de734dc410f6fe318a0'
           }
         )
         var gitalk = new Gitalk(options);

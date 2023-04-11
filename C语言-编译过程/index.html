@@ -16,24 +16,27 @@
   <meta name="author" content="TRknight">
   <meta name="keywords" content="">
   
-    <meta name="description" content="C语言不定长参数宏使用方法">
+    <meta name="description" content="综述从源代码生成可执行文件可以分为四个步骤，分别是预处理（Preprocessing）、编译（Compilation）、汇编（Assembly）和链接（Linking）   直接生成可执行文件（带调试信息）： $gcc -g demo.c -o demo  不带调试信息 ： $gcc demo.c -o demo   预处理（Preprocessing） 预编译指令（directive）  预处理">
 <meta property="og:type" content="article">
-<meta property="og:title" content="C语言-不定长参数宏">
-<meta property="og:url" content="https://whiiiiisper.github.io/C%E8%AF%AD%E8%A8%80-%E4%B8%8D%E5%AE%9A%E9%95%BF%E5%8F%82%E6%95%B0%E5%AE%8F/index.html">
+<meta property="og:title" content="C语言-编译过程">
+<meta property="og:url" content="https://whiiiiisper.github.io/C%E8%AF%AD%E8%A8%80-%E7%BC%96%E8%AF%91%E8%BF%87%E7%A8%8B/index.html">
 <meta property="og:site_name" content="TRknight的博客">
-<meta property="og:description" content="C语言不定长参数宏使用方法">
+<meta property="og:description" content="综述从源代码生成可执行文件可以分为四个步骤，分别是预处理（Preprocessing）、编译（Compilation）、汇编（Assembly）和链接（Linking）   直接生成可执行文件（带调试信息）： $gcc -g demo.c -o demo  不带调试信息 ： $gcc demo.c -o demo   预处理（Preprocessing） 预编译指令（directive）  预处理">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2023-04-11T03:02:02.000Z">
-<meta property="article:modified_time" content="2023-04-11T03:49:05.328Z">
+<meta property="og:image" content="https://whiiiiisper.github.io/C%E8%AF%AD%E8%A8%80-%E7%BC%96%E8%AF%91%E8%BF%87%E7%A8%8B/image-20230411212028697.png">
+<meta property="og:image" content="https://whiiiiisper.github.io/C%E8%AF%AD%E8%A8%80-%E7%BC%96%E8%AF%91%E8%BF%87%E7%A8%8B/clip_image001.png">
+<meta property="article:published_time" content="2023-04-11T03:06:29.000Z">
+<meta property="article:modified_time" content="2023-04-11T13:23:26.459Z">
 <meta property="article:author" content="TRknight">
-<meta property="article:tag" content="C语言技巧">
+<meta property="article:tag" content="C语言基础">
 <meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://whiiiiisper.github.io/C%E8%AF%AD%E8%A8%80-%E7%BC%96%E8%AF%91%E8%BF%87%E7%A8%8B/image-20230411212028697.png">
   
   
     <meta name="referrer" content="no-referrer-when-downgrade">
   
   
-  <title>C语言-不定长参数宏 - TRknight的博客</title>
+  <title>C语言-编译过程 - TRknight的博客</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -228,7 +231,7 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle">C语言-不定长参数宏</span>
+            <span id="subtitle">C语言-编译过程</span>
           
         </div>
 
@@ -239,7 +242,7 @@
     
       <span class="post-meta">
         <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-        <time datetime="2023-04-11 11:02" pubdate>
+        <time datetime="2023-04-11 11:06" pubdate>
           2023年4月11日 上午
         </time>
       </span>
@@ -251,7 +254,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          456 字
+          1.1k 字
         
       </span>
     
@@ -262,7 +265,7 @@
         
         
         
-          4 分钟
+          10 分钟
         
       </span>
     
@@ -300,12 +303,12 @@
         <div id="board">
           <article class="post-content mx-auto">
             <!-- SEO header -->
-            <h1 style="display: none">C语言-不定长参数宏</h1>
+            <h1 style="display: none">C语言-编译过程</h1>
             
               <p class="note note-info">
                 
                   
-                    本文最后更新于：10 小时前
+                    本文最后更新于：26 分钟前
                   
                 
               </p>
@@ -313,13 +316,52 @@
             
               <div class="markdown-body">
                 
-                <p>C 语言中 VA_ARGS 是一个可变参数的宏，是新的 C99 规范中新增的，需要配合 define 使用，总体来说就是将左边宏中 … 的内容原样抄写在右边 VA_ARGS 所在的位置。</p>
-<h1 id="一个不定长参数"><a href="#一个不定长参数" class="headerlink" title="一个不定长参数"></a>一个不定长参数</h1><p><code>#define MY_PRINT(...)   hesy_print(__VA_ARGS__)</code></p>
-<h1 id="一个固定参数和一个不定长参数"><a href="#一个固定参数和一个不定长参数" class="headerlink" title="一个固定参数和一个不定长参数"></a>一个固定参数和一个不定长参数</h1><p><code>#define MY_PRINT(fmt, ...)   hesy_print(fmt, ##__VA_ARGS__)</code></p>
-<p>如果可变参数被忽略或为空，## 操作将使预处理器（preprocessor）去除掉它前面的那个逗号</p>
-<p><strong>可用于C语言下设置默认参数</strong></p>
-<h1 id="示例"><a href="#示例" class="headerlink" title="示例"></a>示例</h1><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">define</span> print_LOG(level, fmt, ...) printf(<span class="hljs-string">&quot;[%s][%d]&quot;</span>fmt<span class="hljs-string">&quot;\n&quot;</span>, __FUNCTION__, __LINE__, ##__VA_ARGS__)</span><br><br><span class="hljs-meta">#<span class="hljs-keyword">define</span> print_LOG(level, fmt, args...) SYS_LOG(<span class="hljs-string">&quot;[WIFI]&quot;</span>, level, fmt,  ##args)</span><br></code></pre></td></tr></table></figure>
-
+                <h1 id="综述"><a href="#综述" class="headerlink" title="综述"></a>综述</h1><p>从源代码生成可执行文件可以分为四个步骤，分别是<strong>预处理（Preprocessing）</strong>、<strong>编译（Compilation）</strong>、<strong>汇编（Assembly）</strong>和<strong>链接（Linking）</strong></p>
+<p><img src="/C%E8%AF%AD%E8%A8%80-%E7%BC%96%E8%AF%91%E8%BF%87%E7%A8%8B/image-20230411212028697.png" srcset="/img/loading.gif" lazyload></p>
+<blockquote>
+<p>直接生成可执行文件（带调试信息）：</p>
+<p>$gcc -g demo.c -o demo </p>
+<p>不带调试信息 ：</p>
+<p>$gcc demo.c -o demo </p>
+</blockquote>
+<h1 id="预处理（Preprocessing）"><a href="#预处理（Preprocessing）" class="headerlink" title="预处理（Preprocessing）"></a>预处理（Preprocessing）</h1><blockquote>
+<p>预编译指令（directive）</p>
+</blockquote>
+<p>预处理过程主要是处理那些源文件和头文件中以#开头的命令，比如 #include、#define、#ifdef 等。预处理的规则一般如下：</p>
+<ul>
+<li>将所有的#define删除，并展开所有的宏定义。</li>
+<li>处理所有条件编译命令，比如 #if、#ifdef、#elif、#else、#endif 等。</li>
+<li>处理#include命令，将被包含文件的内容插入到该命令所在的位置，这与复制粘贴的效果一样。注意，这个过程是递归进行的，也就是说被包含的文件可能还会包含其他的文件。</li>
+<li>删除所有的注释//和/*     … */。</li>
+<li>添加行号和文件名标识，便于在调试和出错时给出具体的代码位置。</li>
+<li>保留所有的#pragma命令，因为编译器需要使用它们。</li>
+</ul>
+<p>预处理的结果是生成.i文件。.i文件也是包含C语言代码的源文件，只不过所有的宏已经被展开，所有包含的文件已经被插入到当前文件中。当你无法判断宏定义是否正确，或者文件包含是否有效时，可以查看.i文件来确定问题。</p>
+<blockquote>
+<p> 在 GCC 中，可以通过下面的命令生成.i文件：   </p>
+<p>$gcc -E demo.c -o demo.i                // -E表示只进行预编译。</p>
+</blockquote>
+<p>在 Visual Studio 中，在当前工程的属性面板中将“预处理到文件”设置为“是”，如下图所示：</p>
+<p><img src="/C%E8%AF%AD%E8%A8%80-%E7%BC%96%E8%AF%91%E8%BF%87%E7%A8%8B/clip_image001.png" srcset="/img/loading.gif" lazyload></p>
+<h1 id="编译（Compilation）"><a href="#编译（Compilation）" class="headerlink" title="编译（Compilation）"></a>编译（Compilation）</h1><p>编译就是把预处理完的文件进行一些列的词法分析、语法分析、语义分析以及优化后生成相应的汇编代码文件。</p>
+<blockquote>
+<p> 在 GCC 中，可以使用下面的命令生成.s文件：</p>
+<p>$gcc -S demo.i -o demo.s</p>
+<p>或者</p>
+<p>$gcc -S demo.c -o demo.s</p>
+</blockquote>
+<p>在 Visual Studio 中，不用进行任何设置就可以在工程目录下看到 demo.asm 文件。</p>
+<h1 id="汇编（Assembly）"><a href="#汇编（Assembly）" class="headerlink" title="汇编（Assembly）"></a>汇编（Assembly）</h1><p>汇编的过程就是将汇编代码转换成可以执行的机器指令。大部分汇编语句对应一条机器指令，有的汇编语句对应多条机器指令。</p>
+<p>汇编的结果是产生目标文件，在 GCC 下的后缀为.o，在 Visual Studio 下的后缀为.obj</p>
+<p>汇编过程简单，仅是查表翻译，通常作为编译过程一部分。</p>
+<blockquote>
+<p> $gcc -c demo.i -o demo.o</p>
+</blockquote>
+<h1 id="链接（Linking）"><a href="#链接（Linking）" class="headerlink" title="链接（Linking）"></a>链接（Linking）</h1><p>目标文件已经是二进制文件，与可执行文件的组织形式类似，只是有些函数和全局变量的地址还未找到，程序不能执行。链接的作用就是找到这些目标地址，将所有的目标文件组织成一个可以执行的二进制文件。</p>
+<blockquote>
+<p>将多个目标文件链接：</p>
+<p>$gcc demo1.o demo2.o demo2.o</p>
+</blockquote>
 
                 
               </div>
@@ -353,7 +395,7 @@
     <div class="post-meta">
       <i class="iconfont icon-tags"></i>
       
-        <a href="/tags/C%E8%AF%AD%E8%A8%80%E6%8A%80%E5%B7%A7/">#C语言技巧</a>
+        <a href="/tags/C%E8%AF%AD%E8%A8%80%E5%9F%BA%E7%A1%80/">#C语言基础</a>
       
     </div>
   
@@ -367,9 +409,9 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/C%E8%AF%AD%E8%A8%80-%E6%8C%87%E9%92%88/" title="C语言-指针">
+                      <a href="/C%E8%AF%AD%E8%A8%80-%E7%9B%AE%E6%A0%87%E6%96%87%E4%BB%B6%E5%92%8C%E5%8F%AF%E6%89%A7%E8%A1%8C%E6%96%87%E4%BB%B6%E7%BB%84%E7%BB%87%E5%BD%A2%E5%BC%8F/" title="C语言-可执行文件组织形式">
                         <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">C语言-指针</span>
+                        <span class="hidden-mobile">C语言-可执行文件组织形式</span>
                         <span class="visible-mobile">上一篇</span>
                       </a>
                     
@@ -377,8 +419,8 @@
                   <article class="post-next col-6">
                     
                     
-                      <a href="/C%E8%AF%AD%E8%A8%80-%E9%A2%84%E5%AE%9A%E4%B9%89%E5%AE%8F/" title="C语言-预定义宏">
-                        <span class="hidden-mobile">C语言-预定义宏</span>
+                      <a href="/C%E8%AF%AD%E8%A8%80-%E5%87%BD%E6%95%B0%E6%A0%88%E5%B8%A7/" title="C语言-函数栈帧">
+                        <span class="hidden-mobile">C语言-函数栈帧</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>
@@ -401,7 +443,7 @@
         var options = Object.assign(
           {"clientID":"e9b52ee57707526358fd","clientSecret":"28d34ccc5d139a900131a3f8c5eedd770c50c71b","repo":"whiiiiisper.github.io","owner":"whiiiiisper","admin":["whiiiiisper"],"language":"zh-CN","labels":["Gitalk"],"perPage":10,"pagerDirection":"last","distractionFreeMode":false,"createIssueManually":true,"proxy":"https://cors-anywhere.azm.workers.dev/https://github.com/login/oauth/access_token"},
           {
-            id: '1b41860a08fd602c0a4dcff4a642eff5'
+            id: '2a3187cece1ff931c2f64d046106450a'
           }
         )
         var gitalk = new Gitalk(options);

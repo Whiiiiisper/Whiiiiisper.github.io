@@ -16,24 +16,26 @@
   <meta name="author" content="TRknight">
   <meta name="keywords" content="">
   
-    <meta name="description" content="C语言不定长参数宏使用方法">
+    <meta name="description" content="链接概念">
 <meta property="og:type" content="article">
-<meta property="og:title" content="C语言-不定长参数宏">
-<meta property="og:url" content="https://whiiiiisper.github.io/C%E8%AF%AD%E8%A8%80-%E4%B8%8D%E5%AE%9A%E9%95%BF%E5%8F%82%E6%95%B0%E5%AE%8F/index.html">
+<meta property="og:title" content="C语言-链接">
+<meta property="og:url" content="https://whiiiiisper.github.io/C%E8%AF%AD%E8%A8%80-%E9%93%BE%E6%8E%A5/index.html">
 <meta property="og:site_name" content="TRknight的博客">
-<meta property="og:description" content="C语言不定长参数宏使用方法">
+<meta property="og:description" content="链接概念">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2023-04-11T03:02:02.000Z">
-<meta property="article:modified_time" content="2023-04-11T03:49:05.328Z">
+<meta property="og:image" content="https://whiiiiisper.github.io/C%E8%AF%AD%E8%A8%80-%E9%93%BE%E6%8E%A5/image-20230411214618935.png">
+<meta property="article:published_time" content="2023-04-11T03:08:04.000Z">
+<meta property="article:modified_time" content="2023-04-11T13:48:50.155Z">
 <meta property="article:author" content="TRknight">
-<meta property="article:tag" content="C语言技巧">
+<meta property="article:tag" content="C语言高级">
 <meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://whiiiiisper.github.io/C%E8%AF%AD%E8%A8%80-%E9%93%BE%E6%8E%A5/image-20230411214618935.png">
   
   
     <meta name="referrer" content="no-referrer-when-downgrade">
   
   
-  <title>C语言-不定长参数宏 - TRknight的博客</title>
+  <title>C语言-链接 - TRknight的博客</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -228,7 +230,7 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle">C语言-不定长参数宏</span>
+            <span id="subtitle">C语言-链接</span>
           
         </div>
 
@@ -239,7 +241,7 @@
     
       <span class="post-meta">
         <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-        <time datetime="2023-04-11 11:02" pubdate>
+        <time datetime="2023-04-11 11:08" pubdate>
           2023年4月11日 上午
         </time>
       </span>
@@ -251,7 +253,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          456 字
+          1.5k 字
         
       </span>
     
@@ -262,7 +264,7 @@
         
         
         
-          4 分钟
+          13 分钟
         
       </span>
     
@@ -300,12 +302,12 @@
         <div id="board">
           <article class="post-content mx-auto">
             <!-- SEO header -->
-            <h1 style="display: none">C语言-不定长参数宏</h1>
+            <h1 style="display: none">C语言-链接</h1>
             
               <p class="note note-info">
                 
                   
-                    本文最后更新于：10 小时前
+                    本文最后更新于：几秒前
                   
                 
               </p>
@@ -313,13 +315,45 @@
             
               <div class="markdown-body">
                 
-                <p>C 语言中 VA_ARGS 是一个可变参数的宏，是新的 C99 规范中新增的，需要配合 define 使用，总体来说就是将左边宏中 … 的内容原样抄写在右边 VA_ARGS 所在的位置。</p>
-<h1 id="一个不定长参数"><a href="#一个不定长参数" class="headerlink" title="一个不定长参数"></a>一个不定长参数</h1><p><code>#define MY_PRINT(...)   hesy_print(__VA_ARGS__)</code></p>
-<h1 id="一个固定参数和一个不定长参数"><a href="#一个固定参数和一个不定长参数" class="headerlink" title="一个固定参数和一个不定长参数"></a>一个固定参数和一个不定长参数</h1><p><code>#define MY_PRINT(fmt, ...)   hesy_print(fmt, ##__VA_ARGS__)</code></p>
-<p>如果可变参数被忽略或为空，## 操作将使预处理器（preprocessor）去除掉它前面的那个逗号</p>
-<p><strong>可用于C语言下设置默认参数</strong></p>
-<h1 id="示例"><a href="#示例" class="headerlink" title="示例"></a>示例</h1><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">define</span> print_LOG(level, fmt, ...) printf(<span class="hljs-string">&quot;[%s][%d]&quot;</span>fmt<span class="hljs-string">&quot;\n&quot;</span>, __FUNCTION__, __LINE__, ##__VA_ARGS__)</span><br><br><span class="hljs-meta">#<span class="hljs-keyword">define</span> print_LOG(level, fmt, args...) SYS_LOG(<span class="hljs-string">&quot;[WIFI]&quot;</span>, level, fmt,  ##args)</span><br></code></pre></td></tr></table></figure>
-
+                <h1 id="链接器概念"><a href="#链接器概念" class="headerlink" title="链接器概念"></a>链接器概念</h1><p>​    编译器和链接器的一项重要任务就是将助记符替换成地址。修改程序后，需要重新计算每个子程序或者跳转的目标地址，这个过程叫做<strong>重定位（Relocation）</strong></p>
+<p>​    使用机器语言编程时每次修改代码后需要人工重新计算目标地址，直到汇编语言出现。汇编语言使用接近人类的各种符号和标记来帮助记忆，比如用jmp表示跳转指令，用func表示一个子程序（C语言中的函数就是一个子程序）的起始地址，这种符号的方法使得人们从具体的机器指令和二进制地址中解放出来。</p>
+<blockquote>
+<p>符号（Symbol）这个概念随着汇编语言的普及被广泛接受，它用来表示一个地址，这个地址可能是一段子程序（后来发展为函数）的起始地址，也可以是一个变量的地址。</p>
+</blockquote>
+<p>​    在程序被分隔成多个模块后，需要解决的一个重要问题是如何将这些模块组合成一个单一的可执行程序。在C语言中，模块之间的依赖关系主要有两种：一种是模块间的函数调用，另外一种是模块间的变量访问。</p>
+<blockquote>
+<p>在C语言中，一个模块可以认为是一个源文件（.c 文件）</p>
+</blockquote>
+<p>​    函数调用需要知道函数的首地址，变量访问需要知道变量的地址，所以这两种方式可以归结为一种，那就是模块间的符号引用。</p>
+<p>​    这种通过符号将多个模块拼接为一个独立的程序的过程就叫做<strong>链接（Linking）</strong>。从原理上来讲，链接器的作用就是找到符号（函数、全局变量，忽略局部变量）的地址，或者把指令中使用到的地址加以修正。这个过程称为<strong>符号决议（Symbol Resolution）</strong>或者<strong>重定位（Relocation）</strong></p>
+<blockquote>
+<p>每个需要被修正的地方叫做一个重定位入口（Relocation Entry）</p>
+</blockquote>
+<h1 id="链接步骤"><a href="#链接步骤" class="headerlink" title="链接步骤"></a>链接步骤</h1><h2 id="1-符号决议（Symbol-Resolution）"><a href="#1-符号决议（Symbol-Resolution）" class="headerlink" title="1.符号决议（Symbol Resolution）"></a>1.符号决议（Symbol Resolution）</h2><p>当要进行链接时，链接器首先扫描所有的目标文件，获得各个段的长度、属性、位置等信息，并将目标文件中的所有（符号表中的）符号收集起来，统一放到一个全局符号表。</p>
+<p>在这一步中，链接器会将目标文件中的各个段合并到可执行文件，并计算出合并后的各个段的长度、位置、虚拟地址等。</p>
+<p>在目标文件的符号表中，保存了各个符号在段内的偏移，生成可执行文件后，原来各个段（Section）起始位置的虚拟地址就确定了下来，这样，使用起始地址加上偏移量就能够得到符号的地址（在进程中的虚拟地址）。</p>
+<p>这种计算符号地址的过程被称为<strong>符号决议（Symbol Resolution）</strong>。</p>
+<h2 id="2-重定位"><a href="#2-重定位" class="headerlink" title="2. 重定位"></a>2. 重定位</h2><p>重定位表.rel.text和.rel.data中保存了需要重定位的全局符号以及重定位入口，完成了符号决议，链接器会根据重定位表调整代码中的地址，使它指向正确的内存位置。（修改.text段和.data段中对每个符号的引用(地址)）</p>
+<p>至此，可执行文件就生成了，链接器完成了它的使命。</p>
+<p><img src="/C%E8%AF%AD%E8%A8%80-%E9%93%BE%E6%8E%A5/image-20230411214618935.png" srcset="/img/loading.gif" lazyload></p>
+<h1 id="强符号和弱符号"><a href="#强符号和弱符号" class="headerlink" title="强符号和弱符号"></a>强符号和弱符号</h1><p>在C语言中，编译器默认函数和初始化了的全局变量为<strong>强符号（Strong Symbol）</strong>，未初始化的全局变量为<strong>弱符号（Weak Symbol）</strong></p>
+<blockquote>
+<p>注意，不包括函数内的局部变量，和加static修饰的本地符号</p>
+</blockquote>
+<ol>
+<li><p>不允许强符号被多次定义，也即不同的目标文件中不能有同名的强符号；如果有多个强符号，那么链接器会报符号<strong>重复定义（Multiple Definition）</strong>错误。</p>
+</li>
+<li><p>如果一个符号在某个目标文件中是强符号，在其他文件中是弱符号，那么选择强符号。</p>
+</li>
+<li><p>如果一个符号在所有的目标文件中都是弱符号，那么选择其中占用空间最大的一个。</p>
+</li>
+</ol>
+<h1 id="强引用和弱引用"><a href="#强引用和弱引用" class="headerlink" title="强引用和弱引用"></a>强引用和弱引用</h1><blockquote>
+<p>在变量声明或函数声明的前面加上<code>__attribute__((weak))</code>就会使符号变为弱引用</p>
+</blockquote>
+<h2 id="强引用："><a href="#强引用：" class="headerlink" title="强引用："></a>强引用：</h2><p>在所有目标文件被链接成可执行文件时，它们的地址都要被找到，如果没有符号定义，链接器就会报符号未定义错误</p>
+<h2 id="弱引用："><a href="#弱引用：" class="headerlink" title="弱引用："></a>弱引用：</h2><p>如果符号有定义，就使用它对应的地址，如果没有定义，也不报错</p>
+<p>对于未定义的弱引用，链接器不认为它是一个错误，一般默认其为 0（地址为 0），或者是一个特殊的值，以便程序代码能够识别。</p>
 
                 
               </div>
@@ -353,7 +387,7 @@
     <div class="post-meta">
       <i class="iconfont icon-tags"></i>
       
-        <a href="/tags/C%E8%AF%AD%E8%A8%80%E6%8A%80%E5%B7%A7/">#C语言技巧</a>
+        <a href="/tags/C%E8%AF%AD%E8%A8%80%E9%AB%98%E7%BA%A7/">#C语言高级</a>
       
     </div>
   
@@ -367,18 +401,12 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/C%E8%AF%AD%E8%A8%80-%E6%8C%87%E9%92%88/" title="C语言-指针">
-                        <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">C语言-指针</span>
-                        <span class="visible-mobile">上一篇</span>
-                      </a>
-                    
                   </article>
                   <article class="post-next col-6">
                     
                     
-                      <a href="/C%E8%AF%AD%E8%A8%80-%E9%A2%84%E5%AE%9A%E4%B9%89%E5%AE%8F/" title="C语言-预定义宏">
-                        <span class="hidden-mobile">C语言-预定义宏</span>
+                      <a href="/C%E8%AF%AD%E8%A8%80-%E7%9B%AE%E6%A0%87%E6%96%87%E4%BB%B6%E5%92%8C%E5%8F%AF%E6%89%A7%E8%A1%8C%E6%96%87%E4%BB%B6%E7%BB%84%E7%BB%87%E5%BD%A2%E5%BC%8F/" title="C语言-可执行文件组织形式">
+                        <span class="hidden-mobile">C语言-可执行文件组织形式</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>
@@ -401,7 +429,7 @@
         var options = Object.assign(
           {"clientID":"e9b52ee57707526358fd","clientSecret":"28d34ccc5d139a900131a3f8c5eedd770c50c71b","repo":"whiiiiisper.github.io","owner":"whiiiiisper","admin":["whiiiiisper"],"language":"zh-CN","labels":["Gitalk"],"perPage":10,"pagerDirection":"last","distractionFreeMode":false,"createIssueManually":true,"proxy":"https://cors-anywhere.azm.workers.dev/https://github.com/login/oauth/access_token"},
           {
-            id: '1b41860a08fd602c0a4dcff4a642eff5'
+            id: 'd1b251b560d12d5a39d72ff0f6ef08c2'
           }
         )
         var gitalk = new Gitalk(options);

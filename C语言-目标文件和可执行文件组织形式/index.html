@@ -16,24 +16,26 @@
   <meta name="author" content="TRknight">
   <meta name="keywords" content="">
   
-    <meta name="description" content="C语言不定长参数宏使用方法">
+    <meta name="description" content="综述​    主流的可执行文件格式主要是 Windows 下的 PE（Portable Executable）和 Linux 下的 ELF（Executable Linkable Format），它们都是 COFF（Common File Format）格式的变种，COFF 是 Unix V3首先提出的规范。其他不太常见的可执行文件格式还有 Intel&#x2F;Microsoft 的 OMF（Object">
 <meta property="og:type" content="article">
-<meta property="og:title" content="C语言-不定长参数宏">
-<meta property="og:url" content="https://whiiiiisper.github.io/C%E8%AF%AD%E8%A8%80-%E4%B8%8D%E5%AE%9A%E9%95%BF%E5%8F%82%E6%95%B0%E5%AE%8F/index.html">
+<meta property="og:title" content="C语言-可执行文件组织形式">
+<meta property="og:url" content="https://whiiiiisper.github.io/C%E8%AF%AD%E8%A8%80-%E7%9B%AE%E6%A0%87%E6%96%87%E4%BB%B6%E5%92%8C%E5%8F%AF%E6%89%A7%E8%A1%8C%E6%96%87%E4%BB%B6%E7%BB%84%E7%BB%87%E5%BD%A2%E5%BC%8F/index.html">
 <meta property="og:site_name" content="TRknight的博客">
-<meta property="og:description" content="C语言不定长参数宏使用方法">
+<meta property="og:description" content="综述​    主流的可执行文件格式主要是 Windows 下的 PE（Portable Executable）和 Linux 下的 ELF（Executable Linkable Format），它们都是 COFF（Common File Format）格式的变种，COFF 是 Unix V3首先提出的规范。其他不太常见的可执行文件格式还有 Intel&#x2F;Microsoft 的 OMF（Object">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2023-04-11T03:02:02.000Z">
-<meta property="article:modified_time" content="2023-04-11T03:49:05.328Z">
+<meta property="og:image" content="https://whiiiiisper.github.io/C%E8%AF%AD%E8%A8%80-%E7%9B%AE%E6%A0%87%E6%96%87%E4%BB%B6%E5%92%8C%E5%8F%AF%E6%89%A7%E8%A1%8C%E6%96%87%E4%BB%B6%E7%BB%84%E7%BB%87%E5%BD%A2%E5%BC%8F/image-20230411213602877.png">
+<meta property="article:published_time" content="2023-04-11T03:07:03.000Z">
+<meta property="article:modified_time" content="2023-04-11T13:37:19.032Z">
 <meta property="article:author" content="TRknight">
-<meta property="article:tag" content="C语言技巧">
+<meta property="article:tag" content="C语言高级">
 <meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://whiiiiisper.github.io/C%E8%AF%AD%E8%A8%80-%E7%9B%AE%E6%A0%87%E6%96%87%E4%BB%B6%E5%92%8C%E5%8F%AF%E6%89%A7%E8%A1%8C%E6%96%87%E4%BB%B6%E7%BB%84%E7%BB%87%E5%BD%A2%E5%BC%8F/image-20230411213602877.png">
   
   
     <meta name="referrer" content="no-referrer-when-downgrade">
   
   
-  <title>C语言-不定长参数宏 - TRknight的博客</title>
+  <title>C语言-可执行文件组织形式 - TRknight的博客</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -228,7 +230,7 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle">C语言-不定长参数宏</span>
+            <span id="subtitle">C语言-可执行文件组织形式</span>
           
         </div>
 
@@ -239,7 +241,7 @@
     
       <span class="post-meta">
         <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-        <time datetime="2023-04-11 11:02" pubdate>
+        <time datetime="2023-04-11 11:07" pubdate>
           2023年4月11日 上午
         </time>
       </span>
@@ -251,7 +253,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          456 字
+          1.3k 字
         
       </span>
     
@@ -262,7 +264,7 @@
         
         
         
-          4 分钟
+          11 分钟
         
       </span>
     
@@ -300,12 +302,12 @@
         <div id="board">
           <article class="post-content mx-auto">
             <!-- SEO header -->
-            <h1 style="display: none">C语言-不定长参数宏</h1>
+            <h1 style="display: none">C语言-可执行文件组织形式</h1>
             
               <p class="note note-info">
                 
                   
-                    本文最后更新于：10 小时前
+                    本文最后更新于：12 分钟前
                   
                 
               </p>
@@ -313,13 +315,53 @@
             
               <div class="markdown-body">
                 
-                <p>C 语言中 VA_ARGS 是一个可变参数的宏，是新的 C99 规范中新增的，需要配合 define 使用，总体来说就是将左边宏中 … 的内容原样抄写在右边 VA_ARGS 所在的位置。</p>
-<h1 id="一个不定长参数"><a href="#一个不定长参数" class="headerlink" title="一个不定长参数"></a>一个不定长参数</h1><p><code>#define MY_PRINT(...)   hesy_print(__VA_ARGS__)</code></p>
-<h1 id="一个固定参数和一个不定长参数"><a href="#一个固定参数和一个不定长参数" class="headerlink" title="一个固定参数和一个不定长参数"></a>一个固定参数和一个不定长参数</h1><p><code>#define MY_PRINT(fmt, ...)   hesy_print(fmt, ##__VA_ARGS__)</code></p>
-<p>如果可变参数被忽略或为空，## 操作将使预处理器（preprocessor）去除掉它前面的那个逗号</p>
-<p><strong>可用于C语言下设置默认参数</strong></p>
-<h1 id="示例"><a href="#示例" class="headerlink" title="示例"></a>示例</h1><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">define</span> print_LOG(level, fmt, ...) printf(<span class="hljs-string">&quot;[%s][%d]&quot;</span>fmt<span class="hljs-string">&quot;\n&quot;</span>, __FUNCTION__, __LINE__, ##__VA_ARGS__)</span><br><br><span class="hljs-meta">#<span class="hljs-keyword">define</span> print_LOG(level, fmt, args...) SYS_LOG(<span class="hljs-string">&quot;[WIFI]&quot;</span>, level, fmt,  ##args)</span><br></code></pre></td></tr></table></figure>
+                <h1 id="综述"><a href="#综述" class="headerlink" title="综述"></a>综述</h1><p>​    主流的可执行文件格式主要是 Windows 下的 PE（Portable Executable）和 Linux 下的 ELF（Executable Linkable Format），它们都是 COFF（Common File Format）格式的变种，COFF 是 Unix V3首先提出的规范。其他不太常见的可执行文件格式还有 Intel/Microsoft 的 OMF（Object Module Format）、Unix a.out、MS-DOS .COM 等。</p>
+<p>​    从广义上讲，目标文件与可执行文件的存储格式几乎是一样的，动态链接库（DLL，Dynamic Linking Library）（Windows 下的.dll和 Linux 下的.so）和静态链接库（Static Linking Library）（Windows 下的.lib和 Linux 下的.a）也是按照可执行文件的格式存储的。</p>
+<p>​    静态链接库稍有不同，它是把多个目标文件捆绑在一起形成一个文件，再加上一些索引，可以简单地把它理解为一个包含了很多目标文件的包。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs c">objdump -d demo.o <br>可使用此指令查看目标文件，-d表示把所有包含指令的段反汇编<br><br>objdump -s -d demo.o<br>-s表示所有段以十六进制显示<br><br>objdump -h demo.o <br>可使用此指令查看文件组织形式<br><br>objdump -r demo.o <br>可使用此指令查看需要重定位的符号<br></code></pre></td></tr></table></figure>
 
+
+
+<h1 id="文件类型"><a href="#文件类型" class="headerlink" title="文件类型"></a>文件类型</h1><p>在 Linux 的 ELF 标准中，主要包含以下四类文件：</p>
+<table>
+<thead>
+<tr>
+<th><strong>文件类型</strong></th>
+<th><strong>说明</strong></th>
+<th><strong>实例</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td>可重定位文件  （Relocatable  File）</td>
+<td>这类文件包含了代码和数据，可以被用来链接成为可执行文件或动态链接库。静态链接库其实也是可重定位文件。</td>
+<td>Linux  下的 .o 和 .a，Windows 下的 .obj 和 .lib。</td>
+</tr>
+<tr>
+<td>可执行文件  （Executable  File）</td>
+<td>这类文件包含了可以直接执行的程序。</td>
+<td>Windows  下的 .exe，Linux 下的可执行文件没有固定的后缀，一般不写。</td>
+</tr>
+<tr>
+<td>共享目标文件  （Shared  Object File）</td>
+<td>这种文件包含了代码和数据，可以在以下两种情况下使用：一种是链接器可以使用这种文件跟其他的可重定位文件和共享目标文件链接，产生新的目标文件；第二种是动态连接器可以将几个共享目标文件与可执行文件结合，作为进程的一部分来运行。</td>
+<td>Linux  下的 .so，Windows 下的 .dll。</td>
+</tr>
+<tr>
+<td>核心转储文件  （Core  Dump File）</td>
+<td>当进程意外终止时，系统可以将该进程的地址空间的内容以及其他信息保存到核心转储文件。</td>
+<td>Linux  下的 core dump。</td>
+</tr>
+</tbody></table>
+<h1 id="可执行文件组织形式"><a href="#可执行文件组织形式" class="headerlink" title="可执行文件组织形式"></a>可执行文件组织形式</h1><p><img src="/C%E8%AF%AD%E8%A8%80-%E7%9B%AE%E6%A0%87%E6%96%87%E4%BB%B6%E5%92%8C%E5%8F%AF%E6%89%A7%E8%A1%8C%E6%96%87%E4%BB%B6%E7%BB%84%E7%BB%87%E5%BD%A2%E5%BC%8F/image-20230411213602877.png" srcset="/img/loading.gif" lazyload></p>
+<blockquote>
+<p>text段在内存中被映射为只读，但date段与bss段是可写的</p>
+<p>linux中的elf文件都是从虚拟地址0x08048000开始分配的</p>
+</blockquote>
+<ul>
+<li>text段：代码段，就是放程序代码的，编译时确定，只读</li>
+<li>date段：存放在编译阶段（而非运行时）就能确定的数据，可读可写。也就是通常所说的静态存储区，赋了初值的全局变量和赋初值的静态变量存放在这个区域，常量也存在这个区域</li>
+<li>bss段：已经定义但没赋初值的全局变量和静态变量存放在这个区域。</li>
+</ul>
 
                 
               </div>
@@ -353,7 +395,7 @@
     <div class="post-meta">
       <i class="iconfont icon-tags"></i>
       
-        <a href="/tags/C%E8%AF%AD%E8%A8%80%E6%8A%80%E5%B7%A7/">#C语言技巧</a>
+        <a href="/tags/C%E8%AF%AD%E8%A8%80%E9%AB%98%E7%BA%A7/">#C语言高级</a>
       
     </div>
   
@@ -367,9 +409,9 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/C%E8%AF%AD%E8%A8%80-%E6%8C%87%E9%92%88/" title="C语言-指针">
+                      <a href="/C%E8%AF%AD%E8%A8%80-%E9%93%BE%E6%8E%A5/" title="C语言-链接">
                         <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">C语言-指针</span>
+                        <span class="hidden-mobile">C语言-链接</span>
                         <span class="visible-mobile">上一篇</span>
                       </a>
                     
@@ -377,8 +419,8 @@
                   <article class="post-next col-6">
                     
                     
-                      <a href="/C%E8%AF%AD%E8%A8%80-%E9%A2%84%E5%AE%9A%E4%B9%89%E5%AE%8F/" title="C语言-预定义宏">
-                        <span class="hidden-mobile">C语言-预定义宏</span>
+                      <a href="/C%E8%AF%AD%E8%A8%80-%E7%BC%96%E8%AF%91%E8%BF%87%E7%A8%8B/" title="C语言-编译过程">
+                        <span class="hidden-mobile">C语言-编译过程</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>
@@ -401,7 +443,7 @@
         var options = Object.assign(
           {"clientID":"e9b52ee57707526358fd","clientSecret":"28d34ccc5d139a900131a3f8c5eedd770c50c71b","repo":"whiiiiisper.github.io","owner":"whiiiiisper","admin":["whiiiiisper"],"language":"zh-CN","labels":["Gitalk"],"perPage":10,"pagerDirection":"last","distractionFreeMode":false,"createIssueManually":true,"proxy":"https://cors-anywhere.azm.workers.dev/https://github.com/login/oauth/access_token"},
           {
-            id: '1b41860a08fd602c0a4dcff4a642eff5'
+            id: '30eca957bb1d205265de8e648a62714b'
           }
         )
         var gitalk = new Gitalk(options);
