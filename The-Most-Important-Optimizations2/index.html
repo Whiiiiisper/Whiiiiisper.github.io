@@ -1,0 +1,982 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/avatar1.png">
+  <link rel="icon" href="/img/avatar1.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="TRknight">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="性能优化的一些手段">
+<meta property="og:type" content="article">
+<meta property="og:title" content="C++程序性能优化（二）- C++语言层面">
+<meta property="og:url" content="https://whiiiiisper.github.io/The-Most-Important-Optimizations2/index.html">
+<meta property="og:site_name" content="TRknight的博客">
+<meta property="og:description" content="性能优化的一些手段">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://whiiiiisper.github.io/The-Most-Important-Optimizations2/image-20250729212135658.png">
+<meta property="og:image" content="https://whiiiiisper.github.io/The-Most-Important-Optimizations2/image-20250727191109055.png">
+<meta property="og:image" content="https://whiiiiisper.github.io/The-Most-Important-Optimizations2/image-20250728182558141.png">
+<meta property="og:image" content="https://whiiiiisper.github.io/The-Most-Important-Optimizations2/image-20250728190101491.png">
+<meta property="og:image" content="https://whiiiiisper.github.io/The-Most-Important-Optimizations2/image-20250728190125864.png">
+<meta property="og:image" content="https://whiiiiisper.github.io/The-Most-Important-Optimizations2/image-20250728212914937.png">
+<meta property="og:image" content="https://whiiiiisper.github.io/The-Most-Important-Optimizations2/image-20250728233333132.png">
+<meta property="og:image" content="https://whiiiiisper.github.io/The-Most-Important-Optimizations2/image-20250728233353563.png">
+<meta property="og:image" content="https://whiiiiisper.github.io/The-Most-Important-Optimizations2/image-20250728234116152.png">
+<meta property="og:image" content="https://whiiiiisper.github.io/The-Most-Important-Optimizations2/image-20250728234212368.png">
+<meta property="og:image" content="https://whiiiiisper.github.io/The-Most-Important-Optimizations2/image-20250728235508096.png">
+<meta property="og:image" content="https://whiiiiisper.github.io/The-Most-Important-Optimizations2/image-20250728235521202.png">
+<meta property="og:image" content="https://whiiiiisper.github.io/The-Most-Important-Optimizations2/image-20250728235752571.png">
+<meta property="og:image" content="https://whiiiiisper.github.io/The-Most-Important-Optimizations2/image-20250729000449683.png">
+<meta property="og:image" content="https://whiiiiisper.github.io/The-Most-Important-Optimizations2/image-20250729213026027.png">
+<meta property="og:image" content="https://whiiiiisper.github.io/The-Most-Important-Optimizations2/image-20250729212806746.png">
+<meta property="og:image" content="https://whiiiiisper.github.io/The-Most-Important-Optimizations2/image-20250729215854206.png">
+<meta property="og:image" content="https://whiiiiisper.github.io/The-Most-Important-Optimizations2/image-20250729220114486.png">
+<meta property="og:image" content="https://whiiiiisper.github.io/The-Most-Important-Optimizations2/image-20250729220720588.png">
+<meta property="og:image" content="https://whiiiiisper.github.io/The-Most-Important-Optimizations2/image-20250729220834534.png">
+<meta property="og:image" content="https://whiiiiisper.github.io/The-Most-Important-Optimizations2/image-20250729220941573.png">
+<meta property="og:image" content="https://whiiiiisper.github.io/The-Most-Important-Optimizations2/image-20250729224956097.png">
+<meta property="og:image" content="https://whiiiiisper.github.io/The-Most-Important-Optimizations2/image-20250729225011801.png">
+<meta property="og:image" content="https://whiiiiisper.github.io/The-Most-Important-Optimizations2/image-20250729225637316.png">
+<meta property="article:published_time" content="2025-07-27T07:50:52.000Z">
+<meta property="article:modified_time" content="2025-07-29T15:11:52.655Z">
+<meta property="article:author" content="TRknight">
+<meta property="article:tag" content="性能优化">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://whiiiiisper.github.io/The-Most-Important-Optimizations2/image-20250729212135658.png">
+  
+  
+    <meta name="referrer" content="no-referrer-when-downgrade">
+  
+  
+  <title>C++程序性能优化（二）- C++语言层面 - TRknight的博客</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"whiiiiisper.github.io","root":"/","version":"1.9.4","typing":{"enable":true,"typeSpeed":60,"cursorChar":"_","loop":false,"scope":["home"]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":3},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":"UfX75DyTm2esCZzftemEk54r-MdYXbMMI","app_key":"9xm7jFhgkxRBHpk646aJtU2I","server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+  
+
+
+
+  
+<meta name="generator" content="Hexo 5.4.2"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>TRknight的博客</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/links/">
+                <i class="iconfont icon-link-fill"></i>
+                <span>友链</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle">C++程序性能优化（二）- C++语言层面</span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2025-07-27 15:50" pubdate>
+          2025年7月27日 下午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          8.8k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          74 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">C++程序性能优化（二）- C++语言层面</h1>
+            
+              <p class="note note-info">
+                
+                  
+                    本文最后更新于：几秒前
+                  
+                
+              </p>
+            
+            
+              <div class="markdown-body">
+                
+                <blockquote>
+<p>参考资料：<a target="_blank" rel="noopener" href="https://www.youtube.com/watch?v=qCjEN5XRzHc&ab_channel=CppCon">The Most Important Optimizations to Apply in Your C++ Programs - cppcon2022</a></p>
+<p>演讲者将性能优化手段大致分为三个层面：</p>
+<ul>
+<li><strong>软件构建阶段的修改</strong></li>
+<li><strong>C++的有效使用</strong></li>
+<li><strong>针对硬件的相关优化</strong></li>
+</ul>
+<div align=center>     <style>.obdrqxfgsejs{zoom:100%;}</style><img src="/The-Most-Important-Optimizations2/image-20250729212135658.png" srcset="/img/loading.gif" lazyload class="obdrqxfgsejs"></img> </div>
+</blockquote>
+<p>本文继续上一篇<a href="https://whiiiiisper.github.io/The-Most-Important-Optimizations/">文章</a>，主要从C++语言层面出发，讨论相关的性能优化手段。</p>
+<h2 id="C-的有效使用"><a href="#C-的有效使用" class="headerlink" title="C++的有效使用"></a>C++的有效使用</h2><h3 id="标注-annotate-代码"><a href="#标注-annotate-代码" class="headerlink" title="标注(annotate)代码"></a>标注(annotate)代码</h3><h3 id="14-总是使用constexpr"><a href="#14-总是使用constexpr" class="headerlink" title="14.总是使用constexpr"></a>14.总是使用constexpr</h3><p><code>constexpr</code> 是 C++11 引入的关键字，用于指示表达式、变量、函数等<strong>可以</strong>在编译期求值，从而提高性能，减少运行时开销。</p>
+<ul>
+<li><p><code>constexpr</code> 变量：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-keyword">constexpr</span> <span class="hljs-type">int</span> size = <span class="hljs-number">1024</span>; <span class="hljs-comment">//编译期常量</span><br><span class="hljs-type">char</span> buffer[size];<br><span class="hljs-keyword">constexpr</span> std::array&lt;<span class="hljs-type">int</span>, 3&gt; arr = &#123;<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>&#125;; <span class="hljs-comment">//C++20</span><br></code></pre></td></tr></table></figure>
+
+<ul>
+<li><p>必须在定义时就可计算出值，可以用在需要常量表达式的地方，如数组大小、<code>switch case</code>标签等</p>
+</li>
+<li><p>C++20 开始，STL 中如 <code>std::vector</code>, <code>std::string</code>, <code>std::array</code>, <code>std::span</code> 等很多容器支持 <code>constexpr</code></p>
+</li>
+<li><p><code>constexpr</code>声明的变量具有只读属性，无法修改</p>
+<blockquote>
+<p>C++20引入<code>constinit</code>，只需保证初始化是编译期进行的，但值支持运行时修改。</p>
+</blockquote>
+</li>
+</ul>
+</li>
+<li><p><code>constexpr</code> 函数：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-function"><span class="hljs-keyword">constexpr</span> <span class="hljs-type">int</span> <span class="hljs-title">add</span><span class="hljs-params">(<span class="hljs-type">int</span> a, <span class="hljs-type">int</span> b)</span> </span>&#123;<br>    <span class="hljs-keyword">return</span> a + b;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<ul>
+<li><p>C++11: 函数体必须是单一 <code>return</code> 表达式</p>
+</li>
+<li><p>C++14 起：允许多语句、局部变量、分支结构等</p>
+</li>
+<li><p>C++20 起：几乎可以做所有事，包括 <code>try/catch</code>，甚至<strong>分配内存</strong>（与 <code>std::vector</code> 一起用）</p>
+<blockquote>
+<p>C++20 还引入了<code>consteval</code>，更加严格，表示函数<strong>必须</strong>在编译期求值，<strong>不能</strong>在运行时调用</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-function"><span class="hljs-keyword">constexpr</span> <span class="hljs-type">int</span> <span class="hljs-title">foo</span><span class="hljs-params">(<span class="hljs-type">int</span> x)</span> </span>&#123; <span class="hljs-keyword">return</span> x + <span class="hljs-number">1</span>; &#125;<br><span class="hljs-function"><span class="hljs-keyword">consteval</span> <span class="hljs-type">int</span> <span class="hljs-title">bar</span><span class="hljs-params">(<span class="hljs-type">int</span> x)</span> </span>&#123; <span class="hljs-keyword">return</span> x + <span class="hljs-number">1</span>; &#125;<br><br><span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span> </span>&#123;<br>	<span class="hljs-type">int</span> runtime = <span class="hljs-number">5</span>;<br>	<span class="hljs-type">int</span> a = <span class="hljs-built_in">foo</span>(runtime);  <span class="hljs-comment">// 运行时调用</span><br>	<span class="hljs-comment">// int b = bar(runtime); // 错误，不能调用 consteval 函数</span><br>&#125;<br></code></pre></td></tr></table></figure></blockquote>
+</li>
+<li><p><code>constexpr</code>函数必须能在编译时运行，否则会报错或退化为运行时求值：</p>
+<ul>
+<li>如果在<strong>必须编译期常量</strong>的上下文中调用 <code>constexpr</code> 函数，而该函数却无法满足编译期常量的条件时，会报错</li>
+</ul>
+ <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-function"><span class="hljs-keyword">constexpr</span> <span class="hljs-type">int</span> <span class="hljs-title">f</span><span class="hljs-params">(<span class="hljs-type">int</span> x)</span> </span>&#123;<br>   <span class="hljs-type">int</span> y = x;<br>   <span class="hljs-keyword">return</span> y;<br>&#125;<br><span class="hljs-type">int</span> runtime_value = <span class="hljs-number">5</span>;<br><span class="hljs-keyword">constexpr</span> <span class="hljs-type">int</span> v = <span class="hljs-built_in">f</span>(runtime_value); <span class="hljs-comment">// 报错！runtime_value 不是编译期常量</span><br></code></pre></td></tr></table></figure>
+
+<ul>
+<li>如果是<strong>不要求编译期常量</strong> 的上下文，会退化为运行时求值</li>
+</ul>
+ <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-function"><span class="hljs-keyword">constexpr</span> <span class="hljs-type">int</span> <span class="hljs-title">square</span><span class="hljs-params">(<span class="hljs-type">int</span> x)</span> </span>&#123; <span class="hljs-keyword">return</span> x * x; &#125;<br><span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">get_runtime_value</span><span class="hljs-params">()</span></span>;<br><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">foo</span><span class="hljs-params">()</span> </span>&#123;<br>    <span class="hljs-type">int</span> a = <span class="hljs-built_in">get_runtime_value</span>();<br>    <span class="hljs-type">int</span> b = <span class="hljs-built_in">square</span>(a); <span class="hljs-comment">// square退化为普通函数</span><br>&#125;<br></code></pre></td></tr></table></figure>
+<blockquote>
+<p>C++20引入了<code>std::is_constant_evaluated()</code>，属于编译期内建函数，用来在函数内部判断当前代码是否正在编译期求值</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-function"><span class="hljs-keyword">constexpr</span> <span class="hljs-type">bool</span> <span class="hljs-title">std::is_constant_evaluated</span><span class="hljs-params">()</span> <span class="hljs-keyword">noexcept</span></span>; <span class="hljs-comment">//函数定义</span><br></code></pre></td></tr></table></figure>
+
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;iostream&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;bit&gt;</span></span><br><span class="hljs-function"><span class="hljs-keyword">constexpr</span> <span class="hljs-type">int</span> <span class="hljs-title">foo</span><span class="hljs-params">(<span class="hljs-type">int</span> x)</span> </span>&#123;<br>    <span class="hljs-keyword">if</span> (std::<span class="hljs-built_in">is_constant_evaluated</span>()) &#123;<br>        <span class="hljs-comment">// 编译期路径</span><br>        <span class="hljs-keyword">return</span> x * <span class="hljs-number">2</span>;<br>    &#125; <span class="hljs-keyword">else</span> &#123;<br>        <span class="hljs-comment">// 运行期路径</span><br>        std::cout &lt;&lt; <span class="hljs-string">&quot;Running at runtime\n&quot;</span>;<br>        <span class="hljs-keyword">return</span> x * <span class="hljs-number">3</span>;<br>    &#125;<br>&#125;<br><span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span> </span>&#123;<br>   	<span class="hljs-keyword">constexpr</span> <span class="hljs-type">int</span> a = <span class="hljs-built_in">foo</span>(<span class="hljs-number">10</span>); <span class="hljs-comment">// 编译期执行，走的是 x * 2</span><br>   	<span class="hljs-type">int</span> b = <span class="hljs-built_in">foo</span>(<span class="hljs-number">10</span>);           <span class="hljs-comment">// 运行期执行，走的是 x * 3，并输出提示</span><br>   	std::cout &lt;&lt; <span class="hljs-string">&quot;a = &quot;</span> &lt;&lt; a &lt;&lt; <span class="hljs-string">&quot;, b = &quot;</span> &lt;&lt; b &lt;&lt; <span class="hljs-string">&quot;\n&quot;</span>;<br>&#125;<br></code></pre></td></tr></table></figure></blockquote>
+</li>
+</ul>
+</li>
+<li><p><code>constexpr</code> 构造函数和类</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-keyword">struct</span> <span class="hljs-title class_">Point</span> &#123;<br>    <span class="hljs-type">int</span> x, y;<br>    <span class="hljs-function"><span class="hljs-keyword">constexpr</span> <span class="hljs-title">Point</span><span class="hljs-params">(<span class="hljs-type">int</span> x_, <span class="hljs-type">int</span> y_)</span> : x(x_), y(y_) &#123;</span>&#125;<br>&#125;;<br><br><span class="hljs-function"><span class="hljs-keyword">constexpr</span> Point <span class="hljs-title">p</span><span class="hljs-params">(<span class="hljs-number">1</span>, <span class="hljs-number">2</span>)</span></span>;  <span class="hljs-comment">// 在编译期构造</span><br></code></pre></td></tr></table></figure>
+
+<ul>
+<li>构造函数必须支持编译期求值</li>
+<li>所有成员变量也需是 <code>constexpr</code> 可求值的</li>
+</ul>
+</li>
+</ul>
+<ul>
+<li><p><code>if constexpr</code>（C++17 起）用于在编译时根据常量表达式进行分支判断</p>
+<ul>
+<li><p>编译时就会被消除不成立的分支代码，因此可避免对无效代码路径的编译、模板实例化或语法检查</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-function"><span class="hljs-keyword">if</span> <span class="hljs-title">constexpr</span> <span class="hljs-params">(condition)</span> </span>&#123;<br>    <span class="hljs-comment">// 只有 condition 为 true，才会编译这部分</span><br>&#125; <span class="hljs-keyword">else</span> &#123;<br>    <span class="hljs-comment">// 否则编译这部分</span><br>&#125;<br></code></pre></td></tr></table></figure></li>
+<li><p>可替代过去的一些 SFINAE 或模板特化技巧</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-comment">// 旧写法：模板特化</span><br><span class="hljs-function"><span class="hljs-keyword">template</span>&lt;<span class="hljs-keyword">typename</span> T&gt;</span><br><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">print_type</span><span class="hljs-params">(T x)</span> </span>&#123;<br>    std::cout &lt;&lt; x &lt;&lt; <span class="hljs-string">&#x27;\n&#x27;</span>;<br>&#125;<br><br><span class="hljs-keyword">template</span>&lt;&gt;<br><span class="hljs-type">void</span> <span class="hljs-built_in">print_type</span>&lt;<span class="hljs-type">int</span>&gt;(<span class="hljs-type">int</span> x) &#123;<br>    std::cout &lt;&lt; <span class="hljs-string">&quot;int: &quot;</span> &lt;&lt; x &lt;&lt; <span class="hljs-string">&#x27;\n&#x27;</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-comment">// 旧写法：使用 enable_if 和 SFINAE</span><br><span class="hljs-keyword">template</span>&lt;<span class="hljs-keyword">typename</span> T&gt;<br><span class="hljs-keyword">typename</span> std::enable_if&lt;std::is_integral&lt;T&gt;::value&gt;::<span class="hljs-function">type</span><br><span class="hljs-function"><span class="hljs-title">process</span><span class="hljs-params">(T x)</span> </span>&#123;<br>    std::cout &lt;&lt; <span class="hljs-string">&quot;Integral type\n&quot;</span>;<br>&#125;<br><br><span class="hljs-keyword">template</span>&lt;<span class="hljs-keyword">typename</span> T&gt;<br><span class="hljs-keyword">typename</span> std::enable_if&lt;!std::is_integral&lt;T&gt;::value&gt;::<span class="hljs-function">type</span><br><span class="hljs-function"><span class="hljs-title">process</span><span class="hljs-params">(T x)</span> </span>&#123;<br>    std::cout &lt;&lt; <span class="hljs-string">&quot;Non-integral type\n&quot;</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-comment">// 旧写法：通过类型标签进行调度</span><br><span class="hljs-function"><span class="hljs-keyword">template</span>&lt;<span class="hljs-keyword">typename</span> T&gt;</span><br><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">process_impl</span><span class="hljs-params">(T x, std::true_type)</span> </span>&#123;<br>    std::cout &lt;&lt; <span class="hljs-string">&quot;Integral\n&quot;</span>;<br>&#125;<br><br><span class="hljs-function"><span class="hljs-keyword">template</span>&lt;<span class="hljs-keyword">typename</span> T&gt;</span><br><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">process_impl</span><span class="hljs-params">(T x, std::false_type)</span> </span>&#123;<br>    std::cout &lt;&lt; <span class="hljs-string">&quot;Non-integral\n&quot;</span>;<br>&#125;<br><br><span class="hljs-function"><span class="hljs-keyword">template</span>&lt;<span class="hljs-keyword">typename</span> T&gt;</span><br><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">process</span><span class="hljs-params">(T x)</span> </span>&#123;<br>    <span class="hljs-built_in">process_impl</span>(x, std::is_integral&lt;T&gt;&#123;&#125;);<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-comment">//均可以使用 if constexpr 统一到一个函数中</span><br><span class="hljs-function"><span class="hljs-keyword">template</span>&lt;<span class="hljs-keyword">typename</span> T&gt;</span><br><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">process</span><span class="hljs-params">(T x)</span> </span>&#123;<br>    <span class="hljs-function"><span class="hljs-keyword">if</span> <span class="hljs-title">constexpr</span> <span class="hljs-params">(std::is_integral_v&lt;T&gt;)</span> </span>&#123;<br>        std::cout &lt;&lt; <span class="hljs-string">&quot;Integral\n&quot;</span>;<br>    &#125; <span class="hljs-keyword">else</span> &#123;<br>        std::cout &lt;&lt; <span class="hljs-string">&quot;Non-integral\n&quot;</span>;<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure></li>
+</ul>
+<blockquote>
+<p>注意！<code>if constexpr (std::is_constant_evaluated())</code>的结果恒为真，是错误用法！只能使用<code>if(std::is_constant_evaluated())</code>,判断当前是否处于常量求值上下文，但这样所有分支都会被实际编译。</p>
+<p>因此C++23引入了<code>if consteval</code>，用于在编译期判断当前是否处于常量求值上下文，不会编译无效分支。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-comment">// 用 if consteval（C++23）</span><br><span class="hljs-function"><span class="hljs-keyword">constexpr</span> <span class="hljs-type">int</span> <span class="hljs-title">bar</span><span class="hljs-params">(<span class="hljs-type">int</span> x)</span> </span>&#123;<br>    <span class="hljs-keyword">if</span> <span class="hljs-keyword">consteval</span> &#123;<br>        <span class="hljs-comment">// 只有在常量求值时才编译并执行</span><br>        <span class="hljs-keyword">return</span> x + <span class="hljs-number">1</span>;<br>    &#125; <span class="hljs-keyword">else</span> &#123;<br>        <span class="hljs-keyword">return</span> <span class="hljs-number">42</span>;<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure></blockquote>
+</li>
+</ul>
+<div align=center>     <style>.urbfecyeomet{zoom:100%;}</style><img src="/The-Most-Important-Optimizations2/image-20250727191109055.png" srcset="/img/loading.gif" lazyload class="urbfecyeomet"></img> </div>
+
+  
+
+<h3 id="15-使用const声明"><a href="#15-使用const声明" class="headerlink" title="15.使用const声明"></a>15.使用const声明</h3><ul>
+<li>将变量声明为const，能够帮助编译器确定优化循环代码，包括进行循环不变量外提。</li>
+</ul>
+<div align=center>     <style>.wjtenrhthwrm{zoom:80%;}</style><img src="/The-Most-Important-Optimizations2/image-20250728182558141.png" srcset="/img/loading.gif" lazyload class="wjtenrhthwrm"></img> </div>
+
+<ul>
+<li><p>将成员函数声明为const，有利于编译器进行函数内联、常量传播、循环不变量提出、多线程只读访问优化、缓存或寄存器重用等优化</p>
+</li>
+<li><p>将全局变量拷贝为const局部变量（仅当拷贝开销较小时），当编译器发现分支判断条件为不变量时，可以将循环中的分支外提。示例如下：</p>
+</li>
+</ul>
+<div align=center>     <style>.btunytsqsbyl{zoom:80%;}</style><img src="/The-Most-Important-Optimizations2/image-20250728190101491.png" srcset="/img/loading.gif" lazyload class="btunytsqsbyl"></img> </div>
+
+<div align=center>     <style>.lmmmsbbcbkly{zoom:80%;}</style><img src="/The-Most-Important-Optimizations2/image-20250728190125864.png" srcset="/img/loading.gif" lazyload class="lmmmsbbcbkly"></img> </div>
+
+
+
+<h3 id="16-总是使用noexcept"><a href="#16-总是使用noexcept" class="headerlink" title="16.总是使用noexcept"></a>16.总是使用noexcept</h3><p><code>void f() noexcept</code> 表示 函数承诺不会抛出异常。如果函数实际抛出了异常，程序会 <code>std::terminate()</code></p>
+<ul>
+<li><p>允许编译器省略掉异常处理机制相关的代码、省略栈展开信息、采取更激进的内联优化、进行函数调用点处的优化（省略异常检查与异常传播机制的代码）等</p>
+</li>
+<li><p>有时会使用到条件 <code>noexcept</code>，可能主要用在模板</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">f</span><span class="hljs-params">()</span> <span class="hljs-title">noexcept</span><span class="hljs-params">(<span class="hljs-literal">false</span>)</span></span>;  <span class="hljs-comment">// 允许抛出异常,与不加noexcpet作用相同</span><br><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">g</span><span class="hljs-params">()</span> <span class="hljs-title">noexcept</span><span class="hljs-params">(<span class="hljs-literal">true</span>)</span></span>;   <span class="hljs-comment">// 不允许抛出异常（抛出会调用 std::terminate），等同与只写noexcpt</span><br><br><span class="hljs-function"><span class="hljs-keyword">template</span>&lt;<span class="hljs-keyword">typename</span> T&gt;</span><br><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">func</span><span class="hljs-params">(T&amp;&amp; t)</span> <span class="hljs-title">noexcept</span><span class="hljs-params">(std::is_nothrow_move_constructible&lt;T&gt;::value)</span></span>; <span class="hljs-comment">//根据类型 T 是否是 noexcept 的移动构造函数，来决定 func 是否是 noexcept</span><br></code></pre></td></tr></table></figure></li>
+<li><p><code>noexcept</code>也可以作为一个运算符，用于在编译期检测 表达式 是否为 noexcept 表达式</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">func</span><span class="hljs-params">()</span> <span class="hljs-title">noexcept</span><span class="hljs-params">(<span class="hljs-keyword">noexcept</span>(expr))</span></span>;<br></code></pre></td></tr></table></figure></li>
+<li><p>将移动构造函数或移动赋值运算符设置为<code>noexcept</code>很重要，许多标准容器通常只会在确保<strong>移动操作不会抛出异常</strong>的前提下，才会优先使用移动构造或移动赋值，否则会退回使用 拷贝构造函数。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-function"><span class="hljs-keyword">template</span>&lt;<span class="hljs-keyword">typename</span> T&gt;</span><br><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">maybe_move_vector</span><span class="hljs-params">(std::vector&lt;T&gt;&amp; vec)</span> </span>&#123;<br>    vec.<span class="hljs-built_in">push_back</span>(T&#123;&#125;);  <span class="hljs-comment">// 如果 T 的移动构造不是 noexcept，会用拷贝构造！</span><br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>可通过类似手段实现该判断</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-function"><span class="hljs-keyword">if</span> <span class="hljs-title">constexpr</span> <span class="hljs-params">(std::is_nothrow_move_constructible_v&lt;T&gt; || !std::is_copy_constructible_v&lt;T&gt;)</span></span><br><span class="hljs-function">    <span class="hljs-comment">// 使用 move</span></span><br><span class="hljs-function"><span class="hljs-keyword">else</span></span><br><span class="hljs-function">    <span class="hljs-comment">// 使用 copy</span></span><br></code></pre></td></tr></table></figure></li>
+</ul>
+<h3 id="17-内部链接使用static"><a href="#17-内部链接使用static" class="headerlink" title="17.内部链接使用static"></a>17.内部链接使用static</h3><ul>
+<li>使用static标记的函数符号可见性仅限于本编译单元(一般为cpp文件)。但<ul>
+<li>还有一个隐藏的作用是，若一个函数体过长，编译器一般会选择不将其内联，即使加了inline修饰（c++中inline只是提示作用，无法强制编译器将函数内联），而使用static修饰表示该函数只在本翻译单元，则能够使编译器内联函数    </li>
+</ul>
+</li>
+</ul>
+ <div align=center>     <style>.aodwrwgisjes{zoom:80%;}</style><img src="/The-Most-Important-Optimizations2/image-20250728212914937.png" srcset="/img/loading.gif" lazyload class="aodwrwgisjes"></img> </div>
+
+
+
+<h3 id="18-使用-noreturn"><a href="#18-使用-noreturn" class="headerlink" title="18.使用[[noreturn]]"></a>18.使用[[noreturn]]</h3><p>标记函数不会返回，可以帮助编译器优化调用处代码。一般用于抛出异常的函数</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs c++">[[noreturn]] <span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">fatalError</span><span class="hljs-params">(<span class="hljs-type">const</span> std::string&amp; msg)</span> </span>&#123;<br>    <span class="hljs-keyword">throw</span> std::<span class="hljs-built_in">runtime_error</span>(msg);<br>&#125;<br></code></pre></td></tr></table></figure>
+
+
+
+<h3 id="19-使用-likely-和-unlikely"><a href="#19-使用-likely-和-unlikely" class="headerlink" title="19.使用[[likely]]和[[unlikely]]"></a>19.使用[[likely]]和[[unlikely]]</h3><p>C++20引入，提示编译器某个条件判断 <strong>很可能成立（likely）</strong> 或 <strong>不太可能成立（unlikely）</strong>，以优化生成的分支跳转机器码</p>
+<div align=center>     <style>.eocwezpfoifx{zoom:100%;}</style><img src="/The-Most-Important-Optimizations2/image-20250728233333132.png" srcset="/img/loading.gif" lazyload class="eocwezpfoifx"></img> </div>
+<div align=center>     <style>.sahxefdmfqrx{zoom:100%;}</style><img src="/The-Most-Important-Optimizations2/image-20250728233353563.png" srcset="/img/loading.gif" lazyload class="sahxefdmfqrx"></img> </div>
+
+
+
+<h3 id="20-使用-assume-condition"><a href="#20-使用-assume-condition" class="headerlink" title="20.使用[[assume(condition)]]"></a>20.使用[[assume(condition)]]</h3><p>C++23引入的属性，向编译器强假设（assume）某个条件恒为真，以便进行更激进的优化。但GCC已早有类似的扩展用法<code>__builtin__unreachable()</code></p>
+<ul>
+<li>编译器 将信任此条件（无视实际运行时行为）</li>
+<li>如果 <code>condition</code> 实际上是 <code>false</code>，则 行为是未定义的（UB）</li>
+<li>与 <code>assert(...)</code> 不同，<code>assert</code> 只在 Debug 模式有效，<code>[[assume]]</code> 是编译器优化提示</li>
+</ul>
+<div align=center>     <style>.gxjwosbdsfel{zoom:80%;}</style><img src="/The-Most-Important-Optimizations2/image-20250728234116152.png" srcset="/img/loading.gif" lazyload class="gxjwosbdsfel"></img> </div>
+
+<div align=center>     <style>.rhldmilvblmv{zoom:80%;}</style><img src="/The-Most-Important-Optimizations2/image-20250728234212368.png" srcset="/img/loading.gif" lazyload class="rhldmilvblmv"></img> </div>
+
+<h3 id="21-使用-restrict"><a href="#21-使用-restrict" class="headerlink" title="21. 使用__restrict"></a>21. 使用__restrict</h3><p> C/C++ 中的一个编译器扩展，用于指针的 <em>别名优化（aliasing optimization）</em>。它告诉编译器：通过这个指针访问的内存地址，在其生命周期内 <strong>不会被其他指针访问或修改</strong>。</p>
+<div align=center>     <style>.kzziumtxiefd{zoom:80%;}</style><img src="/The-Most-Important-Optimizations2/image-20250728235508096.png" srcset="/img/loading.gif" lazyload class="kzziumtxiefd"></img> </div>
+
+<ul>
+<li>必须确保真的不会别名重叠，否则行为未定义（UB）</li>
+</ul>
+<div align=center>     <style>.huiklughxbkt{zoom:80%;}</style><img src="/The-Most-Important-Optimizations2/image-20250728235521202.png" srcset="/img/loading.gif" lazyload class="huiklughxbkt"></img> </div>
+
+<ul>
+<li><p>在没有 <code>restrict</code> 的情况下，编译器必须假设两个指针可能指向同一块内存，所以优化会更保守</p>
+<div align=center>     <style>.rjdjjqgzeqwd{zoom:80%;}</style><img src="/The-Most-Important-Optimizations2/image-20250728235752571.png" srcset="/img/loading.gif" lazyload class="rjdjjqgzeqwd"></img> </div></li>
+<li><p>GCC提供的函数属性 <code>__attribute__((malloc))</code>有类似作用，告诉编译器该函数返回一个不别名（non-aliasing）的指针，指向一个新分配的、未别名的内存块</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-function"><span class="hljs-type">void</span>* <span class="hljs-title">my_alloc</span><span class="hljs-params">(<span class="hljs-type">size_t</span> size)</span> __<span class="hljs-title">attribute__</span><span class="hljs-params">((malloc))</span></span>;<br><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">use</span><span class="hljs-params">()</span> </span>&#123;<br>    <span class="hljs-type">int</span>* a = (<span class="hljs-type">int</span>*)<span class="hljs-built_in">my_alloc</span>(<span class="hljs-built_in">sizeof</span>(<span class="hljs-type">int</span>));<br>    <span class="hljs-type">int</span>* b = (<span class="hljs-type">int</span>*)<span class="hljs-built_in">my_alloc</span>(<span class="hljs-built_in">sizeof</span>(<span class="hljs-type">int</span>));<br>    *a = <span class="hljs-number">1</span>;<br>    *b = <span class="hljs-number">2</span>;  <span class="hljs-comment">// 编译器可以假设这不会影响 a，因为 a 和 b 指向不重叠的内存</span><br>&#125;<br></code></pre></td></tr></table></figure></li>
+</ul>
+<h3 id="22-保持函数纯净-Make-functions-pure"><a href="#22-保持函数纯净-Make-functions-pure" class="headerlink" title="22.保持函数纯净 Make functions pure"></a>22.保持函数纯净 Make functions pure</h3><p>使用GCC 提供的函数属性 <code>__attribute__((pure))</code>和 <code>__attribute__((const))</code>，用于标注一个函数具有“纯函数”的语义，有助于编译器进行更激进的优化</p>
+<div align=center>     <style>.eroejltfohlz{zoom:80%;}</style><img src="/The-Most-Important-Optimizations2/image-20250729000449683.png" srcset="/img/loading.gif" lazyload class="eroejltfohlz"></img> </div>
+
+<ul>
+<li>函数 <strong>不能有副作用</strong>（比如写入文件、修改内存、打印输出等）。</li>
+<li>函数 **返回值必须只依赖于输入参数 或 只读全局状态(pure)**，否则就是未定义行为（UB）</li>
+</ul>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-comment">//这告诉编译器：get_length(s) 只会读取 s 指向的内容，不会改动其他状态。因此，如果程序中多次调用 get_length(s)，编译器有可能将其结果缓存一次复用，减少调用开销</span><br>__attribute__((pure))<br><span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">get_length</span><span class="hljs-params">(<span class="hljs-type">const</span> <span class="hljs-type">char</span>* s)</span></span>; <br><br><span class="hljs-comment">//例如下边这两句</span><br><span class="hljs-type">int</span> len1 = <span class="hljs-built_in">get_length</span>(s);<br><span class="hljs-type">int</span> len2 = <span class="hljs-built_in">get_length</span>(s);<br><br><span class="hljs-comment">//编译器可能将其优化为：</span><br><span class="hljs-type">int</span> len = <span class="hljs-built_in">get_length</span>(s);<br><span class="hljs-type">int</span> len1 = len;<br><span class="hljs-type">int</span> len2 = len;<br></code></pre></td></tr></table></figure>
+
+<blockquote>
+<p>GCC支持的属性标注可以查看<a target="_blank" rel="noopener" href="https://gcc.gnu.org/onlinedocs/gcc/Common-Function-Attributes.html">此处</a>，常用的属性如下：</p>
+<table>
+<thead>
+<tr>
+<th>属性</th>
+<th>含义与优化作用</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>__attribute__((hot))</code></td>
+<td>提示函数是热点路径，编译器可能将其放到代码段前面，有利于<strong>缓存友好与分支预测优化</strong>。</td>
+</tr>
+<tr>
+<td><code>__attribute__((cold))</code></td>
+<td>表示函数很少调用，编译器可能将其分离出来，减少主路径代码污染。</td>
+</tr>
+<tr>
+<td><code>__attribute__((pure))</code></td>
+<td>函数仅依赖参数和全局只读状态，没有副作用，有利于<strong>调用合并或删除重复调用</strong>。</td>
+</tr>
+<tr>
+<td><code>__attribute__((const))</code></td>
+<td>比 <code>pure</code> 更强，函数只依赖参数，无副作用也不访问全局变量，进一步利于<strong>编译器缓存/删除</strong>。</td>
+</tr>
+<tr>
+<td><code>__attribute__((malloc))</code></td>
+<td>表示返回的是新内存块的指针，不别处别名，可用于<strong>别名分析与向量优化</strong>。</td>
+</tr>
+<tr>
+<td><code>__attribute__((noreturn))</code></td>
+<td>表示函数不返回（如 <code>exit()</code>），可用于<strong>删除无用路径或简化控制流图</strong>。</td>
+</tr>
+<tr>
+<td><code>__attribute__((assume_aligned(16)))</code></td>
+<td>指定返回的指针有对齐要求，有利于<strong>SIMD向量化与内存访问优化</strong>。</td>
+</tr>
+</tbody></table>
+<p>对于交叉编译链，若不清楚支持哪些属性，可以写一个带有很多属性的测试文件：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs c++">__attribute__((hot))<br>__attribute__((cold))<br>__attribute__((pure))<br>__attribute__((<span class="hljs-type">const</span>))<br>__attribute__((malloc))<br>__attribute__((noreturn))<br>__attribute__((<span class="hljs-built_in">assume_aligned</span>(<span class="hljs-number">16</span>)))<br><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">test</span><span class="hljs-params">()</span> </span>&#123;&#125;<br></code></pre></td></tr></table></figure>
+
+<p>然后加上<code>-Wattributes</code>配置项编译，不支持或冲突的属性会被编译器以警告形式列出来：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs c++">&lt;your-toolchain-prefix&gt;-gcc -c test.c -Wall -Wextra -Wattributes<br></code></pre></td></tr></table></figure>
+
+
+</blockquote>
+<h3 id="不做冗余拷贝"><a href="#不做冗余拷贝" class="headerlink" title="不做冗余拷贝"></a>不做冗余拷贝</h3><h3 id="23-采取合适的参数类型"><a href="#23-采取合适的参数类型" class="headerlink" title="23.采取合适的参数类型"></a>23.采取合适的参数类型</h3><p>这里演讲者给出了超详细的路线图，关于函数的参数应该取什么类型。</p>
+<p>主要总结几个平时工程代码中不注意的点：</p>
+<ul>
+<li><p><code>string</code>的隐式转换。由于图方便，许多函数传参时是<code>const char*</code>，而函数参数是<code>string</code>，增加了一次构造</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">func</span><span class="hljs-params">(string str)</span> </span>&#123;<span class="hljs-comment">//...&#125;</span><br><span class="hljs-built_in">func</span>(<span class="hljs-string">&quot;hello&quot;</span>);<br></code></pre></td></tr></table></figure></li>
+<li><p>函数参数按值传递，存在拷贝构造。除了int、float等pod类型变量可以忽略，拷贝开销较大的对象类型若无需求都应引用传参。常被忽略的是<code>shared_ptr</code>变量，当函数内不需要管理指针生命周期时，可以只传原始指针，或将参数类型写为引用</p>
+</li>
+<li><p>老陷阱，<code>map</code>遍历时需要用 <code>const auto&amp;</code>承接，因为<code>std::map&lt;std::string, int&gt; myMap</code>的元素类型是<code>std::pair&lt;const std::string, int&gt;</code>。如果漏了<code>const</code>就会导致隐藏的元素拷贝</p>
+</li>
+</ul>
+<div align=center>     <style>.plfcuxelijif{zoom:80%;}</style><img src="/The-Most-Important-Optimizations2/image-20250729213026027.png" srcset="/img/loading.gif" lazyload class="plfcuxelijif"></img> </div>
+
+<div align=center>     <style>.hlottjwfpwnf{zoom:100%;}</style><img src="/The-Most-Important-Optimizations2/image-20250729212806746.png" srcset="/img/loading.gif" lazyload class="hlottjwfpwnf"></img> </div>
+
+
+
+<h3 id="24-避免在循环中分配内存"><a href="#24-避免在循环中分配内存" class="headerlink" title="24.避免在循环中分配内存"></a>24.避免在循环中分配内存</h3><ul>
+<li>尽量避免在循环中构造对象</li>
+<li>尽量将vector提前扩容，避免其多次动态扩容</li>
+</ul>
+<div align=center>     <style>.ulpxjctacptg{zoom:80%;}</style><img src="/The-Most-Important-Optimizations2/image-20250729215854206.png" srcset="/img/loading.gif" lazyload class="ulpxjctacptg"></img> </div>
+
+<h3 id="25-避免拷贝异常"><a href="#25-避免拷贝异常" class="headerlink" title="25.避免拷贝异常"></a>25.避免拷贝异常</h3><ul>
+<li>避免按值传递异常变量，应使用<code>const &amp;</code></li>
+<li>向上抛出异常时直接<code>throw</code>即可，错误写法会导致拷贝<div align=center>     <style>.szyrbhobetnt{zoom:80%;}</style><img src="/The-Most-Important-Optimizations2/image-20250729220114486.png" srcset="/img/loading.gif" lazyload class="szyrbhobetnt"></img> </div></li>
+</ul>
+<h3 id="26-避免范围for循环时的拷贝"><a href="#26-避免范围for循环时的拷贝" class="headerlink" title="26.避免范围for循环时的拷贝"></a>26.避免范围for循环时的拷贝</h3><div align=center>     <style>.hhhzwqrctrkw{zoom:80%;}</style><img src="/The-Most-Important-Optimizations2/image-20250729220720588.png" srcset="/img/loading.gif" lazyload class="hhhzwqrctrkw"></img> </div>
+
+
+
+<h3 id="27-避免lambda函数捕获列表的拷贝"><a href="#27-避免lambda函数捕获列表的拷贝" class="headerlink" title="27.避免lambda函数捕获列表的拷贝"></a>27.避免lambda函数捕获列表的拷贝</h3><div align=center>     <style>.fpggmborxebf{zoom:80%;}</style><img src="/The-Most-Important-Optimizations2/image-20250729220834534.png" srcset="/img/loading.gif" lazyload class="fpggmborxebf"></img> </div>
+
+
+
+<h3 id="28-避免结构化绑定时的拷贝"><a href="#28-避免结构化绑定时的拷贝" class="headerlink" title="28.避免结构化绑定时的拷贝"></a>28.避免结构化绑定时的拷贝</h3><p>C++17引入结构化绑定，默认是按值初始化的，存在拷贝，可以显示加引用避免拷贝</p>
+<blockquote>
+<p><code>auto&amp; [key, value] : myMap</code> 这样不会拷贝，因为是对<code>std::pair&lt;const Key, T&gt;</code>的引用绑定，key 的类型实际是 <code>const Key&amp;</code> ，而value类型 是 <code>T&amp;</code></p>
+</blockquote>
+<div align=center>     <style>.bxfheulqvavb{zoom:80%;}</style><img src="/The-Most-Important-Optimizations2/image-20250729220941573.png" srcset="/img/loading.gif" lazyload class="bxfheulqvavb"></img> </div>
+
+
+
+<h3 id="29-提供引用限定-ref-qualified-方法"><a href="#29-提供引用限定-ref-qualified-方法" class="headerlink" title="29.提供引用限定(ref-qualified)方法"></a>29.提供引用限定(ref-qualified)方法</h3><p>C++11 引入的一种语法，可以给成员函数添加限定符 <code>&amp;</code>、<code>const&amp;</code>、<code>&amp;&amp;</code>、<code>const&amp;&amp;</code>，用于区分该函数只能在哪种对象（左值/右值、常量/非常量）上被调用。用来实现更加精细的重载控制，尤其适用于：</p>
+<ul>
+<li>防止右值调用返回引用造成悬空引用；</li>
+<li>在右值上启用移动语义；</li>
+<li>在链式调用中避免复制/拷贝；</li>
+</ul>
+<div align=center>     <style>.bsawmhzymnvb{zoom:80%;}</style><img src="/The-Most-Important-Optimizations2/image-20250729224956097.png" srcset="/img/loading.gif" lazyload class="bsawmhzymnvb"></img> </div>
+
+<div align=center>     <style>.bdcvaeldvfky{zoom:80%;}</style><img src="/The-Most-Important-Optimizations2/image-20250729225011801.png" srcset="/img/loading.gif" lazyload class="bdcvaeldvfky"></img> </div>
+
+<blockquote>
+<p>C++23引入了decltype(auto)写法，自动根据情况推导出最合适的返回值类型，包括值、引用、const 引用、右值引用等，从而避免手动重载多个版本的 <code>get()</code> 方法</p>
+<div align=center>     <style>.wsypmydquppx{zoom:80%;}</style><img src="/The-Most-Important-Optimizations2/image-20250729225637316.png" srcset="/img/loading.gif" lazyload class="wsypmydquppx"></img> </div>
+</blockquote>
+<hr>
+<p>C++语言层面章节结束，后续内容放在下一篇博客</p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/C/" class="category-chain-item">C++</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/">#性能优化</a>
+      
+    </div>
+  
+</div>
+
+
+              
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/The-Most-Important-Optimizations/" title="C++程序性能优化（一）- 软件构建阶段">
+                        <span class="hidden-mobile">C++程序性能优化（一）- 软件构建阶段</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+  
+  
+    <article id="comments" lazyload>
+      
+  <div id="gitalk-container"></div>
+  <script type="text/javascript">
+    Fluid.utils.loadComments('#gitalk-container', function() {
+      Fluid.utils.createCssLink('/css/gitalk.css')
+      Fluid.utils.createScript('https://lib.baomitu.com/gitalk/1.8.0/gitalk.min.js', function() {
+        var options = Object.assign(
+          {"clientID":"e9b52ee57707526358fd","clientSecret":"28d34ccc5d139a900131a3f8c5eedd770c50c71b","repo":"whiiiiisper.github.io","owner":"whiiiiisper","admin":["whiiiiisper"],"language":"zh-CN","labels":["Gitalk"],"perPage":10,"pagerDirection":"last","distractionFreeMode":false,"createIssueManually":true,"proxy":"https://cors-anywhere.azm.workers.dev/https://github.com/login/oauth/access_token"},
+          {
+            id: 'fad0fc98f6360bf359bd01214f585c63'
+          }
+        )
+        var gitalk = new Gitalk(options);
+        gitalk.render('gitalk-container');
+      });
+    });
+  </script>
+  <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+    </article>
+  
+
+
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+    <div class="statistics">
+  
+  
+
+  
+    
+      <span id="busuanzi_container_site_pv" style="display: none">
+        总访问量
+        <span id="busuanzi_value_site_pv"></span>
+        次
+      </span>
+    
+    
+      <span id="busuanzi_container_site_uv" style="display: none">
+        总访客数
+        <span id="busuanzi_value_site_uv"></span>
+        人
+      </span>
+    
+    
+  
+</div>
+
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.0/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.18.2/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script defer src="/js/leancloud.js" ></script>
+
+  <script  src="/js/local-search.js" ></script>
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>
