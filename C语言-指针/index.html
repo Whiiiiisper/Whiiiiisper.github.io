@@ -18,13 +18,13 @@
   
     <meta name="description" content="C语言指针知识点记录">
 <meta property="og:type" content="article">
-<meta property="og:title" content="C语言-指针">
+<meta property="og:title" content="指针">
 <meta property="og:url" content="https://whiiiiisper.github.io/C%E8%AF%AD%E8%A8%80-%E6%8C%87%E9%92%88/index.html">
 <meta property="og:site_name" content="TRknight的博客">
 <meta property="og:description" content="C语言指针知识点记录">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2022-10-20T03:02:46.000Z">
-<meta property="article:modified_time" content="2023-04-12T11:01:53.642Z">
+<meta property="article:modified_time" content="2025-07-31T15:22:16.267Z">
 <meta property="article:author" content="TRknight">
 <meta property="article:tag" content="C语言基础">
 <meta name="twitter:card" content="summary_large_image">
@@ -33,7 +33,7 @@
     <meta name="referrer" content="no-referrer-when-downgrade">
   
   
-  <title>C语言-指针 - TRknight的博客</title>
+  <title>指针 - TRknight的博客</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -228,7 +228,7 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle">C语言-指针</span>
+            <span id="subtitle">指针</span>
           
         </div>
 
@@ -300,12 +300,12 @@
         <div id="board">
           <article class="post-content mx-auto">
             <!-- SEO header -->
-            <h1 style="display: none">C语言-指针</h1>
+            <h1 style="display: none">指针</h1>
             
               <p class="note note-info">
                 
                   
-                    本文最后更新于：2 年前
+                    本文最后更新于：3 分钟前
                   
                 
               </p>
@@ -338,7 +338,7 @@
 <li><code>(*lines +5)[5]</code>：<code>*lines + 5</code> 为字符串 string0 中第 5 个字符的地址，即 2 的地址，<code>(*lines+5)[5]</code>等价于<code>*(*lines+5+5)</code>，表示第10个字符，即 2。</li>
 <li><code>*lines[0]+2</code>：lines[0] 为字符串 string0 中第 0 个字符的地址，即 C 的地址；<code>*lines[0]</code> 也就表示第 0 个字符，即字符  C。字符与整数运算，首先转换为该字符对应的 ASCII 码，然后再运算，所以 <code>*lines[0] + 2 = 67 + 2 = 69</code>，69     对应的字符为 E。</li>
 </ul>
-<h1 id="二维数组指针"><a href="#二维数组指针" class="headerlink" title="二维数组指针"></a>二维数组指针</h1><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">int</span> a[<span class="hljs-number">3</span>][<span class="hljs-number">4</span>] = &#123; &#123;<span class="hljs-number">0</span>, <span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>&#125;, &#123;<span class="hljs-number">4</span>, <span class="hljs-number">5</span>, <span class="hljs-number">6</span>, <span class="hljs-number">7</span>&#125;, &#123;<span class="hljs-number">8</span>, <span class="hljs-number">9</span>, <span class="hljs-number">10</span>, <span class="hljs-number">11</span>&#125; &#125;;<br><span class="hljs-type">int</span> (*p)[<span class="hljs-number">4</span>] = a;  <span class="hljs-comment">//p占用内存 = 4 (指针本身长度)</span><br><span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;%d\n&quot;</span>, <span class="hljs-keyword">sizeof</span>(*(p+<span class="hljs-number">1</span>)));<br><br>a+i == p+i<br>a[i] == p[i] == *(a+i) == *(p+i)<br>a[i][j] == p[i][j] == *(a[i]+j) == *(p[i]+j) == *(*(a+i)+j) == *(*(p+i)+j)   可用于遍历数组<br></code></pre></td></tr></table></figure>
+<h1 id="二维数组指针"><a href="#二维数组指针" class="headerlink" title="二维数组指针"></a>二维数组指针</h1><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">int</span> a[<span class="hljs-number">3</span>][<span class="hljs-number">4</span>] = &#123; &#123;<span class="hljs-number">0</span>, <span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>&#125;, &#123;<span class="hljs-number">4</span>, <span class="hljs-number">5</span>, <span class="hljs-number">6</span>, <span class="hljs-number">7</span>&#125;, &#123;<span class="hljs-number">8</span>, <span class="hljs-number">9</span>, <span class="hljs-number">10</span>, <span class="hljs-number">11</span>&#125; &#125;;<br><span class="hljs-type">int</span> (*p)[<span class="hljs-number">4</span>] = a;  <span class="hljs-comment">//p占用内存 = 4 (指针本身长度)</span><br><span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;%d\n&quot;</span>, <span class="hljs-keyword">sizeof</span>(*(p+<span class="hljs-number">1</span>)));<br><br>a+i == p+i<br>a[i] == p[i] == *(a+i) == *(p+i)<br>a[i][j] == p[i][j] == *(a[i]+j) == *(p[i]+j) == *(*(a+i)+j) == *(*(p+i)+j)   可用于遍历数组<br></code></pre></td></tr></table></figure>
 
 <ul>
 <li><p>括号中的*表明 p 是一个指针，它指向一个数组，数组的类型为int[4]，这正是 a 所包含的每个一维数组的类型。</p>
@@ -412,8 +412,8 @@
                   <article class="post-next col-6">
                     
                     
-                      <a href="/C%E8%AF%AD%E8%A8%80-%E9%A2%84%E5%A4%84%E7%90%86/" title="C语言-预处理">
-                        <span class="hidden-mobile">C语言-预处理</span>
+                      <a href="/C%E8%AF%AD%E8%A8%80-%E9%A2%84%E5%A4%84%E7%90%86/" title="预处理">
+                        <span class="hidden-mobile">预处理</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>
