@@ -1,0 +1,737 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/avatar1.png">
+  <link rel="icon" href="/img/avatar1.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="TRknight">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="一些感知优化&#x2F;算法工程化方面的工作总结">
+<meta property="og:type" content="article">
+<meta property="og:title" content="工作总结">
+<meta property="og:url" content="https://whiiiiisper.github.io/work-summary/index.html">
+<meta property="og:site_name" content="TRknight的博客">
+<meta property="og:description" content="一些感知优化&#x2F;算法工程化方面的工作总结">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://whiiiiisper.github.io/work-summary/image-20250804223538978.png">
+<meta property="og:image" content="https://whiiiiisper.github.io/work-summary/image-20250804223545207.png">
+<meta property="og:image" content="https://whiiiiisper.github.io/work-summary/image-20250804225604801.png">
+<meta property="og:image" content="https://whiiiiisper.github.io/work-summary/image-20250804225637273.png">
+<meta property="og:image" content="https://whiiiiisper.github.io/work-summary/image-20250804231234124.png">
+<meta property="og:image" content="https://whiiiiisper.github.io/work-summary/image-20250804232943635.png">
+<meta property="og:image" content="https://whiiiiisper.github.io/work-summary/image-20250804233034684.png">
+<meta property="og:image" content="https://whiiiiisper.github.io/work-summary/image-20250804234345382.png">
+<meta property="og:image" content="https://whiiiiisper.github.io/work-summary/image-20250804235027273.png">
+<meta property="article:published_time" content="2025-08-04T14:13:55.000Z">
+<meta property="article:modified_time" content="2025-08-04T15:57:28.186Z">
+<meta property="article:author" content="TRknight">
+<meta property="article:tag" content="感知优化">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://whiiiiisper.github.io/work-summary/image-20250804223538978.png">
+  
+  
+    <meta name="referrer" content="no-referrer-when-downgrade">
+  
+  
+  <title>工作总结 - TRknight的博客</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"whiiiiisper.github.io","root":"/","version":"1.9.4","typing":{"enable":true,"typeSpeed":60,"cursorChar":"_","loop":false,"scope":["home"]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":3},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":"UfX75DyTm2esCZzftemEk54r-MdYXbMMI","app_key":"9xm7jFhgkxRBHpk646aJtU2I","server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+  
+
+
+
+  
+<meta name="generator" content="Hexo 5.4.2"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>TRknight的博客</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/links/">
+                <i class="iconfont icon-link-fill"></i>
+                <span>友链</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle">工作总结</span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2025-08-04 22:13" pubdate>
+          2025年8月4日 晚上
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          1.7k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          15 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">工作总结</h1>
+            
+              <p class="note note-info">
+                
+                  
+                    本文最后更新于：1 分钟前
+                  
+                
+              </p>
+            
+            
+              <div class="markdown-body">
+                
+                <p>得益于本司孱弱的算法水平，经常需要观察模型效果进行针对性优化。本文总结了一下做过的那些感知优化方面工作，相当零散，涉猎广泛。欢迎大家讨论和pick：</p>
+<h1 id="风抖消除"><a href="#风抖消除" class="headerlink" title="风抖消除"></a>风抖消除</h1><p>基于频域相位的图像配准，通过计算两幅图像频域互功率谱的值，可以得到x和y方向偏差值。选定特征明显的区域后再计算速度更快。部分路口场景用图像描述子的话受光线影响较大，频域反而鲁棒性更好。</p>
+<p>OpenCV直接有GPU的互功率谱计算API，同时也自己实现了cu文件。调试时候还发现cufft会一直占用一定的堆内存。</p>
+<h1 id="小目标增强检测"><a href="#小目标增强检测" class="headerlink" title="小目标增强检测"></a>小目标增强检测</h1><p>这个在申专利，不好多说，就是参考推理时的SAHI手段。主要在于如何快速选择这个放大检测的区域。</p>
+<p>封装该库时参考了boost.geometry中类似的模板trait特性，当一个函数需要传入目标框，但是调用者处的目标框是自定义类型，而库内又不想包含该自定义类型的头文件时，就可以使用这种手段。通过宏在调用处注册目标类型和访问方法，库内使用模板函数，实现静态多态。</p>
+<div align=center>     <style>.bquvehopgvbv{zoom:60%;}</style><img src="/work-summary/image-20250804223538978.png" srcset="/img/loading.gif" lazyload class="bquvehopgvbv"></img> </div>
+
+<div align=center>     <style>.zxwsbqojkqcf{zoom:60%;}</style><img src="/work-summary/image-20250804223545207.png" srcset="/img/loading.gif" lazyload class="zxwsbqojkqcf"></img> </div>
+
+
+
+<h1 id="行驶区域生成"><a href="#行驶区域生成" class="headerlink" title="行驶区域生成"></a>行驶区域生成</h1><p>由于算法路面分割的结果太烂，只能另想办法生成车道。一开始做了个降级版，没有细分到车道级，根据已有的车辆跟踪框，按行驶方向生成多个区域。先对糟糕的跟踪结果进行筛除，选取车辆目标框底边的点，使用三维DBSCAN进行聚类，即角度、x坐标、y坐标。DBSCAN找了个带KD树加速的库，针对可能的环型场景，还需要修改距离函数支持角度的周期性。最后的效果差强人意，主要限制在于不能无限制地增加聚类点数，没做到持续自迭代优化。</p>
+<p>封装时加了线程池，结合future接收区域生成结果。</p>
+<div align=center>     <style>.mpphbcfmdoiw{zoom:100%;}</style><img src="/work-summary/image-20250804225604801.png" srcset="/img/loading.gif" lazyload class="mpphbcfmdoiw"></img> </div>
+
+<div align=center>     <style>.hfpaqwfbcaqf{zoom:100%;}</style><img src="/work-summary/image-20250804225637273.png" srcset="/img/loading.gif" lazyload class="hfpaqwfbcaqf"></img> </div>
+
+
+
+<h1 id="车辆轨迹生成车道"><a href="#车辆轨迹生成车道" class="headerlink" title="车辆轨迹生成车道"></a>车辆轨迹生成车道</h1><ul>
+<li>先基于车辆检测框做核密度估计，生成热力图，这里对高斯核做了一下操作，根据条件进行了能量衰减，相当于筛除了一些误检和过远的框。并且热力图添加衰减系数之后是可以无限叠加的</li>
+<li>然后提取热力图中的极大值点，在将热力图二值化并提取骨架。再从极大值点出发，沿骨架路径进行延伸。期间进行了一些跳过空洞、允许扰动、拼接/裁剪/合并路径的点集操作。各路径稳定后还要进行角度判断，删掉可能的变道路径。</li>
+<li>为了结合多帧结果，突发奇想对路径点集进行了生命周期管理和跟踪，将每帧得到的路径（其实就是车道中心线）打碎成小段，放到接近的池中，再根据角度等评分项恢复出最合适的路径</li>
+<li>最后还要根据车道中心线间的位置，向两侧扩张得到车道区域</li>
+</ul>
+<blockquote>
+<p>巨量的路径点集操作和像素级的处理，使出洪荒之力的史诗级巨作，可惜估计最后也不会实装了，还得给算法模型的车道线擦屁股。中间的示例好像改进过，骨架图对不太上，反正就这意思。</p>
+</blockquote>
+<div align=center>     <style>.mtdegpwafgtg{zoom:100%;}</style><img src="/work-summary/image-20250804231234124.png" srcset="/img/loading.gif" lazyload class="mtdegpwafgtg"></img> </div>
+
+
+
+<h1 id="单目相机精细标定"><a href="#单目相机精细标定" class="headerlink" title="单目相机精细标定"></a>单目相机精细标定</h1><p>原有的打点标定方式精度提不上（虽然后边发现换了相机和镜头精度直接提升），使用了Ceres的捆绑调整(BA)将所有点的投影误差作为残差，联合优化内外参矩阵和畸变系数。</p>
+<p>假设地平面高度是0，要求所有标定点都是地面上的点，即Zw=0，此时可以通过公式将单目相机的像素坐标转换成GPS坐标（使用UTM坐标表示精度更高）。</p>
+<p>可能对于未知内参的已安装相机来说更有用，可以先计算理论内参和外参，将标定的GPS点投影到图像，人工简单调整参数后，再用BA联合优化，得到一个较好的标定结果。</p>
+<div align=center>     <style>.ybfncboyuvam{zoom:60%;}</style><img src="/work-summary/image-20250804232943635.png" srcset="/img/loading.gif" lazyload class="ybfncboyuvam"></img> </div>
+
+<div align=center>     <style>.vyichrdvhign{zoom:40%;}</style><img src="/work-summary/image-20250804233034684.png" srcset="/img/loading.gif" lazyload class="vyichrdvhign"></img> </div>
+
+
+
+<h1 id="火焰误检筛除"><a href="#火焰误检筛除" class="headerlink" title="火焰误检筛除"></a>火焰误检筛除</h1><p>对于大量的火焰误检结果，采用了HSV空间的亮度删除明显暗处的误检，采用灰度共生矩阵GLCM进行了一些纹理分析，可以筛除一些探照灯的误检。再结合了PCA进行亮条分析，筛除车灯误检，但是这个受到二值化效果的限制，参数得严苛一些。</p>
+<p>感觉手工特征还是属于最原始的阶段，确实不如清洗数据改进模型来的直接。</p>
+<div align=center>     <style>.upnudtcbcfmv{zoom:80%;}</style><img src="/work-summary/image-20250804234345382.png" srcset="/img/loading.gif" lazyload class="upnudtcbcfmv"></img> </div>
+
+
+
+<h1 id="数据分析"><a href="#数据分析" class="headerlink" title="数据分析"></a>数据分析</h1><p>python画的，最后生成的html，可以放大缩小，缺点是一个文件20M，操作很卡顿。</p>
+<blockquote>
+<p>让我回忆起了早古的写python时光，虽然忘了好多了，感谢GPT的大力支持</p>
+</blockquote>
+<div align=center>     <style>.ptbvgxjemvtx{zoom:80%;}</style><img src="/work-summary/image-20250804235027273.png" srcset="/img/loading.gif" lazyload class="ptbvgxjemvtx"></img> </div>
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E6%80%BB%E7%BB%93/" class="category-chain-item">总结</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/%E6%84%9F%E7%9F%A5%E4%BC%98%E5%8C%96/">#感知优化</a>
+      
+    </div>
+  
+</div>
+
+
+              
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/The-Most-Important-Optimizations2/" title="C++程序性能优化（二）- C++语言层面">
+                        <span class="hidden-mobile">C++程序性能优化（二）- C++语言层面</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+  
+  
+    <article id="comments" lazyload>
+      
+  <div id="gitalk-container"></div>
+  <script type="text/javascript">
+    Fluid.utils.loadComments('#gitalk-container', function() {
+      Fluid.utils.createCssLink('/css/gitalk.css')
+      Fluid.utils.createScript('https://lib.baomitu.com/gitalk/1.8.0/gitalk.min.js', function() {
+        var options = Object.assign(
+          {"clientID":"e9b52ee57707526358fd","clientSecret":"28d34ccc5d139a900131a3f8c5eedd770c50c71b","repo":"whiiiiisper.github.io","owner":"whiiiiisper","admin":["whiiiiisper"],"language":"zh-CN","labels":["Gitalk"],"perPage":10,"pagerDirection":"last","distractionFreeMode":false,"createIssueManually":true,"proxy":"https://cors-anywhere.azm.workers.dev/https://github.com/login/oauth/access_token"},
+          {
+            id: '932de12b201006ec9ed0c98ce78715ac'
+          }
+        )
+        var gitalk = new Gitalk(options);
+        gitalk.render('gitalk-container');
+      });
+    });
+  </script>
+  <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+    </article>
+  
+
+
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+    <div class="statistics">
+  
+  
+
+  
+    
+      <span id="busuanzi_container_site_pv" style="display: none">
+        总访问量
+        <span id="busuanzi_value_site_pv"></span>
+        次
+      </span>
+    
+    
+      <span id="busuanzi_container_site_uv" style="display: none">
+        总访客数
+        <span id="busuanzi_value_site_uv"></span>
+        人
+      </span>
+    
+    
+  
+</div>
+
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.0/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.18.2/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script defer src="/js/leancloud.js" ></script>
+
+  <script  src="/js/local-search.js" ></script>
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

@@ -330,7 +330,7 @@
               <p class="note note-info">
                 
                   
-                    本文最后更新于：2 天前
+                    本文最后更新于：6 天前
                   
                 
               </p>
@@ -346,7 +346,7 @@
 <li><strong>C++的有效使用</strong></li>
 <li><strong>针对硬件的相关优化</strong></li>
 </ul>
-<div align=center>     <style>.obdrqxfgsejs{zoom:100%;}</style><img src="/The-Most-Important-Optimizations2/image-20250729212135658.png" srcset="/img/loading.gif" lazyload class="obdrqxfgsejs"></img> </div>
+<div align=center>     <style>.bcvgywtrpbmm{zoom:100%;}</style><img src="/The-Most-Important-Optimizations2/image-20250729212135658.png" srcset="/img/loading.gif" lazyload class="bcvgywtrpbmm"></img> </div>
 </blockquote>
 <p>本文继续上一篇<a href="https://whiiiiisper.github.io/The-Most-Important-Optimizations/">文章</a>，主要从C++语言层面出发，讨论相关的性能优化手段。</p>
 <h2 id="C-的有效使用"><a href="#C-的有效使用" class="headerlink" title="C++的有效使用"></a>C++的有效使用</h2><h3 id="标注-annotate-代码"><a href="#标注-annotate-代码" class="headerlink" title="标注(annotate)代码"></a>标注(annotate)代码</h3><h3 id="14-总是使用constexpr"><a href="#14-总是使用constexpr" class="headerlink" title="14.总是使用constexpr"></a>14.总是使用constexpr</h3><p><code>constexpr</code> 是 C++11 引入的关键字，用于指示表达式、变量、函数等<strong>可以</strong>在编译期求值，从而提高性能，减少运行时开销。</p>
@@ -426,14 +426,14 @@
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-comment">// 用 if consteval（C++23）</span><br><span class="hljs-function"><span class="hljs-keyword">constexpr</span> <span class="hljs-type">int</span> <span class="hljs-title">bar</span><span class="hljs-params">(<span class="hljs-type">int</span> x)</span> </span>&#123;<br>    <span class="hljs-keyword">if</span> <span class="hljs-keyword">consteval</span> &#123;<br>        <span class="hljs-comment">// 只有在常量求值时才编译并执行</span><br>        <span class="hljs-keyword">return</span> x + <span class="hljs-number">1</span>;<br>    &#125; <span class="hljs-keyword">else</span> &#123;<br>        <span class="hljs-keyword">return</span> <span class="hljs-number">42</span>;<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure></blockquote>
 </li>
 </ul>
-<div align=center>     <style>.urbfecyeomet{zoom:100%;}</style><img src="/The-Most-Important-Optimizations2/image-20250727191109055.png" srcset="/img/loading.gif" lazyload class="urbfecyeomet"></img> </div>
+<div align=center>     <style>.cipblbghqxcm{zoom:100%;}</style><img src="/The-Most-Important-Optimizations2/image-20250727191109055.png" srcset="/img/loading.gif" lazyload class="cipblbghqxcm"></img> </div>
 
   
 
 <h3 id="15-使用const声明"><a href="#15-使用const声明" class="headerlink" title="15.使用const声明"></a>15.使用const声明</h3><ul>
 <li>将变量声明为const，能够帮助编译器确定优化循环代码，包括进行循环不变量外提。</li>
 </ul>
-<div align=center>     <style>.wjtenrhthwrm{zoom:80%;}</style><img src="/The-Most-Important-Optimizations2/image-20250728182558141.png" srcset="/img/loading.gif" lazyload class="wjtenrhthwrm"></img> </div>
+<div align=center>     <style>.lfxjymdfetee{zoom:80%;}</style><img src="/The-Most-Important-Optimizations2/image-20250728182558141.png" srcset="/img/loading.gif" lazyload class="lfxjymdfetee"></img> </div>
 
 <ul>
 <li><p>将成员函数声明为const，有利于编译器进行函数内联、常量传播、循环不变量提出、多线程只读访问优化、缓存或寄存器重用等优化</p>
@@ -441,9 +441,9 @@
 <li><p>将全局变量拷贝为const局部变量（仅当拷贝开销较小时），当编译器发现分支判断条件为不变量时，可以将循环中的分支外提。示例如下：</p>
 </li>
 </ul>
-<div align=center>     <style>.btunytsqsbyl{zoom:80%;}</style><img src="/The-Most-Important-Optimizations2/image-20250728190101491.png" srcset="/img/loading.gif" lazyload class="btunytsqsbyl"></img> </div>
+<div align=center>     <style>.zrsjhafkmoqc{zoom:80%;}</style><img src="/The-Most-Important-Optimizations2/image-20250728190101491.png" srcset="/img/loading.gif" lazyload class="zrsjhafkmoqc"></img> </div>
 
-<div align=center>     <style>.lmmmsbbcbkly{zoom:80%;}</style><img src="/The-Most-Important-Optimizations2/image-20250728190125864.png" srcset="/img/loading.gif" lazyload class="lmmmsbbcbkly"></img> </div>
+<div align=center>     <style>.hxbbbshwkyqr{zoom:80%;}</style><img src="/The-Most-Important-Optimizations2/image-20250728190125864.png" srcset="/img/loading.gif" lazyload class="hxbbbshwkyqr"></img> </div>
 
 
 
@@ -467,7 +467,7 @@
 </ul>
 </li>
 </ul>
- <div align=center>     <style>.aodwrwgisjes{zoom:80%;}</style><img src="/The-Most-Important-Optimizations2/image-20250728212914937.png" srcset="/img/loading.gif" lazyload class="aodwrwgisjes"></img> </div>
+ <div align=center>     <style>.mycochhiikec{zoom:80%;}</style><img src="/The-Most-Important-Optimizations2/image-20250728212914937.png" srcset="/img/loading.gif" lazyload class="mycochhiikec"></img> </div>
 
 
 
@@ -477,8 +477,8 @@
 
 
 <h3 id="19-使用-likely-和-unlikely"><a href="#19-使用-likely-和-unlikely" class="headerlink" title="19.使用[[likely]]和[[unlikely]]"></a>19.使用[[likely]]和[[unlikely]]</h3><p>C++20引入，提示编译器某个条件判断 <strong>很可能成立（likely）</strong> 或 <strong>不太可能成立（unlikely）</strong>，以优化生成的分支跳转机器码</p>
-<div align=center>     <style>.eocwezpfoifx{zoom:100%;}</style><img src="/The-Most-Important-Optimizations2/image-20250728233333132.png" srcset="/img/loading.gif" lazyload class="eocwezpfoifx"></img> </div>
-<div align=center>     <style>.sahxefdmfqrx{zoom:100%;}</style><img src="/The-Most-Important-Optimizations2/image-20250728233353563.png" srcset="/img/loading.gif" lazyload class="sahxefdmfqrx"></img> </div>
+<div align=center>     <style>.erkuqwegvgui{zoom:100%;}</style><img src="/The-Most-Important-Optimizations2/image-20250728233333132.png" srcset="/img/loading.gif" lazyload class="erkuqwegvgui"></img> </div>
+<div align=center>     <style>.hgqxfigdbrhl{zoom:100%;}</style><img src="/The-Most-Important-Optimizations2/image-20250728233353563.png" srcset="/img/loading.gif" lazyload class="hgqxfigdbrhl"></img> </div>
 
 
 
@@ -488,26 +488,26 @@
 <li>如果 <code>condition</code> 实际上是 <code>false</code>，则 行为是未定义的（UB）</li>
 <li>与 <code>assert(...)</code> 不同，<code>assert</code> 只在 Debug 模式有效，<code>[[assume]]</code> 是编译器优化提示</li>
 </ul>
-<div align=center>     <style>.gxjwosbdsfel{zoom:80%;}</style><img src="/The-Most-Important-Optimizations2/image-20250728234116152.png" srcset="/img/loading.gif" lazyload class="gxjwosbdsfel"></img> </div>
+<div align=center>     <style>.jrkdmrxrfqoo{zoom:80%;}</style><img src="/The-Most-Important-Optimizations2/image-20250728234116152.png" srcset="/img/loading.gif" lazyload class="jrkdmrxrfqoo"></img> </div>
 
-<div align=center>     <style>.rhldmilvblmv{zoom:80%;}</style><img src="/The-Most-Important-Optimizations2/image-20250728234212368.png" srcset="/img/loading.gif" lazyload class="rhldmilvblmv"></img> </div>
+<div align=center>     <style>.toidcgmnqssg{zoom:80%;}</style><img src="/The-Most-Important-Optimizations2/image-20250728234212368.png" srcset="/img/loading.gif" lazyload class="toidcgmnqssg"></img> </div>
 
 <h3 id="21-使用-restrict"><a href="#21-使用-restrict" class="headerlink" title="21. 使用__restrict"></a>21. 使用__restrict</h3><p> C/C++ 中的一个编译器扩展，用于指针的 <em>别名优化（aliasing optimization）</em>。它告诉编译器：通过这个指针访问的内存地址，在其生命周期内 <strong>不会被其他指针访问或修改</strong>。</p>
-<div align=center>     <style>.kzziumtxiefd{zoom:80%;}</style><img src="/The-Most-Important-Optimizations2/image-20250728235508096.png" srcset="/img/loading.gif" lazyload class="kzziumtxiefd"></img> </div>
+<div align=center>     <style>.fhcqscujljgq{zoom:80%;}</style><img src="/The-Most-Important-Optimizations2/image-20250728235508096.png" srcset="/img/loading.gif" lazyload class="fhcqscujljgq"></img> </div>
 
 <ul>
 <li>必须确保真的不会别名重叠，否则行为未定义（UB）</li>
 </ul>
-<div align=center>     <style>.huiklughxbkt{zoom:80%;}</style><img src="/The-Most-Important-Optimizations2/image-20250728235521202.png" srcset="/img/loading.gif" lazyload class="huiklughxbkt"></img> </div>
+<div align=center>     <style>.wqbhbysqgyki{zoom:80%;}</style><img src="/The-Most-Important-Optimizations2/image-20250728235521202.png" srcset="/img/loading.gif" lazyload class="wqbhbysqgyki"></img> </div>
 
 <ul>
 <li><p>在没有 <code>restrict</code> 的情况下，编译器必须假设两个指针可能指向同一块内存，所以优化会更保守</p>
-<div align=center>     <style>.rjdjjqgzeqwd{zoom:80%;}</style><img src="/The-Most-Important-Optimizations2/image-20250728235752571.png" srcset="/img/loading.gif" lazyload class="rjdjjqgzeqwd"></img> </div></li>
+<div align=center>     <style>.vvwrxiyoqhlo{zoom:80%;}</style><img src="/The-Most-Important-Optimizations2/image-20250728235752571.png" srcset="/img/loading.gif" lazyload class="vvwrxiyoqhlo"></img> </div></li>
 <li><p>GCC提供的函数属性 <code>__attribute__((malloc))</code>有类似作用，告诉编译器该函数返回一个不别名（non-aliasing）的指针，指向一个新分配的、未别名的内存块</p>
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-function"><span class="hljs-type">void</span>* <span class="hljs-title">my_alloc</span><span class="hljs-params">(<span class="hljs-type">size_t</span> size)</span> __<span class="hljs-title">attribute__</span><span class="hljs-params">((malloc))</span></span>;<br><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">use</span><span class="hljs-params">()</span> </span>&#123;<br>    <span class="hljs-type">int</span>* a = (<span class="hljs-type">int</span>*)<span class="hljs-built_in">my_alloc</span>(<span class="hljs-built_in">sizeof</span>(<span class="hljs-type">int</span>));<br>    <span class="hljs-type">int</span>* b = (<span class="hljs-type">int</span>*)<span class="hljs-built_in">my_alloc</span>(<span class="hljs-built_in">sizeof</span>(<span class="hljs-type">int</span>));<br>    *a = <span class="hljs-number">1</span>;<br>    *b = <span class="hljs-number">2</span>;  <span class="hljs-comment">// 编译器可以假设这不会影响 a，因为 a 和 b 指向不重叠的内存</span><br>&#125;<br></code></pre></td></tr></table></figure></li>
 </ul>
 <h3 id="22-保持函数纯净-Make-functions-pure"><a href="#22-保持函数纯净-Make-functions-pure" class="headerlink" title="22.保持函数纯净 Make functions pure"></a>22.保持函数纯净 Make functions pure</h3><p>使用GCC 提供的函数属性 <code>__attribute__((pure))</code>和 <code>__attribute__((const))</code>，用于标注一个函数具有“纯函数”的语义，有助于编译器进行更激进的优化</p>
-<div align=center>     <style>.eroejltfohlz{zoom:80%;}</style><img src="/The-Most-Important-Optimizations2/image-20250729000449683.png" srcset="/img/loading.gif" lazyload class="eroejltfohlz"></img> </div>
+<div align=center>     <style>.ufompmorrbhv{zoom:80%;}</style><img src="/The-Most-Important-Optimizations2/image-20250729000449683.png" srcset="/img/loading.gif" lazyload class="ufompmorrbhv"></img> </div>
 
 <ul>
 <li>函数 <strong>不能有副作用</strong>（比如写入文件、修改内存、打印输出等）。</li>
@@ -571,9 +571,9 @@
 <li><p>老陷阱，<code>map</code>遍历时需要用 <code>const auto&amp;</code>承接，因为<code>std::map&lt;std::string, int&gt; myMap</code>的元素类型是<code>std::pair&lt;const std::string, int&gt;</code>。如果漏了<code>const</code>就会导致隐藏的元素拷贝</p>
 </li>
 </ul>
-<div align=center>     <style>.plfcuxelijif{zoom:80%;}</style><img src="/The-Most-Important-Optimizations2/image-20250729213026027.png" srcset="/img/loading.gif" lazyload class="plfcuxelijif"></img> </div>
+<div align=center>     <style>.mjqxsgukouxj{zoom:80%;}</style><img src="/The-Most-Important-Optimizations2/image-20250729213026027.png" srcset="/img/loading.gif" lazyload class="mjqxsgukouxj"></img> </div>
 
-<div align=center>     <style>.hlottjwfpwnf{zoom:100%;}</style><img src="/The-Most-Important-Optimizations2/image-20250729212806746.png" srcset="/img/loading.gif" lazyload class="hlottjwfpwnf"></img> </div>
+<div align=center>     <style>.avjvefwuyjjm{zoom:100%;}</style><img src="/The-Most-Important-Optimizations2/image-20250729212806746.png" srcset="/img/loading.gif" lazyload class="avjvefwuyjjm"></img> </div>
 
 
 
@@ -581,17 +581,17 @@
 <li>尽量避免在循环中构造对象</li>
 <li>尽量将vector提前扩容，避免其多次动态扩容</li>
 </ul>
-<div align=center>     <style>.ulpxjctacptg{zoom:80%;}</style><img src="/The-Most-Important-Optimizations2/image-20250729215854206.png" srcset="/img/loading.gif" lazyload class="ulpxjctacptg"></img> </div>
+<div align=center>     <style>.iaeaxplhjhoh{zoom:80%;}</style><img src="/The-Most-Important-Optimizations2/image-20250729215854206.png" srcset="/img/loading.gif" lazyload class="iaeaxplhjhoh"></img> </div>
 
 <h3 id="25-避免拷贝异常"><a href="#25-避免拷贝异常" class="headerlink" title="25.避免拷贝异常"></a>25.避免拷贝异常</h3><ul>
 <li>避免按值传递异常变量，应使用<code>const &amp;</code></li>
-<li>向上抛出异常时直接<code>throw</code>即可，错误写法会导致拷贝<div align=center>     <style>.szyrbhobetnt{zoom:80%;}</style><img src="/The-Most-Important-Optimizations2/image-20250729220114486.png" srcset="/img/loading.gif" lazyload class="szyrbhobetnt"></img> </div></li>
+<li>向上抛出异常时直接<code>throw</code>即可，错误写法会导致拷贝<div align=center>     <style>.tortdiomcuso{zoom:80%;}</style><img src="/The-Most-Important-Optimizations2/image-20250729220114486.png" srcset="/img/loading.gif" lazyload class="tortdiomcuso"></img> </div></li>
 </ul>
-<h3 id="26-避免范围for循环时的拷贝"><a href="#26-避免范围for循环时的拷贝" class="headerlink" title="26.避免范围for循环时的拷贝"></a>26.避免范围for循环时的拷贝</h3><div align=center>     <style>.hhhzwqrctrkw{zoom:80%;}</style><img src="/The-Most-Important-Optimizations2/image-20250729220720588.png" srcset="/img/loading.gif" lazyload class="hhhzwqrctrkw"></img> </div>
+<h3 id="26-避免范围for循环时的拷贝"><a href="#26-避免范围for循环时的拷贝" class="headerlink" title="26.避免范围for循环时的拷贝"></a>26.避免范围for循环时的拷贝</h3><div align=center>     <style>.zwehexlegiww{zoom:80%;}</style><img src="/The-Most-Important-Optimizations2/image-20250729220720588.png" srcset="/img/loading.gif" lazyload class="zwehexlegiww"></img> </div>
 
 
 
-<h3 id="27-避免lambda函数捕获列表的拷贝"><a href="#27-避免lambda函数捕获列表的拷贝" class="headerlink" title="27.避免lambda函数捕获列表的拷贝"></a>27.避免lambda函数捕获列表的拷贝</h3><div align=center>     <style>.fpggmborxebf{zoom:80%;}</style><img src="/The-Most-Important-Optimizations2/image-20250729220834534.png" srcset="/img/loading.gif" lazyload class="fpggmborxebf"></img> </div>
+<h3 id="27-避免lambda函数捕获列表的拷贝"><a href="#27-避免lambda函数捕获列表的拷贝" class="headerlink" title="27.避免lambda函数捕获列表的拷贝"></a>27.避免lambda函数捕获列表的拷贝</h3><div align=center>     <style>.nuyvruuffsik{zoom:80%;}</style><img src="/The-Most-Important-Optimizations2/image-20250729220834534.png" srcset="/img/loading.gif" lazyload class="nuyvruuffsik"></img> </div>
 
 
 
@@ -599,7 +599,7 @@
 <blockquote>
 <p><code>auto&amp; [key, value] : myMap</code> 这样不会拷贝，因为是对<code>std::pair&lt;const Key, T&gt;</code>的引用绑定，key 的类型实际是 <code>const Key&amp;</code> ，而value类型 是 <code>T&amp;</code></p>
 </blockquote>
-<div align=center>     <style>.bxfheulqvavb{zoom:80%;}</style><img src="/The-Most-Important-Optimizations2/image-20250729220941573.png" srcset="/img/loading.gif" lazyload class="bxfheulqvavb"></img> </div>
+<div align=center>     <style>.vgobdfdringw{zoom:80%;}</style><img src="/The-Most-Important-Optimizations2/image-20250729220941573.png" srcset="/img/loading.gif" lazyload class="vgobdfdringw"></img> </div>
 
 
 
@@ -609,13 +609,13 @@
 <li>在右值上启用移动语义；</li>
 <li>在链式调用中避免复制/拷贝；</li>
 </ul>
-<div align=center>     <style>.bsawmhzymnvb{zoom:80%;}</style><img src="/The-Most-Important-Optimizations2/image-20250729224956097.png" srcset="/img/loading.gif" lazyload class="bsawmhzymnvb"></img> </div>
+<div align=center>     <style>.loexcbxjnvig{zoom:80%;}</style><img src="/The-Most-Important-Optimizations2/image-20250729224956097.png" srcset="/img/loading.gif" lazyload class="loexcbxjnvig"></img> </div>
 
-<div align=center>     <style>.bdcvaeldvfky{zoom:80%;}</style><img src="/The-Most-Important-Optimizations2/image-20250729225011801.png" srcset="/img/loading.gif" lazyload class="bdcvaeldvfky"></img> </div>
+<div align=center>     <style>.jdgtidtfsygt{zoom:80%;}</style><img src="/The-Most-Important-Optimizations2/image-20250729225011801.png" srcset="/img/loading.gif" lazyload class="jdgtidtfsygt"></img> </div>
 
 <blockquote>
 <p>C++23引入了decltype(auto)写法，自动根据情况推导出最合适的返回值类型，包括值、引用、const 引用、右值引用等，从而避免手动重载多个版本的 <code>get()</code> 方法</p>
-<div align=center>     <style>.wsypmydquppx{zoom:80%;}</style><img src="/The-Most-Important-Optimizations2/image-20250729225637316.png" srcset="/img/loading.gif" lazyload class="wsypmydquppx"></img> </div>
+<div align=center>     <style>.fxhhokisllzu{zoom:80%;}</style><img src="/The-Most-Important-Optimizations2/image-20250729225637316.png" srcset="/img/loading.gif" lazyload class="fxhhokisllzu"></img> </div>
 </blockquote>
 <hr>
 <p>C++语言层面章节结束，后续内容放在下一篇博客</p>
@@ -665,6 +665,12 @@
                 <div class="post-prevnext my-3">
                   <article class="post-prev col-6">
                     
+                    
+                      <a href="/work-summary/" title="工作总结">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">工作总结</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
                     
                   </article>
                   <article class="post-next col-6">
