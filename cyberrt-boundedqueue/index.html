@@ -1,0 +1,761 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/avatar1.png">
+  <link rel="icon" href="/img/avatar1.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="TRknight">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="使用atomic实现的无锁环形队列">
+<meta property="og:type" content="article">
+<meta property="og:title" content="CyberRT源码分析-有界无锁队列">
+<meta property="og:url" content="https://whiiiiisper.github.io/cyberrt-boundedqueue/index.html">
+<meta property="og:site_name" content="TRknight的博客">
+<meta property="og:description" content="使用atomic实现的无锁环形队列">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://whiiiiisper.github.io/cyberrt-boundedqueue/image-20250813204202130.png">
+<meta property="article:published_time" content="2025-08-13T12:30:28.000Z">
+<meta property="article:modified_time" content="2025-08-13T13:16:46.215Z">
+<meta property="article:author" content="TRknight">
+<meta property="article:tag" content="CyberRT">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://whiiiiisper.github.io/cyberrt-boundedqueue/image-20250813204202130.png">
+  
+  
+    <meta name="referrer" content="no-referrer-when-downgrade">
+  
+  
+  <title>CyberRT源码分析-有界无锁队列 - TRknight的博客</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"whiiiiisper.github.io","root":"/","version":"1.9.4","typing":{"enable":true,"typeSpeed":60,"cursorChar":"_","loop":false,"scope":["home"]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":3},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":"UfX75DyTm2esCZzftemEk54r-MdYXbMMI","app_key":"9xm7jFhgkxRBHpk646aJtU2I","server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+  
+
+
+
+  
+<meta name="generator" content="Hexo 5.4.2"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>TRknight的博客</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/links/">
+                <i class="iconfont icon-link-fill"></i>
+                <span>友链</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle">CyberRT源码分析-有界无锁队列</span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2025-08-13 20:30" pubdate>
+          2025年8月13日 晚上
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          9.7k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          82 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">CyberRT源码分析-有界无锁队列</h1>
+            
+              <p class="note note-info">
+                
+                  
+                    本文最后更新于：几秒前
+                  
+                
+              </p>
+            
+            
+              <div class="markdown-body">
+                
+                <h2 id="源码"><a href="#源码" class="headerlink" title="源码"></a>源码</h2><p>CyberRT 为了解决跨模块数据队列的性能瓶颈，实现了一个<strong>无锁（Lock-Free）+有界（Bounded）</strong>的环形队列 <code>BoundedQueue</code>，既能保证高并发下的吞吐率，又能控制内存占用。</p>
+<p>相比传统的 <code>std::queue + mutex</code>，它的特点是：</p>
+<ul>
+<li><strong>无锁</strong>：采用 <code>std::atomic</code> + CAS（Compare-And-Swap）实现多线程安全，不阻塞生产者或消费者。</li>
+<li><strong>有界</strong>：队列大小固定，避免动态分配内存造成的抖动。</li>
+<li><strong>缓存友好</strong>：关键原子变量对齐到缓存行（<code>alignas(CACHELINE_SIZE)</code>），减少 false sharing。</li>
+<li><strong>可配置等待策略</strong>：支持不同的 <code>WaitStrategy</code>（休眠、忙等、自旋等）来适配不同延迟/功耗需求</li>
+</ul>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br><span class="line">187</span><br><span class="line">188</span><br><span class="line">189</span><br><span class="line">190</span><br><span class="line">191</span><br><span class="line">192</span><br><span class="line">193</span><br><span class="line">194</span><br><span class="line">195</span><br><span class="line">196</span><br><span class="line">197</span><br><span class="line">198</span><br><span class="line">199</span><br><span class="line">200</span><br><span class="line">201</span><br><span class="line">202</span><br><span class="line">203</span><br><span class="line">204</span><br><span class="line">205</span><br><span class="line">206</span><br><span class="line">207</span><br><span class="line">208</span><br><span class="line">209</span><br><span class="line">210</span><br><span class="line">211</span><br><span class="line">212</span><br><span class="line">213</span><br><span class="line">214</span><br><span class="line">215</span><br><span class="line">216</span><br><span class="line">217</span><br><span class="line">218</span><br><span class="line">219</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;unistd.h&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;algorithm&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;atomic&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;cstdint&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;cstdlib&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;memory&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;utility&gt;</span></span><br><br><span class="hljs-meta">#<span class="hljs-keyword">define</span> cyber_likely(x) (__builtin_expect((x), 1))</span><br><span class="hljs-meta">#<span class="hljs-keyword">define</span> cyber_unlikely(x) (__builtin_expect((x), 0))</span><br><br><span class="hljs-keyword">template</span> &lt;<span class="hljs-keyword">typename</span> T&gt;<br><span class="hljs-keyword">class</span> <span class="hljs-title class_">BoundedQueue</span> &#123;<br> <span class="hljs-keyword">public</span>:<br>  <span class="hljs-keyword">using</span> value_type = T;<br>  <span class="hljs-keyword">using</span> size_type = <span class="hljs-type">uint64_t</span>;<br><br> <span class="hljs-keyword">public</span>:<br>  <span class="hljs-built_in">BoundedQueue</span>() &#123;&#125;<br>  BoundedQueue&amp; <span class="hljs-keyword">operator</span>=(<span class="hljs-type">const</span> BoundedQueue&amp; other) = <span class="hljs-keyword">delete</span>;<br>  <span class="hljs-built_in">BoundedQueue</span>(<span class="hljs-type">const</span> BoundedQueue&amp; other) = <span class="hljs-keyword">delete</span>;<br>  ~<span class="hljs-built_in">BoundedQueue</span>();<br>  <span class="hljs-function"><span class="hljs-type">bool</span> <span class="hljs-title">Init</span><span class="hljs-params">(<span class="hljs-type">uint64_t</span> size)</span></span>;<br>  <span class="hljs-function"><span class="hljs-type">bool</span> <span class="hljs-title">Init</span><span class="hljs-params">(<span class="hljs-type">uint64_t</span> size, WaitStrategy* strategy)</span></span>;<br>  <span class="hljs-function"><span class="hljs-type">bool</span> <span class="hljs-title">Enqueue</span><span class="hljs-params">(<span class="hljs-type">const</span> T&amp; element)</span></span>;<br>  <span class="hljs-function"><span class="hljs-type">bool</span> <span class="hljs-title">Enqueue</span><span class="hljs-params">(T&amp;&amp; element)</span></span>;<br>  <span class="hljs-function"><span class="hljs-type">bool</span> <span class="hljs-title">WaitEnqueue</span><span class="hljs-params">(<span class="hljs-type">const</span> T&amp; element)</span></span>;<br>  <span class="hljs-function"><span class="hljs-type">bool</span> <span class="hljs-title">WaitEnqueue</span><span class="hljs-params">(T&amp;&amp; element)</span></span>;<br>  <span class="hljs-function"><span class="hljs-type">bool</span> <span class="hljs-title">Dequeue</span><span class="hljs-params">(T* element)</span></span>;<br>  <span class="hljs-function"><span class="hljs-type">bool</span> <span class="hljs-title">WaitDequeue</span><span class="hljs-params">(T* element)</span></span>;<br>  <span class="hljs-function"><span class="hljs-type">uint64_t</span> <span class="hljs-title">Size</span><span class="hljs-params">()</span></span>;<br>  <span class="hljs-function"><span class="hljs-type">bool</span> <span class="hljs-title">Empty</span><span class="hljs-params">()</span></span>;<br>  <span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">SetWaitStrategy</span><span class="hljs-params">(WaitStrategy* WaitStrategy)</span></span>;<br>  <span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">BreakAllWait</span><span class="hljs-params">()</span></span>;<br>  <span class="hljs-function"><span class="hljs-type">uint64_t</span> <span class="hljs-title">Head</span><span class="hljs-params">()</span> </span>&#123; <span class="hljs-keyword">return</span> head_.<span class="hljs-built_in">load</span>(); &#125;<br>  <span class="hljs-function"><span class="hljs-type">uint64_t</span> <span class="hljs-title">Tail</span><span class="hljs-params">()</span> </span>&#123; <span class="hljs-keyword">return</span> tail_.<span class="hljs-built_in">load</span>(); &#125;<br>  <span class="hljs-function"><span class="hljs-type">uint64_t</span> <span class="hljs-title">Commit</span><span class="hljs-params">()</span> </span>&#123; <span class="hljs-keyword">return</span> commit_.<span class="hljs-built_in">load</span>(); &#125;<br><br> <span class="hljs-keyword">private</span>:<br>  <span class="hljs-function"><span class="hljs-type">uint64_t</span> <span class="hljs-title">GetIndex</span><span class="hljs-params">(<span class="hljs-type">uint64_t</span> num)</span></span>;<br><br>  <span class="hljs-built_in">alignas</span>(CACHELINE_SIZE) std::atomic&lt;<span class="hljs-type">uint64_t</span>&gt; head_ = &#123;<span class="hljs-number">0</span>&#125;;<br>  <span class="hljs-built_in">alignas</span>(CACHELINE_SIZE) std::atomic&lt;<span class="hljs-type">uint64_t</span>&gt; tail_ = &#123;<span class="hljs-number">1</span>&#125;;<br>  <span class="hljs-built_in">alignas</span>(CACHELINE_SIZE) std::atomic&lt;<span class="hljs-type">uint64_t</span>&gt; commit_ = &#123;<span class="hljs-number">1</span>&#125;;<br>  <span class="hljs-comment">// alignas(CACHELINE_SIZE) std::atomic&lt;uint64_t&gt; size_ = &#123;0&#125;;</span><br>  <span class="hljs-type">uint64_t</span> pool_size_ = <span class="hljs-number">0</span>;<br>  T* pool_ = <span class="hljs-literal">nullptr</span>;<br>  std::unique_ptr&lt;WaitStrategy&gt; wait_strategy_ = <span class="hljs-literal">nullptr</span>;<br>  <span class="hljs-keyword">volatile</span> <span class="hljs-type">bool</span> break_all_wait_ = <span class="hljs-literal">false</span>;<br>&#125;;<br><br><span class="hljs-keyword">template</span> &lt;<span class="hljs-keyword">typename</span> T&gt;<br>BoundedQueue&lt;T&gt;::~<span class="hljs-built_in">BoundedQueue</span>() &#123;<br>  <span class="hljs-keyword">if</span> (wait_strategy_) &#123;<br>    <span class="hljs-built_in">BreakAllWait</span>();<br>  &#125;<br>  <span class="hljs-keyword">if</span> (pool_) &#123;<br>    <span class="hljs-keyword">for</span> (<span class="hljs-type">uint64_t</span> i = <span class="hljs-number">0</span>; i &lt; pool_size_; ++i) &#123;<br>      pool_[i].~<span class="hljs-built_in">T</span>();<br>    &#125;<br>    std::<span class="hljs-built_in">free</span>(pool_);<br>  &#125;<br>&#125;<br><br><span class="hljs-keyword">template</span> &lt;<span class="hljs-keyword">typename</span> T&gt;<br><span class="hljs-keyword">inline</span> <span class="hljs-type">bool</span> BoundedQueue&lt;T&gt;::<span class="hljs-built_in">Init</span>(<span class="hljs-type">uint64_t</span> size) &#123;<br>  <span class="hljs-keyword">return</span> <span class="hljs-built_in">Init</span>(size, <span class="hljs-keyword">new</span> <span class="hljs-built_in">SleepWaitStrategy</span>());<br>&#125;<br><br><span class="hljs-keyword">template</span> &lt;<span class="hljs-keyword">typename</span> T&gt;<br><span class="hljs-type">bool</span> BoundedQueue&lt;T&gt;::<span class="hljs-built_in">Init</span>(<span class="hljs-type">uint64_t</span> size, WaitStrategy* strategy) &#123;<br>  <span class="hljs-comment">// Head and tail each occupy a space</span><br>  pool_size_ = size + <span class="hljs-number">2</span>;<br>  pool_ = <span class="hljs-built_in">reinterpret_cast</span>&lt;T*&gt;(std::<span class="hljs-built_in">calloc</span>(pool_size_, <span class="hljs-built_in">sizeof</span>(T)));<br>  <span class="hljs-keyword">if</span> (pool_ == <span class="hljs-literal">nullptr</span>) &#123;<br>    <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;<br>  &#125;<br>  <span class="hljs-keyword">for</span> (<span class="hljs-type">uint64_t</span> i = <span class="hljs-number">0</span>; i &lt; pool_size_; ++i) &#123;<br>    <span class="hljs-keyword">new</span> (&amp;(pool_[i])) <span class="hljs-built_in">T</span>();<br>  &#125;<br>  wait_strategy_.<span class="hljs-built_in">reset</span>(strategy);<br>  <span class="hljs-keyword">return</span> <span class="hljs-literal">true</span>;<br>&#125;<br><br><span class="hljs-keyword">template</span> &lt;<span class="hljs-keyword">typename</span> T&gt;<br><span class="hljs-type">bool</span> BoundedQueue&lt;T&gt;::<span class="hljs-built_in">Enqueue</span>(<span class="hljs-type">const</span> T&amp; element) &#123;<br>  <span class="hljs-type">uint64_t</span> new_tail = <span class="hljs-number">0</span>;<br>  <span class="hljs-type">uint64_t</span> old_commit = <span class="hljs-number">0</span>;<br>  <span class="hljs-type">uint64_t</span> old_tail = tail_.<span class="hljs-built_in">load</span>(std::memory_order_acquire);<br>  <span class="hljs-keyword">do</span> &#123;<br>    new_tail = old_tail + <span class="hljs-number">1</span>;<br>    <span class="hljs-keyword">if</span> (<span class="hljs-built_in">GetIndex</span>(new_tail) == <span class="hljs-built_in">GetIndex</span>(head_.<span class="hljs-built_in">load</span>(std::memory_order_acquire))) &#123;<br>      <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;<br>    &#125;<br>  &#125; <span class="hljs-keyword">while</span> (!tail_.<span class="hljs-built_in">compare_exchange_weak</span>(old_tail, new_tail,<br>                                        std::memory_order_acq_rel,<br>                                        std::memory_order_relaxed));<br>  pool_[<span class="hljs-built_in">GetIndex</span>(old_tail)] = element;<br>  <span class="hljs-keyword">do</span> &#123;<br>    old_commit = old_tail;<br>  &#125; <span class="hljs-keyword">while</span> (<span class="hljs-built_in">cyber_unlikely</span>(!commit_.<span class="hljs-built_in">compare_exchange_weak</span>(<br>      old_commit, new_tail, std::memory_order_acq_rel,<br>      std::memory_order_relaxed)));<br>  wait_strategy_-&gt;<span class="hljs-built_in">NotifyOne</span>();<br>  <span class="hljs-keyword">return</span> <span class="hljs-literal">true</span>;<br>&#125;<br><br><span class="hljs-keyword">template</span> &lt;<span class="hljs-keyword">typename</span> T&gt;<br><span class="hljs-type">bool</span> BoundedQueue&lt;T&gt;::<span class="hljs-built_in">Enqueue</span>(T&amp;&amp; element) &#123;<br>  <span class="hljs-type">uint64_t</span> new_tail = <span class="hljs-number">0</span>;<br>  <span class="hljs-type">uint64_t</span> old_commit = <span class="hljs-number">0</span>;<br>  <span class="hljs-type">uint64_t</span> old_tail = tail_.<span class="hljs-built_in">load</span>(std::memory_order_acquire);<br>  <span class="hljs-keyword">do</span> &#123;<br>    new_tail = old_tail + <span class="hljs-number">1</span>;<br>    <span class="hljs-keyword">if</span> (<span class="hljs-built_in">GetIndex</span>(new_tail) == <span class="hljs-built_in">GetIndex</span>(head_.<span class="hljs-built_in">load</span>(std::memory_order_acquire))) &#123;<br>      <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;<br>    &#125;<br>  &#125; <span class="hljs-keyword">while</span> (!tail_.<span class="hljs-built_in">compare_exchange_weak</span>(old_tail, new_tail,<br>                                        std::memory_order_acq_rel,<br>                                        std::memory_order_relaxed));<br>  pool_[<span class="hljs-built_in">GetIndex</span>(old_tail)] = std::<span class="hljs-built_in">move</span>(element);<br>  <span class="hljs-keyword">do</span> &#123;<br>    old_commit = old_tail;<br>  &#125; <span class="hljs-keyword">while</span> (<span class="hljs-built_in">cyber_unlikely</span>(!commit_.<span class="hljs-built_in">compare_exchange_weak</span>(<br>      old_commit, new_tail, std::memory_order_acq_rel,<br>      std::memory_order_relaxed)));<br>  wait_strategy_-&gt;<span class="hljs-built_in">NotifyOne</span>();<br>  <span class="hljs-keyword">return</span> <span class="hljs-literal">true</span>;<br>&#125;<br><br><span class="hljs-keyword">template</span> &lt;<span class="hljs-keyword">typename</span> T&gt;<br><span class="hljs-type">bool</span> BoundedQueue&lt;T&gt;::<span class="hljs-built_in">Dequeue</span>(T* element) &#123;<br>  <span class="hljs-type">uint64_t</span> new_head = <span class="hljs-number">0</span>;<br>  <span class="hljs-type">uint64_t</span> old_head = head_.<span class="hljs-built_in">load</span>(std::memory_order_acquire);<br>  <span class="hljs-keyword">do</span> &#123;<br>    new_head = old_head + <span class="hljs-number">1</span>;<br>    <span class="hljs-keyword">if</span> (new_head == commit_.<span class="hljs-built_in">load</span>(std::memory_order_acquire)) &#123;<br>      <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;<br>    &#125;<br>    *element = pool_[<span class="hljs-built_in">GetIndex</span>(new_head)];<br>  &#125; <span class="hljs-keyword">while</span> (!head_.<span class="hljs-built_in">compare_exchange_weak</span>(old_head, new_head,<br>                                        std::memory_order_acq_rel,<br>                                        std::memory_order_relaxed));<br>  <span class="hljs-keyword">return</span> <span class="hljs-literal">true</span>;<br>&#125;<br><br><span class="hljs-keyword">template</span> &lt;<span class="hljs-keyword">typename</span> T&gt;<br><span class="hljs-type">bool</span> BoundedQueue&lt;T&gt;::<span class="hljs-built_in">WaitEnqueue</span>(<span class="hljs-type">const</span> T&amp; element) &#123;<br>  <span class="hljs-keyword">while</span> (!break_all_wait_) &#123;<br>    <span class="hljs-keyword">if</span> (<span class="hljs-built_in">Enqueue</span>(element)) &#123;<br>      <span class="hljs-keyword">return</span> <span class="hljs-literal">true</span>;<br>    &#125;<br>    <span class="hljs-keyword">if</span> (wait_strategy_-&gt;<span class="hljs-built_in">EmptyWait</span>()) &#123;<br>      <span class="hljs-keyword">continue</span>;<br>    &#125;<br>    <span class="hljs-comment">// wait timeout</span><br>    <span class="hljs-keyword">break</span>;<br>  &#125;<br><br>  <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;<br>&#125;<br><br><span class="hljs-keyword">template</span> &lt;<span class="hljs-keyword">typename</span> T&gt;<br><span class="hljs-type">bool</span> BoundedQueue&lt;T&gt;::<span class="hljs-built_in">WaitEnqueue</span>(T&amp;&amp; element) &#123;<br>  <span class="hljs-keyword">while</span> (!break_all_wait_) &#123;<br>    <span class="hljs-keyword">if</span> (<span class="hljs-built_in">Enqueue</span>(std::<span class="hljs-built_in">move</span>(element))) &#123;<br>      <span class="hljs-keyword">return</span> <span class="hljs-literal">true</span>;<br>    &#125;<br>    <span class="hljs-keyword">if</span> (wait_strategy_-&gt;<span class="hljs-built_in">EmptyWait</span>()) &#123;<br>      <span class="hljs-keyword">continue</span>;<br>    &#125;<br>    <span class="hljs-comment">// wait timeout</span><br>    <span class="hljs-keyword">break</span>;<br>  &#125;<br><br>  <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;<br>&#125;<br><br><span class="hljs-keyword">template</span> &lt;<span class="hljs-keyword">typename</span> T&gt;<br><span class="hljs-type">bool</span> BoundedQueue&lt;T&gt;::<span class="hljs-built_in">WaitDequeue</span>(T* element) &#123;<br>  <span class="hljs-keyword">while</span> (!break_all_wait_) &#123;<br>    <span class="hljs-keyword">if</span> (<span class="hljs-built_in">Dequeue</span>(element)) &#123;<br>      <span class="hljs-keyword">return</span> <span class="hljs-literal">true</span>;<br>    &#125;<br>    <span class="hljs-keyword">if</span> (wait_strategy_-&gt;<span class="hljs-built_in">EmptyWait</span>()) &#123;<br>      <span class="hljs-keyword">continue</span>;<br>    &#125;<br>    <span class="hljs-comment">// wait timeout</span><br>    <span class="hljs-keyword">break</span>;<br>  &#125;<br><br>  <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;<br>&#125;<br><br><span class="hljs-keyword">template</span> &lt;<span class="hljs-keyword">typename</span> T&gt;<br><span class="hljs-keyword">inline</span> <span class="hljs-type">uint64_t</span> BoundedQueue&lt;T&gt;::<span class="hljs-built_in">Size</span>() &#123;<br>  <span class="hljs-keyword">return</span> tail_ - head_ - <span class="hljs-number">1</span>;<br>&#125;<br><br><span class="hljs-keyword">template</span> &lt;<span class="hljs-keyword">typename</span> T&gt;<br><span class="hljs-keyword">inline</span> <span class="hljs-type">bool</span> BoundedQueue&lt;T&gt;::<span class="hljs-built_in">Empty</span>() &#123;<br>  <span class="hljs-keyword">return</span> <span class="hljs-built_in">Size</span>() == <span class="hljs-number">0</span>;<br>&#125;<br><br><span class="hljs-keyword">template</span> &lt;<span class="hljs-keyword">typename</span> T&gt;<br><span class="hljs-keyword">inline</span> <span class="hljs-type">uint64_t</span> BoundedQueue&lt;T&gt;::<span class="hljs-built_in">GetIndex</span>(<span class="hljs-type">uint64_t</span> num) &#123;<br>  <span class="hljs-keyword">return</span> num - (num / pool_size_) * pool_size_;  <span class="hljs-comment">// faster than %</span><br>&#125;<br><br><span class="hljs-keyword">template</span> &lt;<span class="hljs-keyword">typename</span> T&gt;<br><span class="hljs-keyword">inline</span> <span class="hljs-type">void</span> BoundedQueue&lt;T&gt;::<span class="hljs-built_in">SetWaitStrategy</span>(WaitStrategy* strategy) &#123;<br>  wait_strategy_.<span class="hljs-built_in">reset</span>(strategy);<br>&#125;<br><br><span class="hljs-keyword">template</span> &lt;<span class="hljs-keyword">typename</span> T&gt;<br><span class="hljs-keyword">inline</span> <span class="hljs-type">void</span> BoundedQueue&lt;T&gt;::<span class="hljs-built_in">BreakAllWait</span>() &#123;<br>  break_all_wait_ = <span class="hljs-literal">true</span>;<br>  wait_strategy_-&gt;<span class="hljs-built_in">BreakAllWait</span>();<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>其中涉及到的等待策略类实现如下：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-keyword">class</span> <span class="hljs-title class_">WaitStrategy</span> &#123;<br> <span class="hljs-keyword">public</span>:<br>  <span class="hljs-function"><span class="hljs-keyword">virtual</span> <span class="hljs-type">void</span> <span class="hljs-title">NotifyOne</span><span class="hljs-params">()</span> </span>&#123;&#125;<br>  <span class="hljs-function"><span class="hljs-keyword">virtual</span> <span class="hljs-type">void</span> <span class="hljs-title">BreakAllWait</span><span class="hljs-params">()</span> </span>&#123;&#125;<br>  <span class="hljs-function"><span class="hljs-keyword">virtual</span> <span class="hljs-type">bool</span> <span class="hljs-title">EmptyWait</span><span class="hljs-params">()</span> </span>= <span class="hljs-number">0</span>;<br>  <span class="hljs-keyword">virtual</span> ~<span class="hljs-built_in">WaitStrategy</span>() &#123;&#125;<br>&#125;;<br><span class="hljs-keyword">class</span> <span class="hljs-title class_">BlockWaitStrategy</span> : <span class="hljs-keyword">public</span> WaitStrategy &#123;<br> <span class="hljs-keyword">public</span>:<br>  <span class="hljs-built_in">BlockWaitStrategy</span>() &#123;&#125;<br>  <span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">NotifyOne</span><span class="hljs-params">()</span> <span class="hljs-keyword">override</span> </span>&#123; cv_.<span class="hljs-built_in">notify_one</span>(); &#125;<br>  <span class="hljs-function"><span class="hljs-type">bool</span> <span class="hljs-title">EmptyWait</span><span class="hljs-params">()</span> <span class="hljs-keyword">override</span> </span>&#123;<br>    <span class="hljs-function">std::unique_lock&lt;std::mutex&gt; <span class="hljs-title">lock</span><span class="hljs-params">(mutex_)</span></span>;<br>    cv_.<span class="hljs-built_in">wait</span>(lock);<br>    <span class="hljs-keyword">return</span> <span class="hljs-literal">true</span>;<br>  &#125;<br>  <span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">BreakAllWait</span><span class="hljs-params">()</span> <span class="hljs-keyword">override</span> </span>&#123; cv_.<span class="hljs-built_in">notify_all</span>(); &#125;<br> <span class="hljs-keyword">private</span>:<br>  std::mutex mutex_;<br>  std::condition_variable cv_;<br>&#125;;<br><span class="hljs-keyword">class</span> <span class="hljs-title class_">SleepWaitStrategy</span> : <span class="hljs-keyword">public</span> WaitStrategy &#123;<br> <span class="hljs-keyword">public</span>:<br>  <span class="hljs-built_in">SleepWaitStrategy</span>() &#123;&#125;<br>  <span class="hljs-function"><span class="hljs-keyword">explicit</span> <span class="hljs-title">SleepWaitStrategy</span><span class="hljs-params">(<span class="hljs-type">uint64_t</span> sleep_time_us)</span></span><br><span class="hljs-function">      : sleep_time_us_(sleep_time_us) &#123;</span>&#125;<br>  <span class="hljs-function"><span class="hljs-type">bool</span> <span class="hljs-title">EmptyWait</span><span class="hljs-params">()</span> <span class="hljs-keyword">override</span> </span>&#123;<br>    std::this_thread::<span class="hljs-built_in">sleep_for</span>(std::chrono::<span class="hljs-built_in">microseconds</span>(sleep_time_us_));<br>    <span class="hljs-keyword">return</span> <span class="hljs-literal">true</span>;<br>  &#125;<br>  <span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">SetSleepTimeMicroSeconds</span><span class="hljs-params">(<span class="hljs-type">uint64_t</span> sleep_time_us)</span> </span>&#123;<br>    sleep_time_us_ = sleep_time_us;<br>  &#125;<br> <span class="hljs-keyword">private</span>:<br>  <span class="hljs-type">uint64_t</span> sleep_time_us_ = <span class="hljs-number">10000</span>;<br>&#125;;<br></code></pre></td></tr></table></figure>
+
+
+
+<h2 id="核心数据结构"><a href="#核心数据结构" class="headerlink" title="核心数据结构"></a>核心数据结构</h2><p>队列的关键成员变量：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-built_in">alignas</span>(CACHELINE_SIZE) std::atomic&lt;<span class="hljs-type">uint64_t</span>&gt; head_ = &#123;<span class="hljs-number">0</span>&#125;;<br><span class="hljs-built_in">alignas</span>(CACHELINE_SIZE) std::atomic&lt;<span class="hljs-type">uint64_t</span>&gt; tail_ = &#123;<span class="hljs-number">1</span>&#125;;<br><span class="hljs-built_in">alignas</span>(CACHELINE_SIZE) std::atomic&lt;<span class="hljs-type">uint64_t</span>&gt; commit_ = &#123;<span class="hljs-number">1</span>&#125;;<br><br><span class="hljs-type">uint64_t</span> pool_size_ = <span class="hljs-number">0</span>;<br>T* pool_ = <span class="hljs-literal">nullptr</span>;<br>std::unique_ptr&lt;WaitStrategy&gt; wait_strategy_ = <span class="hljs-literal">nullptr</span>;<br><span class="hljs-keyword">volatile</span> <span class="hljs-type">bool</span> break_all_wait_ = <span class="hljs-literal">false</span>;<br></code></pre></td></tr></table></figure>
+
+<ul>
+<li>**head_**：消费者读到的位置（上一次取出的索引）</li>
+<li>**tail_**：生产者预占的位置（正在写入的数据槽位）</li>
+<li>**commit_**：已完成写入的数据位置（消费者只能消费到 commit_）</li>
+<li>**pool_**：存储数据的环形缓冲区</li>
+<li>**wait_strategy_**：等待策略对象（例如 SleepWaitStrategy）</li>
+<li>**break_all_wait_**：中断标志，用于安全退出等待状态</li>
+</ul>
+<p>这种设计中，<code>tail_</code> 和 <code>commit_</code> 的分离是关键：</p>
+<ul>
+<li><code>tail_</code> 可以先原子递增占坑位（防止多个生产者写同一位置）</li>
+<li>数据写完后再按序更新 <code>commit_</code>，防止消费者读到未完成的数据，并保证了消费者读到的数据顺序</li>
+</ul>
+<h2 id="Enqueue-入队流程"><a href="#Enqueue-入队流程" class="headerlink" title="Enqueue 入队流程"></a>Enqueue 入队流程</h2><div align=center>     <style>.tmtvrbjpneed{zoom:80%;}</style><img src="/cyberrt-boundedqueue/image-20250813204202130.png" srcset="/img/loading.gif" lazyload class="tmtvrbjpneed"></img> </div>
+
+<p>入队分为三个阶段：</p>
+<ol>
+<li><p><strong>申请位置</strong><br> 通过 <code>tail_.compare_exchange_weak</code> 尝试占用下一个可写位置，如果下一位置等于 <code>head_</code> 说明队列满了：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs c++">new_tail = old_tail + <span class="hljs-number">1</span>;<br><span class="hljs-keyword">if</span> (<span class="hljs-built_in">GetIndex</span>(new_tail) == <span class="hljs-built_in">GetIndex</span>(head_.<span class="hljs-built_in">load</span>(...))) &#123;<br>    <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>; <span class="hljs-comment">// 队列已满</span><br>&#125;<br></code></pre></td></tr></table></figure></li>
+<li><p><strong>写入数据</strong><br> 在占到的位置 <code>pool_[GetIndex(old_tail)]</code> 写入元素（拷贝或移动）。</p>
+</li>
+<li><p><strong>提交更新</strong><br> 通过 CAS 更新 <code>commit_</code>，通知消费者数据可读：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-keyword">do</span> &#123;<br>    old_commit = old_tail;<br>&#125; <span class="hljs-keyword">while</span> (!commit_.<span class="hljs-built_in">compare_exchange_weak</span>(old_commit, new_tail, ...));<br></code></pre></td></tr></table></figure></li>
+<li><p>CAS语义里成功和失败可以指定不同的内存序，但标准规定 <strong>failure 内存序不能比 success 内存序更强</strong>，而且 failure 不能用 <code>release</code> 或 <code>acq_rel</code>，因为失败时不会写入内存。常见组合：</p>
+<ul>
+<li>成功 <code>acq_rel</code> / 失败 <code>acquire</code>（要保证失败也看到别人写的数据）</li>
+<li>成功 <code>acq_rel</code> / 失败 <code>relaxed</code>（追求性能）</li>
+</ul>
+</li>
+</ol>
+<h2 id="Dequeue-出队流程"><a href="#Dequeue-出队流程" class="headerlink" title="Dequeue 出队流程"></a>Dequeue 出队流程</h2><p>出队的核心逻辑：</p>
+<ol>
+<li><strong>计算新 head</strong><br> <code>new_head = old_head + 1</code>，如果新 head == commit_，说明没有可读数据。</li>
+<li><strong>读取数据</strong><br> 在 <code>pool_[GetIndex(new_head)]</code> 取数据。</li>
+<li><strong>更新 head</strong><br> 通过 CAS 将 <code>head_</code> 更新到新位置。</li>
+</ol>
+<p>这种模式下，消费者永远只读 <code>commit_</code> 之前的数据，避免读到生产者未写完的内容。</p>
+<h2 id="Wait-版本的接口"><a href="#Wait-版本的接口" class="headerlink" title="Wait 版本的接口"></a>Wait 版本的接口</h2><p><code>WaitEnqueue</code> / <code>WaitDequeue</code> 会在队列满/空时使用 <code>wait_strategy_</code> 进入等待：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-keyword">if</span> (wait_strategy_-&gt;<span class="hljs-built_in">EmptyWait</span>()) &#123;<br>    <span class="hljs-keyword">continue</span>; <span class="hljs-comment">// 自旋或短暂休眠</span><br>&#125;<br></code></pre></td></tr></table></figure>
+
+<ul>
+<li>在高负载场景中，使用<code>BusySpinWaitStrategy</code> 可以最大化降低延迟。</li>
+<li>在低功耗场景中，使用<code>SleepWaitStrategy</code> 可以减少 CPU 占用。</li>
+</ul>
+<hr>
+<h2 id="环形缓冲区索引优化"><a href="#环形缓冲区索引优化" class="headerlink" title="环形缓冲区索引优化"></a>环形缓冲区索引优化</h2><p><code>GetIndex()</code> 采用了乘除法消除 <code>%</code> 模运算：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-function"><span class="hljs-keyword">inline</span> <span class="hljs-type">uint64_t</span> <span class="hljs-title">GetIndex</span><span class="hljs-params">(<span class="hljs-type">uint64_t</span> num)</span> </span>&#123;<br>    <span class="hljs-keyword">return</span> num - (num / pool_size_) * pool_size_; <span class="hljs-comment">// 比 % 更快</span><br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>这样可以减少除法指令的代价，对高频入队/出队性能提升明显</p>
+<h2 id="一些思考"><a href="#一些思考" class="headerlink" title="一些思考"></a>一些思考</h2><p>为了支持左值和右值参数，enqueue实现了<code>const T&amp;</code>和<code>T&amp;&amp;</code>两个版本的函数重载，其中的区别只在于<code>pool_[idx]</code>赋值时。可以使用完美转发统一<code>pool_[idx] = std::forward&lt;U&gt;(element);</code></p>
+<p>但函数声明需要修改，因为此时类模板参数和函数模板需要区分成两个，不然无法触发万能引用。还需要保证这两个模板参数能够隐式转换：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-keyword">template</span> &lt;<span class="hljs-keyword">typename</span> T&gt;<br><span class="hljs-keyword">template</span> &lt;<span class="hljs-keyword">typename</span> U,<span class="hljs-keyword">typename</span> = std::<span class="hljs-type">enable_if_t</span>&lt;std::is_convertible&lt;U, T&gt;::value&gt;&gt;<br><span class="hljs-type">bool</span> BoundedQueue&lt;T&gt;::<span class="hljs-built_in">Enqueue</span>(U&amp;&amp; element)<br></code></pre></td></tr></table></figure>
+
+<p>或者在c++17之后可以稍微简化</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-keyword">template</span> &lt;<span class="hljs-keyword">typename</span> T&gt;<br><span class="hljs-keyword">template</span> &lt;<span class="hljs-keyword">typename</span> U, std::<span class="hljs-type">enable_if_t</span>&lt;std::is_convertible_v&lt;U, T&gt;, <span class="hljs-type">int</span>&gt; = <span class="hljs-number">0</span>&gt;<br><span class="hljs-type">bool</span> BoundedQueue&lt;T&gt;::<span class="hljs-built_in">Enqueue</span>(U&amp;&amp; element) <br><br></code></pre></td></tr></table></figure>
+
+<p>或者使用 if constexpr 做编译期判断</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-keyword">template</span> &lt;<span class="hljs-keyword">typename</span> T&gt;<br><span class="hljs-keyword">template</span> &lt;<span class="hljs-keyword">typename</span> U&gt;<br><span class="hljs-type">bool</span> BoundedQueue&lt;T&gt;::<span class="hljs-built_in">Enqueue</span>(U&amp;&amp; element) &#123;<br><span class="hljs-built_in">static_assert</span>(std::is_convertible_v&lt;U, T&gt;, <span class="hljs-string">&quot;U must be convertible to T&quot;</span>);<br><span class="hljs-comment">//...</span><br>&#125;<br></code></pre></td></tr></table></figure>
+
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/C/" class="category-chain-item">C++</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/CyberRT/">#CyberRT</a>
+      
+    </div>
+  
+</div>
+
+
+              
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/cyberrt-objpool/" title="CyberRT源码分析-对象池">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">CyberRT源码分析-对象池</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/cyberrt-overview/" title="CyberRT概览">
+                        <span class="hidden-mobile">CyberRT概览</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+  
+  
+    <article id="comments" lazyload>
+      
+  <div id="gitalk-container"></div>
+  <script type="text/javascript">
+    Fluid.utils.loadComments('#gitalk-container', function() {
+      Fluid.utils.createCssLink('/css/gitalk.css')
+      Fluid.utils.createScript('https://lib.baomitu.com/gitalk/1.8.0/gitalk.min.js', function() {
+        var options = Object.assign(
+          {"clientID":"e9b52ee57707526358fd","clientSecret":"28d34ccc5d139a900131a3f8c5eedd770c50c71b","repo":"whiiiiisper.github.io","owner":"whiiiiisper","admin":["whiiiiisper"],"language":"zh-CN","labels":["Gitalk"],"perPage":10,"pagerDirection":"last","distractionFreeMode":false,"createIssueManually":true,"proxy":"https://cors-anywhere.azm.workers.dev/https://github.com/login/oauth/access_token"},
+          {
+            id: 'ec7f2c4993ff57ad244e1eace7bc660c'
+          }
+        )
+        var gitalk = new Gitalk(options);
+        gitalk.render('gitalk-container');
+      });
+    });
+  </script>
+  <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+    </article>
+  
+
+
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+    <div class="statistics">
+  
+  
+
+  
+    
+      <span id="busuanzi_container_site_pv" style="display: none">
+        总访问量
+        <span id="busuanzi_value_site_pv"></span>
+        次
+      </span>
+    
+    
+      <span id="busuanzi_container_site_uv" style="display: none">
+        总访客数
+        <span id="busuanzi_value_site_uv"></span>
+        人
+      </span>
+    
+    
+  
+</div>
+
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.0/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.18.2/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script defer src="/js/leancloud.js" ></script>
+
+  <script  src="/js/local-search.js" ></script>
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

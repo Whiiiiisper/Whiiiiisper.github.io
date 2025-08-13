@@ -312,7 +312,7 @@
               <p class="note note-info">
                 
                   
-                    本文最后更新于：6 天前
+                    本文最后更新于：15 天前
                   
                 
               </p>
@@ -354,7 +354,7 @@
 <li><strong>C++的有效使用</strong></li>
 <li><strong>针对硬件的相关优化</strong></li>
 </ul>
-<div align=center>     <style>.xajybuswgvwm{zoom:100%;}</style><img src="/The-Most-Important-Optimizations/image-20250729212135658.png" srcset="/img/loading.gif" lazyload class="xajybuswgvwm"></img> </div>
+<div align=center>     <style>.pbdmqcfjphcv{zoom:100%;}</style><img src="/The-Most-Important-Optimizations/image-20250729212135658.png" srcset="/img/loading.gif" lazyload class="pbdmqcfjphcv"></img> </div>
 
 
 <blockquote>
@@ -375,7 +375,7 @@
 <h3 id="3-启用fast-math"><a href="#3-启用fast-math" class="headerlink" title="3.启用fast math"></a>3.启用fast math</h3><p>设置<code>-ffast-math</code>可以加快浮点运算，可能破坏程序的数学精度或正确性，不适用于对 NaN、Inf、有符号零敏感的代码  </p>
 <h3 id="4-禁用异常和RTTI"><a href="#4-禁用异常和RTTI" class="headerlink" title="4.禁用异常和RTTI"></a>4.禁用异常和RTTI</h3><p>设置<code>-fno-exceptions</code>以禁用异常，当代码中存在异常处理时会出错。设置<code>-fno-rtti</code>以禁用RTTI。这两个操作的收益有限，需谨慎考虑  </p>
 <h3 id="5-启用链接时优化"><a href="#5-启用链接时优化" class="headerlink" title="5. 启用链接时优化"></a>5. 启用链接时优化</h3><p>编译器无法跨编译单元优化，一般而言，一个cpp源文件就是一个编译单元，编译器无法将内联另一个cpp文件中的函数。配置<code>-flto</code>开启链接时优化，但建议所有参与链接的动态库都开启 <code>-flto</code>，否则可能报错。 </p>
-<div align=center>     <style>.gflwgymucmis{zoom:80%;}</style><img src="/The-Most-Important-Optimizations/image-20250726224737757.png" srcset="/img/loading.gif" lazyload class="gflwgymucmis"></img> </div>
+<div align=center>     <style>.wrserudlgxty{zoom:80%;}</style><img src="/The-Most-Important-Optimizations/image-20250726224737757.png" srcset="/img/loading.gif" lazyload class="wrserudlgxty"></img> </div>
 
 
 
@@ -386,14 +386,14 @@
 <li><p>Unity Build后，如果多个cpp中存在同名static函数，会报重复定义冲突。如果仅个别文件冲突，可以将它们排除出 Unity Build，通过配置<code>set_source_files_properties(file1.cpp PROPERTIES SKIP_UNITY_BUILD_INCLUSION ON)</code>实现</p>
 </li>
 <li><p>Unity Build会改变源码行数，增加调试难度，最好在最终release版本时使用  </p>
-<div align=center>     <style>.uiukuxvzownm{zoom:80%;}</style><img src="/The-Most-Important-Optimizations/image-20250726225003341.png" srcset="/img/loading.gif" lazyload class="uiukuxvzownm"></img> </div></li>
+<div align=center>     <style>.vnprrctwdnfq{zoom:80%;}</style><img src="/The-Most-Important-Optimizations/image-20250726225003341.png" srcset="/img/loading.gif" lazyload class="vnprrctwdnfq"></img> </div></li>
 </ul>
 <h3 id="7-尽量使用静态链接"><a href="#7-尽量使用静态链接" class="headerlink" title="7.尽量使用静态链接"></a>7.尽量使用静态链接</h3><p>仅针对性能而言，静态库在编译时能够被编译器更好地优化  </p>
 <h3 id="8-基于的性能分析profile的优化"><a href="#8-基于的性能分析profile的优化" class="headerlink" title="8.基于的性能分析profile的优化"></a>8.基于的性能分析profile的优化</h3><p>编译器优化时基于启发式的猜测，生成对硬件分支预测器友好的代码。如果使用真实运行时采集的数据代替启发式猜测，可能会有所帮助。具体步骤是先开启<code>-fprofile-generate</code>配置，在编译时插入各种性能计数器，构建程序。此时运行程序会生成一个带有性能分析结果的文件（也可以运行多次，将结果组合在一起）。</p>
-<div align=center>     <style>.ueyijglqypsr{zoom:80%;}</style><img src="/The-Most-Important-Optimizations/image-20250726232136646.png" srcset="/img/loading.gif" lazyload class="ueyijglqypsr"></img> </div>  
+<div align=center>     <style>.ogrpcoqomdhs{zoom:80%;}</style><img src="/The-Most-Important-Optimizations/image-20250726232136646.png" srcset="/img/loading.gif" lazyload class="ogrpcoqomdhs"></img> </div>  
 
 <p>再开启<code>-fprofile-use</code>配置项，将分析结果作为输入重新编译。</p>
-<div align=center>     <style>.eapkxsqwycjy{zoom:80%;}</style><img src="/The-Most-Important-Optimizations/image-20250726232147786.png" srcset="/img/loading.gif" lazyload class="eapkxsqwycjy"></img> </div>
+<div align=center>     <style>.mdgjmipljegq{zoom:80%;}</style><img src="/The-Most-Important-Optimizations/image-20250726232147786.png" srcset="/img/loading.gif" lazyload class="mdgjmipljegq"></img> </div>
 
 <h3 id="9-尝试多种编译器"><a href="#9-尝试多种编译器" class="headerlink" title="9.尝试多种编译器"></a>9.尝试多种编译器</h3><p>可以尝试多种编译器编译，再使用兼容的链接器链接。  </p>
 <blockquote>
@@ -406,7 +406,7 @@
 <blockquote>
 <p>但gcc编译的程序能否使用有待测试，似乎不兼容异常处理.eh_frame和<code>__start</code> 入口和部分 PLT/GOT 样式</p>
 </blockquote>
-<div align=center>     <style>.hqmursfvdpuw{zoom:80%;}</style><img src="/The-Most-Important-Optimizations/image-20250726234319988.png" srcset="/img/loading.gif" lazyload class="hqmursfvdpuw"></img> </div>
+<div align=center>     <style>.cjivigiivqmx{zoom:80%;}</style><img src="/The-Most-Important-Optimizations/image-20250726234319988.png" srcset="/img/loading.gif" lazyload class="cjivigiivqmx"></img> </div>
 
   
 

@@ -315,7 +315,7 @@
               <p class="note note-info">
                 
                   
-                    本文最后更新于：1 分钟前
+                    本文最后更新于：9 天前
                   
                 
               </p>
@@ -328,17 +328,17 @@
 <p>OpenCV直接有GPU的互功率谱计算API，同时也自己实现了cu文件。调试时候还发现cufft会一直占用一定的堆内存。</p>
 <h1 id="小目标增强检测"><a href="#小目标增强检测" class="headerlink" title="小目标增强检测"></a>小目标增强检测</h1><p>这个在申专利，不好多说，就是参考推理时的SAHI手段。主要在于如何快速选择这个放大检测的区域。</p>
 <p>封装该库时参考了boost.geometry中类似的模板trait特性，当一个函数需要传入目标框，但是调用者处的目标框是自定义类型，而库内又不想包含该自定义类型的头文件时，就可以使用这种手段。通过宏在调用处注册目标类型和访问方法，库内使用模板函数，实现静态多态。</p>
-<div align=center>     <style>.bquvehopgvbv{zoom:60%;}</style><img src="/work-summary/image-20250804223538978.png" srcset="/img/loading.gif" lazyload class="bquvehopgvbv"></img> </div>
+<div align=center>     <style>.jyxkitjxaesj{zoom:60%;}</style><img src="/work-summary/image-20250804223538978.png" srcset="/img/loading.gif" lazyload class="jyxkitjxaesj"></img> </div>
 
-<div align=center>     <style>.zxwsbqojkqcf{zoom:60%;}</style><img src="/work-summary/image-20250804223545207.png" srcset="/img/loading.gif" lazyload class="zxwsbqojkqcf"></img> </div>
+<div align=center>     <style>.xywlmrpholmj{zoom:60%;}</style><img src="/work-summary/image-20250804223545207.png" srcset="/img/loading.gif" lazyload class="xywlmrpholmj"></img> </div>
 
 
 
 <h1 id="行驶区域生成"><a href="#行驶区域生成" class="headerlink" title="行驶区域生成"></a>行驶区域生成</h1><p>由于算法路面分割的结果太烂，只能另想办法生成车道。一开始做了个降级版，没有细分到车道级，根据已有的车辆跟踪框，按行驶方向生成多个区域。先对糟糕的跟踪结果进行筛除，选取车辆目标框底边的点，使用三维DBSCAN进行聚类，即角度、x坐标、y坐标。DBSCAN找了个带KD树加速的库，针对可能的环型场景，还需要修改距离函数支持角度的周期性。最后的效果差强人意，主要限制在于不能无限制地增加聚类点数，没做到持续自迭代优化。</p>
 <p>封装时加了线程池，结合future接收区域生成结果。</p>
-<div align=center>     <style>.mpphbcfmdoiw{zoom:100%;}</style><img src="/work-summary/image-20250804225604801.png" srcset="/img/loading.gif" lazyload class="mpphbcfmdoiw"></img> </div>
+<div align=center>     <style>.gtxkojesrgbs{zoom:100%;}</style><img src="/work-summary/image-20250804225604801.png" srcset="/img/loading.gif" lazyload class="gtxkojesrgbs"></img> </div>
 
-<div align=center>     <style>.hfpaqwfbcaqf{zoom:100%;}</style><img src="/work-summary/image-20250804225637273.png" srcset="/img/loading.gif" lazyload class="hfpaqwfbcaqf"></img> </div>
+<div align=center>     <style>.gjsismrstmcd{zoom:100%;}</style><img src="/work-summary/image-20250804225637273.png" srcset="/img/loading.gif" lazyload class="gjsismrstmcd"></img> </div>
 
 
 
@@ -351,22 +351,22 @@
 <blockquote>
 <p>巨量的路径点集操作和像素级的处理，使出洪荒之力的史诗级巨作，可惜估计最后也不会实装了，还得给算法模型的车道线擦屁股。中间的示例好像改进过，骨架图对不太上，反正就这意思。</p>
 </blockquote>
-<div align=center>     <style>.mtdegpwafgtg{zoom:100%;}</style><img src="/work-summary/image-20250804231234124.png" srcset="/img/loading.gif" lazyload class="mtdegpwafgtg"></img> </div>
+<div align=center>     <style>.modfhjohjurt{zoom:100%;}</style><img src="/work-summary/image-20250804231234124.png" srcset="/img/loading.gif" lazyload class="modfhjohjurt"></img> </div>
 
 
 
 <h1 id="单目相机精细标定"><a href="#单目相机精细标定" class="headerlink" title="单目相机精细标定"></a>单目相机精细标定</h1><p>原有的打点标定方式精度提不上（虽然后边发现换了相机和镜头精度直接提升），使用了Ceres的捆绑调整(BA)将所有点的投影误差作为残差，联合优化内外参矩阵和畸变系数。</p>
 <p>假设地平面高度是0，要求所有标定点都是地面上的点，即Zw=0，此时可以通过公式将单目相机的像素坐标转换成GPS坐标（使用UTM坐标表示精度更高）。</p>
 <p>可能对于未知内参的已安装相机来说更有用，可以先计算理论内参和外参，将标定的GPS点投影到图像，人工简单调整参数后，再用BA联合优化，得到一个较好的标定结果。</p>
-<div align=center>     <style>.ybfncboyuvam{zoom:60%;}</style><img src="/work-summary/image-20250804232943635.png" srcset="/img/loading.gif" lazyload class="ybfncboyuvam"></img> </div>
+<div align=center>     <style>.dhldzwskgbug{zoom:60%;}</style><img src="/work-summary/image-20250804232943635.png" srcset="/img/loading.gif" lazyload class="dhldzwskgbug"></img> </div>
 
-<div align=center>     <style>.vyichrdvhign{zoom:40%;}</style><img src="/work-summary/image-20250804233034684.png" srcset="/img/loading.gif" lazyload class="vyichrdvhign"></img> </div>
+<div align=center>     <style>.lwcosqdxqfns{zoom:40%;}</style><img src="/work-summary/image-20250804233034684.png" srcset="/img/loading.gif" lazyload class="lwcosqdxqfns"></img> </div>
 
 
 
 <h1 id="火焰误检筛除"><a href="#火焰误检筛除" class="headerlink" title="火焰误检筛除"></a>火焰误检筛除</h1><p>对于大量的火焰误检结果，采用了HSV空间的亮度删除明显暗处的误检，采用灰度共生矩阵GLCM进行了一些纹理分析，可以筛除一些探照灯的误检。再结合了PCA进行亮条分析，筛除车灯误检，但是这个受到二值化效果的限制，参数得严苛一些。</p>
 <p>感觉手工特征还是属于最原始的阶段，确实不如清洗数据改进模型来的直接。</p>
-<div align=center>     <style>.upnudtcbcfmv{zoom:80%;}</style><img src="/work-summary/image-20250804234345382.png" srcset="/img/loading.gif" lazyload class="upnudtcbcfmv"></img> </div>
+<div align=center>     <style>.xujmvhybmmdq{zoom:80%;}</style><img src="/work-summary/image-20250804234345382.png" srcset="/img/loading.gif" lazyload class="xujmvhybmmdq"></img> </div>
 
 
 
@@ -374,7 +374,7 @@
 <blockquote>
 <p>让我回忆起了早古的写python时光，虽然忘了好多了，感谢GPT的大力支持</p>
 </blockquote>
-<div align=center>     <style>.ptbvgxjemvtx{zoom:80%;}</style><img src="/work-summary/image-20250804235027273.png" srcset="/img/loading.gif" lazyload class="ptbvgxjemvtx"></img> </div>
+<div align=center>     <style>.vmyycnpqtzjc{zoom:80%;}</style><img src="/work-summary/image-20250804235027273.png" srcset="/img/loading.gif" lazyload class="vmyycnpqtzjc"></img> </div>
                 
               </div>
             
@@ -420,6 +420,12 @@
                 <div class="post-prevnext my-3">
                   <article class="post-prev col-6">
                     
+                    
+                      <a href="/cyberrt-overview/" title="CyberRT概览">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">CyberRT概览</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
                     
                   </article>
                   <article class="post-next col-6">
