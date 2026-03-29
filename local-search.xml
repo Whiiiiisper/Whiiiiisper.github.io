@@ -4,6 +4,29 @@
   
   
   <entry>
+    <title>弹珠机策略分析-数学期望</title>
+    <link href="/marble-machine-strategy/"/>
+    <url>/marble-machine-strategy/</url>
+    
+    <content type="html"><![CDATA[<h1 id="问题描述"><a href="#问题描述" class="headerlink" title="问题描述"></a>问题描述</h1><p>弹珠机游戏规则如下：共有12个出口，对应12盏灯。弹珠落入任一出口的概率相等，均为1/12。玩家选择一个倍率，不同倍率会随机亮起不同数量的灯。弹珠落入亮灯出口即可获得对应倍率的奖励。中30颗以上可获得1张积分卡。</p><h1 id="数学期望分析"><a href="#数学期望分析" class="headerlink" title="数学期望分析"></a>数学期望分析</h1><p>4倍率和6倍率的期望收益最高，均为1.0，并列第一。在期望相同的情况下，4倍率的方差更小（3.0 vs 5.0），意味着收益更稳定。</p><h1 id="最优策略总结"><a href="#最优策略总结" class="headerlink" title="最优策略总结"></a>最优策略总结</h1><p>首选4倍率：期望收益最高，方差最小，高收益低风险。</p>]]></content>
+    
+    
+    <categories>
+      
+      <category>总结</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>数学期望</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  <entry>
     <title>CyberRT源码分析-对象池</title>
     <link href="/cyberrt-objpool/"/>
     <url>/cyberrt-objpool/</url>
