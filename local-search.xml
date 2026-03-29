@@ -4,6 +4,31 @@
   
   
   <entry>
+    <title>opencode在win10+wsl2中运行时界面图标显示异常问题的解决方法</title>
+    <link href="/opencode%E6%98%BE%E7%A4%BA%E9%97%AE%E9%A2%98/"/>
+    <url>/opencode%E6%98%BE%E7%A4%BA%E9%97%AE%E9%A2%98/</url>
+    
+    <content type="html"><![CDATA[<p>最近在win10的wsl2中安装opencode，发现安装完之后TUI的图标显示有问题，形式如下</p><img src="/opencode%E6%98%BE%E7%A4%BA%E9%97%AE%E9%A2%98/image-20260329203057756.png" class="" title="image-20260329203057756"><p><br><br></p><p>这是因为 OpenCode 的 TUI 使用了 Nerd Font 的 Unicode 图标，而你当前使用的终端（Windows Terminal 或其他）默认字体不支持这些特殊符号。Win10 + WSL 下非常常见，和 lazygit、btop 等 TUI 工具的问题一样。</p><p>解决方法参考这篇官方文章 <a href="https://learn.microsoft.com/zh-cn/windows/terminal/tutorials/custom-prompt-setup">为 WSL 设置自定义提示符</a> 的步骤，安装 Nerd Font。需要注意的是，除了在 Windows 上安装字体，还需要在Windows Terminal（Win10 自带或微软商店安装）设置字体，并使用Windows Terminal打开wsl终端。</p><blockquote><p><strong>Win10 下 WSL2 有两种常见的“入口”（启动方式）</strong>，这也是很多人在用 WSL + TUI 工具（如 OpenCode）时容易困惑的地方。</p><ol><li>开始菜单里的发行版快捷方式（老入口）<ul><li>比如你从 Microsoft Store 安装 Ubuntu 后，开始菜单会出现一个 <strong>“Ubuntu”</strong>（或 Ubuntu 20.04 LTS 等）图标。</li><li>点击它 → 直接打开一个终端窗口，进入 WSL2 的 Shell。</li><li>底层用的是 Windows 内置的老式控制台（conhost.exe）。</li></ul></li><li>Windows Terminal（新入口，推荐）<ul><li>打开 Windows Terminal → 下拉菜单里会自动出现你的 WSL 发行版（Ubuntu、Debian 等）。</li><li>选择它 → 进入 WSL2。</li><li>这才是微软官方现在主推的现代终端</li></ul></li></ol></blockquote><img src="/opencode%E6%98%BE%E7%A4%BA%E9%97%AE%E9%A2%98/image-20260329204124274.png" class="" title="image-20260329204124274"><p><br><br></p><img src="/opencode%E6%98%BE%E7%A4%BA%E9%97%AE%E9%A2%98/image-20260329204015484.png" class="" title="image-20260329204015484"><p><br><br></p><img src="/opencode%E6%98%BE%E7%A4%BA%E9%97%AE%E9%A2%98/image-20260329204156819.png" class="" title="image-20260329204156819"><p><br><br></p><p>win11的wsl无此问题</p>]]></content>
+    
+    
+    <categories>
+      
+      <category>大模型</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>opencode</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
     <title>CyberRT源码分析-对象池</title>
     <link href="/cyberrt-objpool/"/>
     <url>/cyberrt-objpool/</url>
